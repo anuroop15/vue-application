@@ -4,8 +4,7 @@ import authModule from './authModule'
 
 Vue.use(Vuex)
 
-const state = {};
-
+const state = {}
 
 const store = new Vuex.Store({
   state,
@@ -19,6 +18,5 @@ const store = new Vuex.Store({
     //
   }
 })
-
 
 export default store

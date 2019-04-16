@@ -6,9 +6,5 @@
   </div>
 </template>
 
-
-<script>
-  import SignatureDocs from './signatureDocs.js'
-</script>
-
+<script src="./SignatureDocs.js"></script>
 <style src="./SignatureDocs.css"></style>

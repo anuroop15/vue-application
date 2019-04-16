@@ -1,8 +1,41 @@
 <template>
   <div>
-    <table>
+    <table class="table">
       <thead>
+        <th>
+          Name
+        </th>
+        <th>
+          Thing
+        </th>
+        <th>
+          Place
+        </th>
       </thead>
+      <tbody>
+        <tr>
+          <td>
+            Hi
+          </td>
+          <td>
+            Hi
+          </td>
+          <td>
+            Hi
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Hi
+          </td>
+          <td>
+            Hi
+          </td>
+          <td>
+            Hi
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
