@@ -11,7 +11,10 @@
     "axios": "^0.18.0",
     "bulma": "^0.7.4",
     "core-js": "^2.6.5",
+    "document-register-element": "^1.13.1",
+    "loadash": "^1.0.0",
     "vue": "^2.6.6",
+    "vue-custom-element": "^3.2.6",
     "vue-router": "^3.0.4",
     "vuex": "^3.1.0"
   },
