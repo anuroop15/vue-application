@@ -2,6 +2,7 @@ import Vue from 'vue'
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
 import router from './router'
+import store from './store/store'
 import App from './App.vue'
 
 const requireComponent = require.context(
@@ -22,5 +23,6 @@ requireComponent.keys().forEach(fileName => {
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

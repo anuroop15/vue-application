@@ -1,38 +1,47 @@
 <template>
   <div>
-    <table class="table">
+    <h3> Documents to sign </h3>
+    <button v-if="users.data.CAN_SIGN">Documents to Sign</button>
+    <table class="table" v-for="user in users.data.PENDING.items">
       <thead>
         <th>
-          Name
+          
         </th>
         <th>
-          Thing
+          Description
         </th>
         <th>
-          Place
+          Customer
+        </th>
+        <th>
+          Customer Name
+        </th>
+        <th>
+          Reference
+        </th>
+        <th>
+          Date
         </th>
       </thead>
       <tbody>
         <tr>
           <td>
-            Hi
+            <input type="checkbox" />
           </td>
           <td>
-            Hi
+            {{user.description}}
           </td>
           <td>
-            Hi
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Hi
+            {{user.idCustomer}}
           </td>
           <td>
-            Hi
+            {{user.customerName}}
           </td>
           <td>
-            Hi
+            {{user.reference}}
+          </td>
+          <td>
+            {{user.createdDate}}
           </td>
         </tr>
       </tbody>
@@ -41,3 +50,4 @@
 </template>
 
 <script src="./TableComponent.js"></script>
+<style src="./TableComponent.css"></style>
