@@ -1,11 +1,11 @@
 <template>
   <div>
     <h3> Documents to sign </h3>
-    <button v-if="users.data.CAN_SIGN">Documents to Sign</button>
-    <table class="table" v-for="user in users.data.PENDING.items">
+    <button v-show="users.data.CAN_SIGN">Documents to Sign</button>
+    <table class="table">
       <thead>
         <th>
-          
+
         </th>
         <th>
           Description
@@ -23,7 +23,7 @@
           Date
         </th>
       </thead>
-      <tbody>
+      <tbody v-for="(user, index) in users.data.PENDING.items" :key="index">
         <tr>
           <td>
             <input type="checkbox" />
