@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <div class="column">
-      <img alt="Vue logo" src="./assets/logo.png">
       <router-view></router-view>
+      <TableComponent />
     </div>
   </div>
 </template>
 
 <script>
-
+import TableComponent from './components/TableComponent/TableComponent.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    TableComponent
+  }
 }
 </script>
 

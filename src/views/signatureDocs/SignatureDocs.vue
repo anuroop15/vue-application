@@ -1,9 +1,5 @@
 <template>
-  <div id="signatureDocs">
-    <div>
-      Document to be signed
-    </div>
-  </div>
+  <h1> Signature Page </h1>
 </template>
 
 <script src="./SignatureDocs.js"></script>

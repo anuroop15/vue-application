@@ -10,7 +10,7 @@ module.exports = {
       chunks: ['chunk-vendor', 'index']
     },
     signatureDocs: {
-      entry: 'src/modularExport/signatureDocs/SignatureDocs.js',
+      entry: 'src/modularExport/signatureDocsWidget/SignatureDocs.js',
       template: 'public/signatureDocs/index.html',
       filename: 'signatureDocs.html'
     }

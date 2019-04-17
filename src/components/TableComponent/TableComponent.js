@@ -1,1 +1,8 @@
-import Vue from 'vue'
+export default {
+  name: 'TableComponent',
+  data: () => {
+    return {
+      show: false
+    }
+  }
+}

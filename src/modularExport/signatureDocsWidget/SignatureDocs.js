@@ -4,6 +4,7 @@ import App from './SignatureDocs.vue'
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
 import router from '../../router'
+
 Vue.use(VueCustomElement)
 
 const requireComponent = require.context(

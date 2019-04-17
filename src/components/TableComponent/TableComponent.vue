@@ -39,3 +39,5 @@
     </table>
   </div>
 </template>
+
+<script src="./TableComponent.js"></script>
