@@ -14,5 +14,8 @@ module.exports = {
       template: 'public/signatureDocs/index.html',
       filename: 'signatureDocs.html'
     }
+  },
+  css: {
+    modules: true
   }
 }
