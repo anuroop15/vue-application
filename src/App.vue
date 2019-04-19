@@ -2,8 +2,8 @@
   <div id="app">
     <div class="column">
       <router-view></router-view>
-      <!-- <TableComponent /> -->
-      <AgGridComponent />
+      <!-- <TableComponent />
+      <AgGridComponent /> -->
     </div>
   </div>
 </template>

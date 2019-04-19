@@ -23,8 +23,8 @@
           Date
         </th>
       </thead>
-      <tbody v-for="(user, index) in users.data.PENDING.items" :key="index">
-        <tr>
+      <tbody>
+        <tr v-for="(user, index) in users.data.PENDING.items" :key="index">
           <td>
             <input type="checkbox" />
           </td>
