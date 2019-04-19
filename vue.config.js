@@ -8,11 +8,6 @@ module.exports = {
       filename: 'index.html',
       title: 'Index Page',
       chunks: ['chunk-vendor', 'index']
-    },
-    signatureDocs: {
-      entry: 'src/modularExport/signatureDocsWidget/SignatureDocs.js',
-      template: 'public/signatureDocs/index.html',
-      filename: 'signatureDocs.html'
     }
   },
   css: {
