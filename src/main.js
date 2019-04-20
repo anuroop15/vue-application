@@ -1,13 +1,22 @@
 import Vue from 'vue'
-import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+import {ClientTable, Event} from 'vue-tables-2';
 import router from './router'
 import store from './store/store'
 import App from './App.vue'
+import 'bootstrap/dist/css/bootstrap.css';
+import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+
+
+Vue.config.productionTip = false
+
+Vue.use(ClientTable, {theme :'bootstrap4'});
 
 const requireComponent = require.context(
   './components/common',
-  false,
+  true,
   /Base[A-Z]\w+\.(vue|js)$/
 )
 
@@ -24,5 +33,5 @@ requireComponent.keys().forEach(fileName => {
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

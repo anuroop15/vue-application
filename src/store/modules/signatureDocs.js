@@ -1,6 +1,7 @@
 import { getLocalData } from '../services'
 
 export const signatureDocs = {
+  namespaced: true,
   state: {
     data: {},
     canSign: false,
@@ -41,20 +42,16 @@ export const signatureDocs = {
           commit('SET_DATA', response.data)
         }
       } catch (err) {
-        console.log(err)
+        // console.log(err)
       }
     },
     async fetchSigned ({ commit }, documents) {
       commit('SET_IS_LOADING')
-      if(documents) {
-        commit('FETCH_SIGNED', documents.data.SIGNED)
-      }
+      commit('FETCH_SIGNED', this.state.signatureDocs.data.data.SIGNED)
     },
     async fetchPending ({ commit }, documents) {
       commit('SET_IS_LOADING')
-      if(documents) {
-        commit('FETCH_PENDING', documents.data.PENDING)
-      }
+      commit('FETCH_PENDING', this.state.signatureDocs.data.data.PENDING)
     }
   }
 }

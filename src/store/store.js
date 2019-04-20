@@ -1,10 +1,14 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { signatureDocs } from './modules'
-Vue.use(Vuex)
+import Vue from "vue";
+import Vuex from "vuex";
+import { demo, fundsTransfers, signatureDocs,securityPreference } from './modules';
+
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: {
-    signatureDocs
-  }
-})
+ modules:{
+   demo,
+   signatureDocs,
+   fundsTransfers,
+   securityPreference
+ }
+});

@@ -1,12 +1,16 @@
 import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'SignatureDocs',
   data() {
     return {
-      displayedDocuments: {}
+      displayedDocuments: {},
+      documents: {}
     }
+  },
+  created() {
+    this.fetchData();
   },
   components: {
     AgGridComponent
@@ -14,17 +18,14 @@ export default {
   methods: {
     getDocuments(docStatus) {
       if(docStatus) {
-        this.$store.dispatch('fetchPending', this.documents)
-        this.displayedDocuments = this.$store.state.signatureDocs.pendingDocuments.items
+        this.displayedDocuments = this.signatureDocs.data.data.PENDING.items
       } else {
-        this.$store.dispatch('fetchSigned', this.documents)
-        this.displayedDocuments = this.$store.state.signatureDocs.signedDocuments.items
+        this.displayedDocuments = this.signatureDocs.data.data.SIGNED.items
       }
-    }
+    },
+    ...mapActions({ fetchData: "signatureDocs/fetchData" })
   },
   computed: {
-    ...mapGetters({
-      documents: 'documents'
-    })
+    ...mapState(["signatureDocs"])
   }
 }

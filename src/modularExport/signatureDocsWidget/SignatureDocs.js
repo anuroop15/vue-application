@@ -4,8 +4,6 @@ import App from './SignatureDocs.vue'
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
 import router from '../../router'
-import store from '../../store/store'
-
 Vue.use(VueCustomElement)
 
 const requireComponent = require.context(
@@ -25,6 +23,5 @@ requireComponent.keys().forEach(fileName => {
 })
 
 App.router = router
-App.store = store
 
 Vue.customElement('signature-docs', App)

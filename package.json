@@ -1,11 +1,13 @@
 {
-  "name": "vue-application",
+  "name": "lbank",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "json-serve": "json-server --watch db.json",
+    "lint": "vue-cli-service lint",
+    "docs": "jsdoc -d docs -c .jsdoc.js -r"
   },
   "dependencies": {
     "ag-grid-community": "^20.2.0",
@@ -14,18 +16,20 @@
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
     "document-register-element": "^1.13.1",
+    "json-serve": "^0.1.0",
     "lodash": "^4.17.11",
     "vue": "^2.6.6",
     "vue-custom-element": "^3.2.6",
     "vue-property-decorator": "^8.1.0",
-    "vue-router": "^3.0.4",
+    "vue-i18n": "^8.10.0",
+    "vue-router": "^3.0.3",
+    "vue-tables-2": "^1.4.70",
     "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-eslint": "^3.5.0",
     "@vue/cli-service": "^3.5.0",
-    "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "css-loader": "^2.1.1",
     "eslint": "^5.8.0",
@@ -33,6 +37,8 @@
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
+    "jsdoc": "^3.5.5",
+    "jsdoc-vuejs": "^2.4.3",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {
@@ -42,7 +48,7 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "@vue/standard"
+      "eslint:recommended"
     ],
     "rules": {},
     "parserOptions": {
