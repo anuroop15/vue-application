@@ -5,8 +5,7 @@ export const signatureDocs = {
   state: {
     data: {},
     canSign: false,
-    signedDocuments: {},
-    pendingDocuments: {},
+    displayedDocuments: {},
     current: '',
     isLoading: false
   },
@@ -18,12 +17,13 @@ export const signatureDocs = {
   mutations: {
     SET_DATA (state, event) {
       state.data = event
+      state.displayedDocuments = event.PENDING.items
     },
     FETCH_SIGNED (state, docs) {
-      state.signedDocuments = docs
+      state.displayedDocuments = docs.items
     },
     FETCH_PENDING (state, docs) {
-      state.pendingDocuments = docs
+      state.displayedDocuments = docs.items
     },
     SET_CURRENT (state, event) {
       state.current = event
@@ -47,11 +47,11 @@ export const signatureDocs = {
     },
     async fetchSigned ({ commit }, documents) {
       commit('SET_IS_LOADING')
-      commit('FETCH_SIGNED', this.state.signatureDocs.data.data.SIGNED)
+      commit('FETCH_SIGNED', this.state.signatureDocs.data.SIGNED)
     },
     async fetchPending ({ commit }, documents) {
       commit('SET_IS_LOADING')
-      commit('FETCH_PENDING', this.state.signatureDocs.data.data.PENDING)
+      commit('FETCH_PENDING', this.state.signatureDocs.data.PENDING)
     }
   }
 }

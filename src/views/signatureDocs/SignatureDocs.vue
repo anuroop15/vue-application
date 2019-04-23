@@ -7,8 +7,8 @@
         <div class="card-body">
             <tabs>
                 <tab name="Documents to Sign">
-                  <button class="button" @click="getDocuments(signatureDocs.data.data.CAN_SIGN)">Documents to Sign</button>
-                  <button class="button" @click="getDocuments(!signatureDocs.data.data.CAN_SIGN)">File of Signed Documents</button>
+                  <button class="button" @click="getDocuments(!signatureDocs.CAN_SIGN)">Documents to Sign</button>
+                  <button class="button" @click="getDocuments(signatureDocs.CAN_SIGN)">File of Signed Documents</button>
                     <AgGridComponent :displayedDocuments="displayedDocuments"/>
                 </tab>
                 <tab name="File of signed Documents">
@@ -21,6 +21,7 @@
         </div>
       </div>
     </div>
+    <!-- <Modal /> -->
   </div>
 </template>
 

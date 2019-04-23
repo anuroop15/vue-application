@@ -1,11 +1,11 @@
 import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vue'
+import Modal from '../../components/Modal/Modal.vue'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'SignatureDocs',
   data() {
     return {
-      displayedDocuments: {},
       documents: {}
     }
   },
@@ -13,19 +13,26 @@ export default {
     this.fetchData();
   },
   components: {
-    AgGridComponent
+    AgGridComponent,
+    Modal
   },
   methods: {
     getDocuments(docStatus) {
       if(docStatus) {
-        this.displayedDocuments = this.signatureDocs.data.data.PENDING.items
+        this.fetchPending()
       } else {
-        this.displayedDocuments = this.signatureDocs.data.data.SIGNED.items
+        this.fetchSigned()
       }
     },
-    ...mapActions({ fetchData: "signatureDocs/fetchData" })
+    ...mapActions({ fetchData: "signatureDocs/fetchData",
+                    fetchSigned: "signatureDocs/fetchSigned",
+                    fetchPending: "signatureDocs/fetchPending"
+                  })
   },
   computed: {
-    ...mapState(["signatureDocs"])
+    displayedDocuments() {
+      return this.signatureDocs.displayedDocuments
+    },
+    ...mapState(["signatureDocs"]),
   }
 }

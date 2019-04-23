@@ -24,6 +24,6 @@ const apiClientExample = axios.create({
 // }
 export const getLocalData = () => {
     return axios.get('http://localhost:8081/api/signaturesDocsApi.json').then(response => {
-      return response
+      return response.data
     })
   }
