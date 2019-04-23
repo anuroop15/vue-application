@@ -9,7 +9,7 @@
                 <tab name="Documents to Sign">
                   <button class="button" @click="getDocuments(!signatureDocs.CAN_SIGN)">Documents to Sign</button>
                   <button class="button" @click="getDocuments(signatureDocs.CAN_SIGN)">File of Signed Documents</button>
-                    <AgGridComponent :displayedDocuments="displayedDocuments"/>
+                    <AgGridComponent v-on:selected-document="showModalWindow" :displayedDocuments="displayedDocuments"/>
                 </tab>
                 <tab name="File of signed Documents">
                     Second tab content
@@ -21,7 +21,9 @@
         </div>
       </div>
     </div>
-    <!-- <Modal /> -->
+    <div v-if="showModal">
+      <Modal />
+    </div>
   </div>
 </template>
 

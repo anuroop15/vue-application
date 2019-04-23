@@ -6,7 +6,8 @@ export default {
   data: () => {
     return {
       columnDefs: null,
-      rowData: null
+      rowData: null,
+      autoGroupColumnDef: null
     }
   },
   components: {
@@ -21,6 +22,13 @@ export default {
       { headerName: 'Reference', field: 'reference' },
       { headerName: 'Date', field: 'createdDate' }
     ]
+    this.autoGroupColumnDef = {
+      headerName: "Description",
+      field: "description",
+      width: 200,
+      cellRenderer: "agGroupCellRenderer",
+      cellRendererParams: { checkbox: true }
+    };
   },
   mounted () {
     this.gridApi = this.gridOptions.api
@@ -36,6 +44,9 @@ export default {
           params.api.sizeColumnsToFit()
         })
       })
+    },
+    onSelectionChanged() {
+      this.$emit('selected-document', {})
     }
   },
   created () {

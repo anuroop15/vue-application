@@ -4,6 +4,6 @@
 export default {
     name: "Modal",
     data: function (){
-       return {showModal: false} 
+       return {showModal: false}
     }
 }

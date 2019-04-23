@@ -7,6 +7,7 @@
                    class="ag-theme-balham" id="myGrid"
                    :gridOptions="gridOptions"
                    @grid-ready="onGridReady"
+                    @selection-changed="onSelectionChanged"
                    :columnDefs="columnDefs"
                    :rowData="displayedDocuments"
                    v-model="rowData">

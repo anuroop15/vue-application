@@ -6,7 +6,8 @@ export default {
   name: 'SignatureDocs',
   data() {
     return {
-      documents: {}
+      documents: {},
+      showModal: false
     }
   },
   created() {
@@ -23,6 +24,9 @@ export default {
       } else {
         this.fetchSigned()
       }
+    },
+    showModalWindow() {
+      this.showModal = true;
     },
     ...mapActions({ fetchData: "signatureDocs/fetchData",
                     fetchSigned: "signatureDocs/fetchSigned",
