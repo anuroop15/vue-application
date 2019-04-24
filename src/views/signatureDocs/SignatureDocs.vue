@@ -5,16 +5,16 @@
       <div class="card">
         <h5 class="card-header">Documents to Sign</h5>
         <div class="card-body">
-            <tabs>
+            <tabs @clicked="getDocuments">
                 <tab name="Documents to Sign">
-                  <button class="button" @click="getDocuments(!signatureDocs.CAN_SIGN)">Documents to Sign</button>
-                  <button class="button" @click="getDocuments(signatureDocs.CAN_SIGN)">File of Signed Documents</button>
-                    <AgGridComponent v-on:selected-document="showModalWindow" :displayedDocuments="displayedDocuments"/>
+                  <button class="button" @click="signSelected">Sign Selected Documents</button>
+                  <button class="button" @click="downloadSelected">Download Selected</button>
+                    <AgGridComponent v-on:selected-document="selectedRow" :displayedDocuments="displayedDocuments"/>
                 </tab>
                 <tab name="File of signed Documents">
-                    Second tab content
+                    <AgGridComponent v-on:selected-document="selectedRow" :displayedDocuments="displayedDocuments"/>
                 </tab>
-                <tab name="Documents to sigb for others">
+                <tab name="Documents to sign for others">
                     Third tab content
                 </tab>
             </tabs>
@@ -22,7 +22,18 @@
       </div>
     </div>
     <div v-if="showModal">
-      <Modal />
+      <Modal v-on:close="showModalWindow">
+        <div slot="header">
+          Documents to Sign
+        </div>
+        <div slot="body">
+          You are going to sign selected documents {{selectedRowInfo.description}}
+        </div>
+        <div slot="footer">
+          <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>
+          <button class="btn btn-default" @click="showModalWindow('cancel')">Cancel</button>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>

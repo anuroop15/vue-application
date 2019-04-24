@@ -7,6 +7,8 @@ export default {
   data() {
     return {
       documents: {},
+      canSign: false,
+      selectedRowInfo: {},
       showModal: false
     }
   },
@@ -18,15 +20,29 @@ export default {
     Modal
   },
   methods: {
-    getDocuments(docStatus) {
-      if(docStatus) {
+    getDocuments(selectedTab) {
+      if(selectedTab.tab.name === 'Documents to Sign') {
         this.fetchPending()
       } else {
         this.fetchSigned()
       }
+      this.canSign = !this.canSign
     },
-    showModalWindow() {
-      this.showModal = true;
+    selectedRow(data) {
+      this.selectedRowInfo = data
+    },
+    signSelected() {
+      this.showModal = true
+    },
+    downloadSelected(){
+      // download Pdf doc
+    },
+    showModalWindow(value) {
+      if (value === 'Accept') {
+        //
+      } else {
+        this.showModal = !this.showModal
+      }
     },
     ...mapActions({ fetchData: "signatureDocs/fetchData",
                     fetchSigned: "signatureDocs/fetchSigned",

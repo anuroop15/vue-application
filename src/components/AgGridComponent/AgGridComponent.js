@@ -45,8 +45,9 @@ export default {
         })
       })
     },
-    onSelectionChanged() {
-      this.$emit('selected-document', {})
+    onSelectionChanged(params) {
+      let selectedRowDetails = params.api.getSelectedNodes()
+      this.$emit('selected-document', selectedRowDetails[0].data)
     }
   },
   created () {
