@@ -1,6 +1,7 @@
 import axios from 'axios';
 const apiClientExample = axios.create({
-    baseURL: `http://localhost:8080/data`,
+    baseURL: `http://localhost:8080/data`, // https://miaecowasdev.mia.usa.sinvest/eco-pre-int-vue/en/box/json/CheckDocumentExistence
+
     withCredentials: false,
     headers: {
     Accept: 'application/json',
