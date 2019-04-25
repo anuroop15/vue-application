@@ -1,6 +1,7 @@
 import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vue'
 import Modal from '../../components/Modal/Modal.vue'
 import { mapActions, mapState } from 'vuex'
+import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
 
 export default {
   name: 'SignatureDocs',
@@ -9,7 +10,11 @@ export default {
       documents: {},
       canSign: false,
       selectedRowInfo: {},
-      showModal: false
+      challengeAuth: false,
+      acceptToSign: false,
+      showModal: false,
+      gridColumnDefsPending: GridColumnDefsPending,
+      gridColumnDefsSigned: GridColumnDefsSigned
     }
   },
   created() {
@@ -32,14 +37,18 @@ export default {
       this.selectedRowInfo = data
     },
     signSelected() {
-      this.showModal = true
+      if (this.selectedRowInfo && this.selectedRowInfo.description) {
+        this.showModal = true
+        this.acceptToSign = true
+      }
     },
     downloadSelected(){
       // download Pdf doc
     },
     showModalWindow(value) {
       if (value === 'Accept') {
-        //
+        this.acceptToSign = false
+        this.challengeAuth = true
       } else {
         this.showModal = !this.showModal
       }

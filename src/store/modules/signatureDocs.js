@@ -52,7 +52,7 @@ export const signatureDocs = {
     },
     async fetchSigned ({ commit }, documents) {
       commit('SET_IS_LOADING')
-      if (this.state.signatureDocs.data.SIGNED) {
+      if (this.state.signatureDocs.data.PENDING_BY_OTHERS) {
         commit('FETCH_SIGNED', this.state.signatureDocs.data.PENDING_BY_OTHERS)
       } else {
         commit('FETCH_SIGNED', this.state.signatureDocs.data.SIGNED)

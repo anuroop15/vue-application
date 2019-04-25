@@ -9,10 +9,16 @@
                 <tab name="Documents to Sign">
                   <button class="button" @click="signSelected">Sign Selected Documents</button>
                   <button class="button" @click="downloadSelected">Download Selected</button>
-                    <AgGridComponent v-on:selected-document="selectedRow" :displayedDocuments="displayedDocuments"/>
+                    <AgGridComponent v-on:selected-document="selectedRow"
+                      :displayed-documents="displayedDocuments"
+                      :grid-column-defs="gridColumnDefsPending"
+                    />
                 </tab>
                 <tab name="File of signed Documents">
-                    <AgGridComponent v-on:selected-document="selectedRow" :displayedDocuments="displayedDocuments"/>
+                    <AgGridComponent v-on:selected-document="selectedRow"
+                      :displayedDocuments="displayedDocuments"
+                      :gridColumnDefs="gridColumnDefsSigned"
+                    />
                 </tab>
                 <tab name="Documents to sign for others">
                     Third tab content
@@ -22,12 +28,33 @@
       </div>
     </div>
     <div v-if="showModal">
-      <Modal v-on:close="showModalWindow">
+      <Modal v-if="acceptToSign" v-on:close="showModalWindow">
         <div slot="header">
           Documents to Sign
         </div>
         <div slot="body">
           You are going to sign selected documents {{selectedRowInfo.description}}
+        </div>
+        <div slot="footer">
+          <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>
+          <button class="btn btn-default" @click="showModalWindow('cancel')">Cancel</button>
+        </div>
+      </Modal>
+      <Modal v-if="!acceptToSign && challengeAuth" v-on:close="showModalWindow">
+        <div slot="header">
+          Additional Authentication Required
+        </div>
+        <div slot="body">
+          For you security it is necessary to authenticate your identity. Select the registered mobile phone in which
+          you wish to receive your security code:
+          <p>
+            <input type="radio" />
+            one Time password (+31 ********7 56)
+          </p>
+          <p>
+            if your mobile phone is not listed, contact your banker to certify a new mobile phone in the bank's
+            security procedure.
+          </p>
         </div>
         <div slot="footer">
           <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>

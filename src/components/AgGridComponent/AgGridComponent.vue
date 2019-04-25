@@ -8,7 +8,7 @@
                    :gridOptions="gridOptions"
                    @grid-ready="onGridReady"
                     @selection-changed="onSelectionChanged"
-                   :columnDefs="columnDefs"
+                   :columnDefs="gridOptions.columnDef"
                    :rowData="displayedDocuments"
                    v-model="rowData">
                 </ag-grid-vue>

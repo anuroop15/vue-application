@@ -2,7 +2,7 @@ import { AgGridVue } from 'ag-grid-vue'
 
 export default {
   name: 'AgGridVueComponent',
-  props: ['displayedDocuments'],
+  props: ['displayedDocuments', 'gridColumnDefs'],
   data: () => {
     return {
       columnDefs: null,
@@ -14,19 +14,27 @@ export default {
     AgGridVue
   },
   beforeMount () {
-    this.gridOptions = {}
-    this.columnDefs = [
-      { headerName: 'Description', field: 'description', checkboxSelection: true },
-      { headerName: 'Customer', field: 'idCustomer' },
-      { headerName: 'Customer Name', field: 'customerName' },
-      { headerName: 'Reference', field: 'reference' },
-      { headerName: 'Date', field: 'createdDate' }
-    ]
+    this.gridOptions = {
+      columnDefs: this.gridColumnDefs
+    }
     this.autoGroupColumnDef = {
       headerName: "Description",
       field: "description",
-      width: 200,
-      cellRenderer: "agGroupCellRenderer",
+      cellRenderer: (params) => {
+        const route = {
+          name: "route-name",
+          params: { id: params.value }
+        };
+
+        const link = document.createElement("a");
+        link.href = this.$router.resolve(route).href;
+        link.innerText = params.value;
+        link.addEventListener("click", e => {
+          e.preventDefault();
+          this.$router.push(route);
+        });
+        return link;
+      },
       cellRendererParams: { checkbox: true }
     };
   },
@@ -37,17 +45,22 @@ export default {
   methods: {
     onGridReady (params) {
       params.api.sizeColumnsToFit()
-
-      params.api.sizeColumnsToFit()
       window.addEventListener('resize', function () {
         setTimeout(function () {
           params.api.sizeColumnsToFit()
         })
       })
     },
+    onCellClicked(params) {
+      console.log('cell')
+    },
     onSelectionChanged(params) {
       let selectedRowDetails = params.api.getSelectedNodes()
-      this.$emit('selected-document', selectedRowDetails[0].data)
+      if (selectedRowDetails.length > 0) {
+        this.$emit('selected-document', selectedRowDetails[0].data)
+      } else {
+        this.$emit('selected-document', null)
+      }
     }
   },
   created () {
