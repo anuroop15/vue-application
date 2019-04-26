@@ -10,8 +10,7 @@
                     @selection-changed="onSelectionChanged"
                    :columnDefs="gridOptions.columnDef"
                    :rowData="displayedDocuments"
-                   v-model="rowData"
-                   :isRowSelectable="isRowSelectable">
+                   v-model="rowData">
                 </ag-grid-vue>
               </div>
             </div>

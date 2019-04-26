@@ -25,11 +25,11 @@ export default Vue.extend({
         }
     },
     created(){
-        this._challengeInit(this.urlBase, '');
+        this._challengeInit({urlBase:this.urlBase, parameters: this.parameters});
     },
     methods: {
         startChallengerNow(){
-            this._challengeStart(this.urlBase,this.pickedMethod)
+            this._challengeStart({urlBase:this.urlBase,picked:this.pickedMethod})
         },
         clickTest(){
             this.$vuedals.close()
@@ -50,16 +50,16 @@ export default Vue.extend({
                 if (type == Constant.authenticationMethod.OOBPHONE || type == Constant.authenticationMethod.OTPPHONE) {
                     methods.push({
                         label: `${Constant.messages[labelMethod]}(${label})`,
-                        value: index
+                        value: label
                     })
                 } else {
                     methods.push({
                         label: Constant.messages[labelMethod],
-                        value: index
+                        value: label
                     })
                 }
             })
-            return methods;
+            return methods; 
         },
         ...mapState(["challengeManager"])
     },

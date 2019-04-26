@@ -1,4 +1,4 @@
-import { getLocalData } from '../services'
+import { getLocalData, GetDocumentsToAccept } from '../services'
 
 export const signatureDocs = {
   namespaced: true,
@@ -41,7 +41,7 @@ export const signatureDocs = {
     async fetchData ({ commit }) {
       commit('SET_IS_LOADING')
       try {
-        let response = await getLocalData()
+        let response = await GetDocumentsToAccept()
         if (response) {
           commit('SET_IS_LOADING')
           commit('SET_DATA', response.data)

@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <div class="column">
-      <router-view></router-view>
-    </div>
+    <router-view :key="$route.fullPath" />
+    <vuedal></vuedal>
   </div>
 </template>
 
 <script>
-
-
+import { Component as Vuedal } from "vuedals";
 export default {
-  name: 'app'
+  name: 'app',
+  components:{
+    Vuedal
+  }
 }
 </script>
 

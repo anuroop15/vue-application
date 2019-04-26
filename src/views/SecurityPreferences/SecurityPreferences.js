@@ -13,6 +13,10 @@ export default {
       unbindSelected: "",
       enablePhoneEdit: true,
       startChallenge: false,
+      password:{
+        oldPassword:'',
+        newPassword:'',
+      }
     };
   },
   created() {
@@ -26,15 +30,20 @@ export default {
         title: "Additional authentication required",
         size: "md",
         component: ChallengeManager,
-          urlBase:"preferences/json/SeeSecurityQuestions",
-          start: true,
+        props: {
+          urlBase:"preferences/json/ChallengeOTPForPasswordChange",
+          parameters: this.password,
           handler:this.challegeHandlerTest,
-        });
+        },
+        dismissable:false,
+        escapable: true,
+
+      });
     },
     challegeHandlerTest(){
       // eslint-disable-next-line
       this.startChallenge= false;
-      // console.log('callback on challenge success')
+      console.log('callback on challenge success')
     },
     phoneAddInputs(){
       let key = "n" + Math.random()*10;
@@ -119,4 +128,3 @@ export default {
     }
   }
 };
-

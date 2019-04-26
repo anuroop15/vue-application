@@ -55,7 +55,7 @@
               <label for="Username">Old password</label>
             </div>
             <div class="col">
-              <BaseInput type="password"/>
+              <BaseInput v-model="password.oldPassword" type="password"/>
             </div>
           </div>
           <div class="row mb-2">
@@ -63,7 +63,7 @@
               <label for="User Login Name">New password</label>
             </div>
             <div class="col">
-              <BaseInput type="password"/>
+              <BaseInput v-model="password.newPassword" type="password"/>
             </div>
           </div>
           <div class="row mb-2">

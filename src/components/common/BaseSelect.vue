@@ -1,13 +1,13 @@
 <template>
   <div class="input-group">
     <label v-if="label">{{ label }}</label>
-    <select class="form-control" :value="value" @change="updateValue" v-bind="$attrs" v-on="$listeners">
+    <select class="form-control" :value="defaultValue || value" @change="updateValue" v-bind="$attrs" v-on="$listeners">
       <option
         v-for="option in options"
-        :value="option.id"
-        :key="option.id"
-        :selected="option === value"
-      >{{ option.text }}</option>
+        :value="option[identifier]"
+        :key=" option[keyI] || option[identifier]"
+        :selected="option[identifier] === value"
+      >{{ option[text] }}</option>
     </select>
   </div>
 </template>
@@ -19,6 +19,18 @@ export default {
     options: {
       type: Array,
       required: true
+    },
+    defaultValue:{
+      type: String,
+    },
+    identifier:{
+      type: String,
+    },
+    text:{
+      type: String,
+    },
+    keyI:{
+      type: String,
     }
   }
 }

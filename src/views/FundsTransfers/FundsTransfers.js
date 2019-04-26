@@ -36,14 +36,14 @@ export default {
       window.addEventListener("resize", () => this.reSizeGrid(params));
     },
     reSizeGrid(params) {
-       //Grid resize on mobile brake point
+       //Grid resize on mobile brake point 
       let size = getSize();
       if (size < 800 && size > 600) {
         //from 600-800px  reDefind the Column on the Table and Size ColumnsToFit the content area
         params.api.setColumnDefs(this.getTableColSize());
         params.api.sizeColumnsToFit();
       } else if (size < 600) {
-        // less that 600px
+        // less that 600px  
         params.api.setColumnDefs([
           { headerName: "CUSTOMER", field: "debitCustomerNameMask" },
           { headerName: "ACCOUNT", field: "debitAccountMask" }
@@ -56,7 +56,7 @@ export default {
       }
     },
     onSelectionChanged(params) {
-       // On row selection event
+       // On row selection event 
       var selectedRows = params.api.getSelectedRows();
       var selectedRowsString = "";
       selectedRows.forEach(function(selectedRow, index) {

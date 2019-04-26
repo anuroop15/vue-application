@@ -5,6 +5,7 @@
       v-bind="$attrs"
       class="button btn btn-primary btn-sm"
       :class="buttonClass"
+      :style="buttonStyle"
     >
       <slot/>
     </button>
@@ -16,6 +17,9 @@ export default {
   inheritAttrs: false,
   props: {
     buttonClass: {
+      type: String
+    },
+    buttonStyle:{
       type: String
     }
   }
