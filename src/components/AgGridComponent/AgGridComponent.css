@@ -1,0 +1,5 @@
+.ag-row-selected{
+        .ag-cell .ag-cell-wrapper .ag-selection-checkbox .ag-icon-checkbox-checked {
+            pointer-events: none;
+        }
+    }

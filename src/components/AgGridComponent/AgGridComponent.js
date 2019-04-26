@@ -7,7 +7,8 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
-      autoGroupColumnDef: null
+      autoGroupColumnDef: null,
+      isRowSelectable: null
     }
   },
   components: {
@@ -15,8 +16,16 @@ export default {
   },
   beforeMount () {
     this.gridOptions = {
-      columnDefs: this.gridColumnDefs
+      columnDefs: this.gridColumnDefs,
+      rowClassRules: { // enable checkbox only after row selection
+        'ag-row-selected' : function(params) {
+            return params.node.selected === true;
+        }
+      }
     }
+    // this.isRowSelectable = rowNode => {
+    //   return rowNode.data ? rowNode.data.year < 2007 : false;
+    // }
     this.autoGroupColumnDef = {
       headerName: "Description",
       field: "description",
