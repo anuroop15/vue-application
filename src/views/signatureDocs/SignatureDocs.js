@@ -4,7 +4,8 @@ import { mapActions, mapState } from 'vuex'
 import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
 import { Component as Vuedal } from "vuedals";
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
-
+import {VueTabs, VTab} from 'vue-nav-tabs'
+import 'vue-nav-tabs/themes/vue-tabs.css'
 
 export default {
   name: 'SignatureDocs',
@@ -26,6 +27,8 @@ export default {
   components: {
     AgGridComponent,
     Modal,
+    VueTabs,
+    VTab,
     Vuedal,
     ChallengeManager,
   },

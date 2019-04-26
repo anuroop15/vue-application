@@ -41,7 +41,7 @@ export const signatureDocs = {
     async fetchData ({ commit }) {
       commit('SET_IS_LOADING')
       try {
-        let response = await GetDocumentsToAccept()
+        let response = await getLocalData()
         if (response) {
           commit('SET_IS_LOADING')
           commit('SET_DATA', response.data)

@@ -3,7 +3,6 @@ import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import {default as Vuedals} from 'vuedals';
 import {ClientTable, Event} from 'vue-tables-2';
-import {Tabs, Tab} from 'vue-tabs-component';
 import router from './router'
 import store from './store/store'
 import App from './App.vue'
@@ -19,9 +18,6 @@ Vue.config.productionTip = false
 //vue-notifications
 Vue.use(Vuedals);
 Vue.use(ClientTable, {theme :'bootstrap4'});
-
-Vue.component('tabs', Tabs);
-Vue.component('tab', Tab);
 
 const requireComponent = require.context(
   './components/common',
