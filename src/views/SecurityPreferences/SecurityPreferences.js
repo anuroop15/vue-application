@@ -29,13 +29,12 @@ export default {
           urlBase:"preferences/json/SeeSecurityQuestions",
           start: true,
           handler:this.challegeHandlerTest,
-        }
-      });
+        });
     },
     challegeHandlerTest(){
       // eslint-disable-next-line
       this.startChallenge= false;
-      console.log('callback on challenge success')
+      // console.log('callback on challenge success')
     },
     phoneAddInputs(){
       let key = "n" + Math.random()*10;
