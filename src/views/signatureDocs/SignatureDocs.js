@@ -2,6 +2,9 @@ import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vu
 import Modal from '../../components/Modal/Modal.vue'
 import { mapActions, mapState } from 'vuex'
 import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
+import { Component as Vuedal } from "vuedals";
+import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
+
 
 export default {
   name: 'SignatureDocs',
@@ -22,7 +25,9 @@ export default {
   },
   components: {
     AgGridComponent,
-    Modal
+    Modal,
+    Vuedal,
+    ChallengeManager,
   },
   methods: {
     getDocuments(selectedTab) {
@@ -45,10 +50,26 @@ export default {
     downloadSelected(){
       // download Pdf doc
     },
+    startChallengeDemo(){
+      this.startChallenge = true;
+      this.$vuedals.open({
+        title: "Additional authentication required",
+        size: "md",
+        component: ChallengeManager,
+        props: {
+          urlBase:"preferences/json/ChallengeOTPForPasswordChange",
+          parameters: this.password,
+          handler:this.challegeHandlerTest,
+        },
+        dismissable:false,
+        escapable: true,
+
+      });
+    },
     showModalWindow(value) {
       if (value === 'Accept') {
-        this.acceptToSign = false
-        this.challengeAuth = true
+        this.showModal = false
+        this.startChallengeDemo()
       } else {
         this.showModal = !this.showModal
       }
