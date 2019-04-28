@@ -1,4 +1,4 @@
-import { getLocalData, GetDocumentsToAccept } from '../services'
+import { getLocalData, GetDocumentsToAccept, SeePublishedDocument } from '../services'
 
 export const signatureDocs = {
   namespaced: true,
@@ -7,6 +7,7 @@ export const signatureDocs = {
     canSign: false,
     displayedDocuments: {},
     current: '',
+    document: '',
     isLoading: false
   },
   getters: {
@@ -24,10 +25,16 @@ export const signatureDocs = {
         state.displayedDocuments = event.PENDING.items
       }
     },
+    SET_DOCUMENT_PDF (state, event) {
+      state.document = event
+    },
     FETCH_SIGNED (state, docs) {
       state.displayedDocuments = docs.items
     },
     FETCH_PENDING (state, docs) {
+      state.displayedDocuments = docs.items
+    },
+    FETCH_PENDING_BY_OTHERS (state, docs) {
       state.displayedDocuments = docs.items
     },
     SET_CURRENT (state, event) {
@@ -50,17 +57,29 @@ export const signatureDocs = {
         // console.log(err)
       }
     },
+    async fetchDocumentPDF({commit}, documentDetails) {
+      commit('SET_IS_LOADING')
+      try {
+        let response = await SeePublishedDocument(documentDetails)
+        if (response) {
+          commit('SET_IS_LOADING')
+          commit('SET_DOCUMENT_PDF', response.data)
+        }
+      } catch (err) {
+        // console.log(err)
+      }
+    },
     async fetchSigned ({ commit }, documents) {
       commit('SET_IS_LOADING')
-      if (this.state.signatureDocs.data.PENDING_BY_OTHERS) {
-        commit('FETCH_SIGNED', this.state.signatureDocs.data.PENDING_BY_OTHERS)
-      } else {
-        commit('FETCH_SIGNED', this.state.signatureDocs.data.SIGNED)
-      }
+      commit('FETCH_SIGNED', this.state.signatureDocs.data.SIGNED)
     },
     async fetchPending ({ commit }, documents) {
       commit('SET_IS_LOADING')
       commit('FETCH_PENDING', this.state.signatureDocs.data.PENDING)
+    },
+    async fetchPendingByOthers ({ commit }, documents) {
+      commit('SET_IS_LOADING')
+      commit('FETCH_PENDING_BY_OTHERS', this.state.signatureDocs.data.PENDING_BY_OTHERS)
     }
   }
 }

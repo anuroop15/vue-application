@@ -7,6 +7,7 @@
                    class="ag-theme-balham" id="myGrid"
                    :gridOptions="gridOptions"
                    @grid-ready="onGridReady"
+                   @row-selected="onCellClicked"
                     @selection-changed="onSelectionChanged"
                    :columnDefs="gridOptions.columnDef"
                    :rowData="displayedDocuments"

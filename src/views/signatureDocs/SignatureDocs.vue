@@ -5,23 +5,29 @@
       <div class="card">
         <h5 class="card-header">Documents to Sign</h5>
         <div class="card-body">
-            <vue-tabs @clicked="getDocuments">
+            <vue-tabs @tab-change="getDocuments">
                 <v-tab title="Documents to Sign">
                   <button class="button" @click="signSelected">Sign Selected Documents</button>
                   <button class="button" @click="downloadSelected">Download Selected</button>
-                    <AgGridComponent v-on:selected-document="selectedRow"
-                      :displayed-documents="displayedDocuments"
-                      :grid-column-defs="gridColumnDefsPending"
-                    />
+                  <AgGridComponent v-on:selected-document="selectedRow"
+                    v-on:document-viewed="viewDocument"
+                    :displayed-documents="displayedDocuments"
+                    :grid-column-defs="gridColumnDefsPending"
+                  />
                 </v-tab>
                 <v-tab title="File of signed Documents">
-                    <AgGridComponent v-on:selected-document="selectedRow"
-                      :displayedDocuments="displayedDocuments"
-                      :gridColumnDefs="gridColumnDefsSigned"
-                    />
+                  <AgGridComponent v-on:selected-document="selectedRow"
+                    v-on:document-viewed="viewDocument"
+                    :displayedDocuments="displayedDocuments"
+                    :gridColumnDefs="gridColumnDefsSigned"
+                  />
                 </v-tab>
                 <v-tab title="Documents to sign for others">
-                    Third tab content
+                  <AgGridComponent v-on:selected-document="selectedRow"
+                    v-on:document-viewed="viewDocument"
+                    :displayedDocuments="displayedDocuments"
+                    :gridColumnDefs="gridColumnDefsSigned"
+                  />
                 </v-tab>
             </vue-tabs>
         </div>

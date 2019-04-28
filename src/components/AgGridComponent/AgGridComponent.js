@@ -7,7 +7,7 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
-      autoGroupColumnDef: null
+      enableCheckBox: false
     }
   },
   components: {
@@ -17,26 +17,16 @@ export default {
     this.gridOptions = {
       columnDefs: this.gridColumnDefs
     }
-    this.autoGroupColumnDef = {
-      headerName: "Description",
-      field: "description",
-      cellRenderer: (params) => {
-        const route = {
-          name: "route-name",
-          params: { id: params.value }
-        };
-
-        const link = document.createElement("a");
-        link.href = this.$router.resolve(route).href;
-        link.innerText = params.value;
+    this.gridOptions.columnDefs[0].cellRenderer = (params) => {
+        let link = document.createElement("a")
+        link.href = '#'
+        link.innerText = params.value
         link.addEventListener("click", e => {
-          e.preventDefault();
-          this.$router.push(route);
+          e.preventDefault()
+          this.documentSelectedToView(params)
         });
-        return link;
-      },
-      cellRendererParams: { checkbox: true }
-    };
+        return link
+    }
   },
   mounted () {
     this.gridApi = this.gridOptions.api
@@ -51,10 +41,15 @@ export default {
         })
       })
     },
+    documentSelectedToView(params) {
+      params.eGridCell.classList.add('ag-cell-viewed')
+      this.$emit('document-viewed', params.data)
+    },
     onCellClicked(params) {
       console.log('cell')
     },
     onSelectionChanged(params) {
+      this.enableCheckBox = true
       let selectedRowDetails = params.api.getSelectedNodes()
       if (selectedRowDetails.length > 0) {
         this.$emit('selected-document', selectedRowDetails[0].data)

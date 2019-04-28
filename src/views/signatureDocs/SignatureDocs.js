@@ -34,10 +34,12 @@ export default {
   },
   methods: {
     getDocuments(selectedTab) {
-      if(selectedTab.tab.name === 'Documents to Sign') {
+      if(selectedTab === 0) {
         this.fetchPending()
-      } else {
+      } else if (selectedTab === 1){
         this.fetchSigned()
+      } else {
+        this.fetchPendingByOthers()
       }
       this.canSign = !this.canSign
     },
@@ -69,6 +71,10 @@ export default {
 
       });
     },
+    viewDocument(documentDetails) {
+      this.fetchDocumentPDF(documentDetails)
+      console.log(documentDetails)
+    },
     showModalWindow(value) {
       if (value === 'Accept') {
         this.showModal = false
@@ -79,7 +85,9 @@ export default {
     },
     ...mapActions({ fetchData: "signatureDocs/fetchData",
                     fetchSigned: "signatureDocs/fetchSigned",
-                    fetchPending: "signatureDocs/fetchPending"
+                    fetchPending: "signatureDocs/fetchPending",
+                    fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
+                    fetchDocumentPDF: "signatureDocs/fetchDocumentPDF"
                   })
   },
   computed: {

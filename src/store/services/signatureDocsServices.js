@@ -1,7 +1,7 @@
 import axios from 'axios';
 const CSRFToken =
   "9cf7653ae8b84548b777faa39d5d6306=f8796b8e-c880-4488-a0e9-9a0a0f703f5a";
-  
+
 // https://miaecowasdev.mia.usa.sinvest/eco-pre-int/en/customer/SeePublishedDocument?idDocumentTrack=DT1909200058&idCompany=US0010001&idCustomer=49436
 
   const headers = {
@@ -33,6 +33,20 @@ const api = axios.create({
 // export const demoServiceGetOne = (id) =>{
 //     return apiClientExample.get(`/todos/${id}`);
 // }
+
+
+// add only this
+export const SeePublishedDocument = (documentDetails) => {
+  return api({
+    url: "/SeePublishedDocument",
+    method: "get",
+    params: {
+      idDocumentTrack: documentDetails.idDocTrack,
+      idCompany: documentDetails.idCompany,
+      idCustomer: documentDetails.idCustomer
+    }
+  })
+}
 
 export const GetDocumentsToAccept = () => {
   return api({
