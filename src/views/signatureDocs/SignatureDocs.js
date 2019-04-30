@@ -4,6 +4,7 @@ import { mapActions, mapState } from 'vuex'
 import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
 import { Component as Vuedal } from "vuedals";
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
+import DocumentView from '../../components/DocumentView/DocumentView.vue'
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -27,6 +28,7 @@ export default {
   components: {
     AgGridComponent,
     Modal,
+    DocumentView,
     VueTabs,
     VTab,
     Vuedal,
@@ -72,7 +74,24 @@ export default {
       });
     },
     viewDocument(documentDetails) {
+      let additionalData = {}
+      // additionalData.windowName = '',
+
+      this.fetchDocExistance(documentDetails, additionalData)
       this.fetchDocumentPDF(documentDetails)
+      let pdfUrl = this.signatureDocs.documentPath
+      this.$vuedals.open({
+        title: documentDetails.description,
+        size: "md",
+        component: DocumentView,
+        props: {
+          urlBase: pdfUrl,
+          parameters: {}
+        },
+        dismissable:false,
+        escapable: true,
+
+      });
       console.log(documentDetails)
     },
     showModalWindow(value) {
@@ -87,7 +106,8 @@ export default {
                     fetchSigned: "signatureDocs/fetchSigned",
                     fetchPending: "signatureDocs/fetchPending",
                     fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
-                    fetchDocumentPDF: "signatureDocs/fetchDocumentPDF"
+                    fetchDocumentPDF: "signatureDocs/fetchDocumentPDF",
+                    fetchDocExistance: "signatureDocs/fetchDocumentExistence"
                   })
   },
   computed: {

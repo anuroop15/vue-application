@@ -1,7 +1,7 @@
 <template>
   <div class="input-group">
     <label v-if="label">{{ label }}</label>
-    <select class="form-control" :value="defaultValue || value" @change="updateValue" v-bind="$attrs" v-on="$listeners">
+    <select class="form-control" :value="value || defaultValue" @change="updateValue" v-bind="$attrs" v-on="$listeners">
       <option
         v-for="option in options"
         :value="option[identifier]"

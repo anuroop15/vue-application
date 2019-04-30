@@ -1,57 +1,184 @@
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import { Component as Vuedal } from "vuedals";
-import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
+import { required, sameAs } from "vuelidate/lib/validators";
+import ChallengeManager from "../../components/ChallegeManager/ChallengeManager.vue";
 
 export default {
   name: "SecurityPreferences",
   components: {
     Vuedal,
-    ChallengeManager,
+    ChallengeManager
   },
   data() {
     return {
       unbindSelected: "",
       enablePhoneEdit: true,
       startChallenge: false,
-      password:{
-        oldPassword:'',
-        newPassword:'',
+      password: {
+        oldPassword: "",
+        newPassword: "",
+        verifyPassword: ""
+      },
+      securityInfo: {
+        answer: [],
+        question: []
       }
     };
+  },
+  validations: {
+    password: {
+      oldPassword: {
+        required
+      },
+      newPassword: {
+        required
+      },
+      verifyPassword: {
+        required,
+        same: sameAs("newPassword")
+      }
+    },
+    validationGroup: ["password"]
   },
   created() {
     this.fetchSecurityPre();
     this.fetchPhoneCountryPrefixList();
   },
   methods: {
-    startChallengeDemo(){
-      this.startChallenge = true;
+    startPhoneChanges(){
+      //step 1 verify phones
+      this.validatePhonesNumbers();
+      //if success start challenger
+      //else show error
+    },
+    startChallengeChangePassword() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.submitStatus = "ERROR";
+      } else {
+        this.submitStatus = "PENDING";
+        this.startChallenge = true;
+        this.$vuedals.open({
+          title: "Additional authentication required",
+          size: "md",
+          component: ChallengeManager,
+          props: {
+            urlBase: "preferences/json/ChallengeOTPForPasswordChange",
+            parameters: this.password,
+            onSuccess: this.passwordHandlerOnSuccess,
+            onError: this.passwordHandlerOnError
+          },
+          dismissable: false,
+          escapable: true
+        });
+      }
+    },
+    startChallengeSQ() {
+      this.$v.$touch();
       this.$vuedals.open({
         title: "Additional authentication required",
         size: "md",
         component: ChallengeManager,
         props: {
-          urlBase:"preferences/json/ChallengeOTPForPasswordChange",
-          parameters: this.password,
-          handler:this.challegeHandlerTest,
+          urlBase: "preferences/json/ChallengeOTPForSecurityQuestionsChange",
+          parameters: this.securityInfo,
+          onSuccess: this.sqHandlerOnSuccess,
+          onError: this.sqHandlerOnError
         },
-        dismissable:false,
-        escapable: true,
-
+        dismissable: false,
+        escapable: true
       });
     },
-    challegeHandlerTest(){
-      // eslint-disable-next-line
-      this.startChallenge= false;
-      console.log('callback on challenge success')
+    sqHandlerOnSuccess(){
+      this.$v.$reset();
+      this.$vuedals.open({
+        size: "xs",
+        component: {
+          name: "success-password",
+
+          render: h => {
+            return h("h6", "Your security questions has been changed successfully");
+          }
+        }
+      });
     },
-    phoneAddInputs(){
-      let key = "n" + Math.random()*10;
+    sqHandlerOnError(data){
+      this.$v.$reset();
+      if (data.actionMessages != null && data.actionMessages.length > 0) {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-password",
+
+            render: h => {
+              return h("h6", data.actionMessages.join("\n"));
+            }
+          }
+        });
+      } else {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-password",
+
+            render: h => {
+              return h("h6", "There has been an error changing the security questions, please try again later");
+            }
+          }
+        });
+      }
+    },
+    passwordHandlerOnError(data) {
+      this.password = {
+        oldPassword: "",
+        newPassword: "",
+        verifyPassword: ""
+      };
+      this.$v.$reset();
+      if (data.actionMessages != null && data.actionMessages.length > 0) {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-password",
+
+            render: h => {
+              return h("h6", data.actionMessages.join("\n"));
+            }
+          }
+        });
+      } else {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-password",
+
+            render: h => {
+              return h("h6", "There has been an error changing the password, please try again later or validate that your old password is correct");
+            }
+          }
+        });
+      }
+    },
+    passwordHandlerOnSuccess() {
+      this.$v.$reset();
+      this.$vuedals.open({
+        size: "xs",
+        component: {
+          name: "success-password",
+
+          render: h => {
+            return h("h6", "Your password has been changed successfully");
+          }
+        }
+      });
+    },
+    phoneAddInputs() {
+      let key = "n" + Math.random() * 10;
       this.securityPreference.phones.push({
-        phoneCountryCode:"",
-        phoneNumber:"",
-        key: key,
-      })
+        phoneCountryCode: "",
+        phoneNumber: "",
+        key: key
+      });
     },
     phoneDelete(key) {
       this.securityPreference.phones.forEach((value, index) => {
@@ -103,7 +230,8 @@ export default {
       "fetchPhoneCountryPrefixList",
       "updateUserLoginName",
       "updateOwnDisplayName",
-      "deleteDevice"
+      "deleteDevice",
+      "validatePhonesNumbers"
     ])
   },
   computed: {

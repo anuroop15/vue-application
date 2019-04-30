@@ -49,72 +49,119 @@
         <div class="santander-security-pre_section-name">
           <h3>Change Password</h3>
         </div>
-        <div class="santander-security-pre_section-content p-2">
-          <div class="row mb-2">
-            <div class="col">
-              <label for="Username">Old password</label>
+        <form @submit.prevent="startChallengeChangePassword">
+          <div class="santander-security-pre_section-content p-2">
+            <div class="row mb-2">
+              <div class="col">
+                <label for="Username">Old password</label>
+                <div
+                  v-if="$v.password.oldPassword.$error"
+                  class="santander-security-pre_alert"
+                  role="alert"
+                >
+                  <p>Old password is require</p>
+                </div>
+              </div>
+              <div class="col">
+                <BaseInput
+                  v-model="$v.password.oldPassword.$model"
+                  @blur="$v.password.oldPassword.$touch()"
+                  type="password"
+                />
+              </div>
             </div>
-            <div class="col">
-              <BaseInput v-model="password.oldPassword" type="password"/>
+            <div class="row mb-2">
+              <div class="col">
+                <label for="User Login Name">New password</label>
+                <div
+                  v-if="$v.password.newPassword.$error"
+                  class="santander-security-pre_alert"
+                  role="alert"
+                >
+                  <p>New password is required</p>
+                </div>
+              </div>
+              <div class="col">
+                <BaseInput
+                  v-model="$v.password.newPassword.$model"
+                  @blur="$v.password.newPassword.$touch()"
+                  type="password"
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col">
+                <label for="Display Name">Verify password</label>
+                <div
+                  v-if="$v.password.verifyPassword.$error"
+                  class="santander-security-pre_alert"
+                  role="alert"
+                >
+                  <p>Verify password is required</p>
+                </div>
+                <div
+                  v-if="!$v.password.verifyPassword.same && $v.password.verifyPassword.$error"
+                  class="santander-security-pre_alert"
+                  role="alert"
+                >
+                  <p>The entered passwords don't match!</p>
+                </div>
+              </div>
+              <div class="col">
+                <BaseInput
+                  v-model="$v.password.verifyPassword.$model"
+                  @blur="$v.password.verifyPassword.$touch()"
+                  type="password"
+                />
+              </div>
+            </div>
+            <div class="row justify-content-end mb-2">
+              <div class="col-sm-2 align-self-end">
+                <BaseButton>Save</BaseButton>
+              </div>
             </div>
           </div>
-          <div class="row mb-2">
-            <div class="col">
-              <label for="User Login Name">New password</label>
-            </div>
-            <div class="col">
-              <BaseInput v-model="password.newPassword" type="password"/>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col">
-              <label for="Display Name">Verify password</label>
-            </div>
-            <div class="col">
-              <BaseInput type="password"/>
-            </div>
-          </div>
-          <div class="row justify-content-end mb-2">
-            <div class="col-sm-2 align-self-end">
-              <BaseButton>Save</BaseButton>
-            </div>
-          </div>
-        </div>
+        </form>
       </section>
       <section class="santander-security-pre_section">
         <div class="santander-security-pre_section-name">
           <h3>Security Questions</h3>
         </div>
-        <div class="santander-security-pre_section-content p-2">
-          <template v-for="questionsInfo in securityPreference.securityInfo.questionsInfo">
-            <div class="row mb-2" :key="questionsInfo[0].id">
-              <div class="col">
-                <label for="Username">Question</label>
+        <form @submit.prevent="startChallengeSQ">
+          <div class="santander-security-pre_section-content p-2">
+            <template
+              v-for="(questionsInfo, index) in securityPreference.securityInfo.questionsInfo"
+            >
+              <div class="row mb-2" :key="questionsInfo[0].id">
+                <div class="col">
+                  <label for="Username">Question</label>
+                </div>
+                <div class="col">
+                  <BaseSelect
+                    :options="questionsInfo"
+                    identifier="id"
+                    text="text"
+                    v-model="securityInfo.question[index]"
+                    :defaultValue="questionsInfo[0].id"
+                  />
+                </div>
               </div>
-              <div class="col">
-                <BaseSelect
-                  :options="questionsInfo"
-                  identifier="id"
-                  text="text"
-                  :defaultValue="questionsInfo[0].id"
-                />
+              <div class="row mb-2" :key="questionsInfo.id">
+                <div class="col">
+                  <label for="Display Name">Answer</label>
+                </div>
+                <div class="col">
+                  <BaseInput v-model="securityInfo.answer[index]"/>
+                </div>
               </div>
-            </div>
-            <div class="row mb-2" :key="questionsInfo[1].id">
-              <div class="col">
-                <label for="Display Name">Answer</label>
+            </template>
+            <div class="row justify-content-end mb-2">
+              <div class="col-sm-2 align-self-end">
+                <BaseButton>Save</BaseButton>
               </div>
-              <div class="col">
-                <BaseInput/>
-              </div>
-            </div>
-          </template>
-          <div class="row justify-content-end mb-2">
-            <div class="col-sm-2 align-self-end">
-              <BaseButton>Save</BaseButton>
             </div>
           </div>
-        </div>
+        </form>
       </section>
       <section class="santander-security-pre_section">
         <div class="santander-security-pre_section-name">
@@ -173,10 +220,18 @@
             </div>
             <div class="row mt-4">
               <div class="col-sm-6">
-                <BaseInput :disabled="enablePhoneEdit"  placeholder="Phone Number" v-model="phone.phoneNumber"/>
+                <BaseInput
+                  :disabled="enablePhoneEdit"
+                  placeholder="Phone Number"
+                  v-model="phone.phoneNumber"
+                />
               </div>
               <div class="col-sm-4">
-                <BaseInput :disabled="enablePhoneEdit" placeholder="Ext."/>
+                <BaseInput
+                  :disabled="enablePhoneEdit"
+                  v-model="phone.extension"
+                  placeholder="Ext."
+                />
               </div>
               <div class="col-sm-2">
                 <BaseButton :disabled="enablePhoneEdit" @click="phoneDelete(phone.key)">-</BaseButton>
@@ -187,13 +242,13 @@
         <div class="mt-5 d-flex justify-content-around">
           <BaseButton @click="phonesEditHandle">Edit</BaseButton>
 
-          <BaseButton :disabled="enablePhoneEdit" >Save</BaseButton>
+          <BaseButton @click="startPhoneChanges" :disabled="enablePhoneEdit">Save</BaseButton>
 
-          <BaseButton @click="phoneAddInputs" :disabled="enablePhoneEdit" >Add</BaseButton>
+          <BaseButton @click="phoneAddInputs" :disabled="enablePhoneEdit">Add</BaseButton>
         </div>
       </section>
     </div>
-    <BaseButton @click="startChallengeDemo">StartChallenge</BaseButton>
+    <BaseButton @click="startChallengeChangePassword">StartChallenge</BaseButton>
   </div>
 </template>
 

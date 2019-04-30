@@ -1,3 +1,4 @@
+/* eslint-disable */
 import qs from 'qs';
 import { logClientSideInfo } from "../services";
 
@@ -68,6 +69,7 @@ export const debugExeption = (e, origen, other) => {
     try {
       myLog.push("userAgent = " + navigator.userAgent);
     } catch (e4) {}
+    doPlain()
     logClientSideInfo(myLog, true);
   } catch (e2) {}
 };
@@ -83,6 +85,6 @@ export const doPlain = function(myObject, preffix, o) {
       } else {
         o = myObject;
       }
-      return qs.stringify(o, { allowDots: true });
+      return qs.stringify(o, { allowDots: true , indices: false });
   };
   

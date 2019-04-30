@@ -1,18 +1,5 @@
-import axios from "axios";
-import qs from 'qs'
+import api from './api'
 
-const api = axios.create({
-  baseURL: `https://miaecowasdev.mia.usa.sinvest/eco-pre-int-vue/`,
-  withCredentials: true,
-  headers: {
-      Accept: '*/*',
-      'accept-language': 'en-US,en;q=0.9',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      "x-requested-with": "XMLHttpRequest"
-  }
-});
-//X-Requested-With-AXIOS   axios-eco-request
-//api.defaults.headers.common['axios-eco-request'] = 'XMLHttpRequest';
 /**
  * Return a promise of http get ChallengeInitiate
  * @returns {Promise} object represent the api call
@@ -42,11 +29,11 @@ export const ChallengeStart = (urlBase, data) => {
  * Return a promise of http get CheckOTPPhoneChallenge
  * @returns {Promise} object represent the api call
  */
-export const ChallengeCheckOTPPhoneChallenge = (urlBase,token) => {
+export const ChallengeCheckOTPPhoneChallenge = (urlBase,data) => {
     return api({
       url: `${urlBase}CheckOTPPhoneChallenge`,
       method: "post",
-      data:{'tokenOTP': token}
+      data: data
     }
     );
   };

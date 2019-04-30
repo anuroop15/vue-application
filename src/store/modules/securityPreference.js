@@ -3,10 +3,11 @@ import {
   GetPhoneCountryPrefixList,
   ChangeOwnUserLoginName,
   ChangeOwnDisplayName,
-  UnbindDevice
+  UnbindDevice,
+  ValidatePhones
 } from "../services";
 
-import {debugExeption} from '../utils';
+import { debugExeption, add_deviceprint, doPlain } from "../utils";
 
 export const securityPreference = {
   namespaced: true,
@@ -52,7 +53,15 @@ export const securityPreference = {
         body: ""
       };
       state.displayName = displayName;
-      state.phones = phones;
+      phones.forEach(phone => {
+        let extension = phone.extension ? phone.extension : "";
+        let preferred = phone.preferred ? phone.preferred : "false";
+        state.phones.push({
+          preferred,
+          extension,
+          ...phone
+        });
+      });
       state.securityInfo = securityInfo;
       state.userLoginName = userLoginName;
       state.userName = userName;
@@ -81,7 +90,7 @@ export const securityPreference = {
           commit("COUNTRYPREFIXLIST_SUCCESS", response.data.data);
         }
       } catch (err) {
-        debugExeption(err)
+        debugExeption(err);
         commit("SET_ACTION_NOTIFY", err);
       }
     },
@@ -104,7 +113,7 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err)
+        debugExeption(err);
         let error = {
           title: "Error",
           body: err.toString().replace("Error: ", "")
@@ -136,7 +145,7 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err)
+        debugExeption(err);
         let error = {
           title: "Error",
           body: err.toString().replace("Error: ", "")
@@ -168,7 +177,7 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err)
+        debugExeption(err);
         let error = {
           title: "Error",
           body: err.toString().replace("Error: ", "")
@@ -198,7 +207,35 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err)
+        debugExeption(err);
+        let error = {
+          title: "Error",
+          body: err.toString().replace("Error: ", "")
+        };
+        commit("SET_ACTION_NOTIFY", error);
+      }
+    },
+    async validatePhonesNumbers({ commit }) {
+      try {
+        //call qs and get data on right format or doPlain
+        let response = await ValidatePhones();
+        if (response.data.actionResult === "success") {
+          // =>>start challegen manager
+          console.log(response.data);
+        } else {
+          let message =
+            response.data.actionMessages != null &&
+            response.data.actionMessages.length > 0
+              ? response.data.actionMessages.join("\n")
+              : (message = response.data.actionErrors.join("\n"));
+          let err = {
+            title: "Error",
+            body: message ? message : "Internal Error"
+          };
+          commit("SET_ACTION_NOTIFY", err);
+        }
+      } catch (err) {
+        debugExeption(err);
         let error = {
           title: "Error",
           body: err.toString().replace("Error: ", "")
@@ -206,5 +243,5 @@ export const securityPreference = {
         commit("SET_ACTION_NOTIFY", error);
       }
     }
-  }
+  },
 };

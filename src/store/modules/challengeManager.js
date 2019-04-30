@@ -1,9 +1,21 @@
-import { ChallengeInitiate, ChallengeStart } from "../services";
-import { debugExeption, doPlain } from "../utils";
+import {
+  ChallengeInitiate,
+  ChallengeStart,
+  ChallengeCheckOTPPhoneChallenge
+} from "../services";
+import { debugExeption, doPlain ,ChallengeConstant as Constant} from "../utils";
 export const challengeManager = {
   namespaced: true,
   state: {
-    methods: []
+    methods: [],
+    selectedMethod: {},
+    stage: "",
+    messages: "",
+    stageAction:"",
+    error: {
+      data: {},
+      exit: false
+    }
   },
   mutations: {
     SET_INITIAL_STATE(state) {
@@ -13,51 +25,100 @@ export const challengeManager = {
       state,
       {
         data: {
-          challenge: { methods }
+          challenge: { methods, stage }
         }
       }
     ) {
       state.methods = methods;
+      state.stage = stage;
+    },
+    SET_STAGE(state, stage) {
+      state.stage = stage;
+    },
+    SET_METHODS_SELECTED(
+      state,
+      {
+        data: {
+          challenge: { selectedMethod, stage }
+        },
+        actionMessages
+      }
+    ) {
+      state.selectedMethod = selectedMethod;
+      state.stage = stage;
+      state.messages = actionMessages.join("\n");
+    },
+    SET_ERROR(state, data){
+      state.error={
+        exit: true,
+        data
+      }
+    },
+    SET_STAGE_ACTION(state, action){
+      state.stageAction = action;
     }
   },
   actions: {
+    _setStage({ commit }, stage) {
+      commit("SET_STAGE", stage);
+    },
     async _challengeInit({ commit }, { urlBase, parameters }) {
       commit("SET_INITIAL_STATE");
       try {
-        let response = await ChallengeInitiate(urlBase, parameters);
+        let response = await ChallengeInitiate(urlBase,doPlain(parameters));
         if (response.data.actionResult === "challenge") {
           commit("SET_METHODS", response.data);
         } else if (response.data.actionResult === "error") {
-          //_handleErroneousActionResult
-          // eslint-disable-next-line
-          console.log("handel error");
+          commit("SET_ERROR", response.data)
         } else {
           commit("SET_METHODS", response.data);
         }
       } catch (err) {
-        //debugException2
-        // eslint-disable-next-line
         debugExeption(err);
       }
     },
     async _challengeStart({ commit, getters }, { urlBase, picked }) {
-      //commit("SET_INITIAL_STATE")
       let { label, type } = getters.getSelectedMethods(picked);
       let data = doPlain({ label, type }, "challengeMethod");
       try {
         let response = await ChallengeStart(urlBase, data);
         if (response.data.actionResult === "challenge") {
-          console.log(response.data);
+          commit("SET_METHODS_SELECTED", response.data);
         } else if (response.data.actionResult === "error") {
-          //_handleErroneousActionResult
-          // eslint-disable-next-line
-          console.log("handel error");
-        } else {
-          console.log(response.data);
+          commit("SET_ERROR", response.data)
         }
       } catch (err) {
-        console.log(err);
-        // eslint-disable-next-line
+        debugExeption(err);
+      }
+    },
+    async _processOTP({ commit, state}, { urlBase, token }) {
+      try {
+        let data = doPlain({tokenOTP:token})
+        let response = await ChallengeCheckOTPPhoneChallenge(urlBase, data);
+        if (response.data.actionResult === "success") {
+          let {
+            data: {
+              data: {
+                challenge: { stage }
+              }
+            }
+          } = response;
+          commit("SET_STAGE", stage);
+          if(state.stage === Constant.challengeStage.RETRY){
+            commit("SET_STAGE_ACTION", `${Constant.challengeStage.RETRY}_CODE`)
+            //show alert with retry alert(this.messages.theAdditionalAuthenticationFailedPleaseTryAgain); set code === 0
+          }
+        }else if(response.data.actionResult==="challenge"){
+          commit("SET_STAGE", response.data.data.challenge.stage);
+          if(state.stage === Constant.challengeStage.RETRY){
+            commit("SET_STAGE_ACTION", `${Constant.challengeStage.RETRY}_CODE`)
+            //show alert with retry alert(this.messages.theAdditionalAuthenticationFailedPleaseTryAgain); set code === 0
+          }
+        } 
+        else if (response.data.actionResult === "error") {
+          commit("SET_ERROR", response.data)
+        }
+      } catch (err) {
         debugExeption(err);
       }
     }

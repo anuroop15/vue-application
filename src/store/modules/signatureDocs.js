@@ -1,4 +1,4 @@
-import { getLocalData, GetDocumentsToAccept, SeePublishedDocument } from '../services'
+import { getLocalData, GetDocumentsToAccept, CheckDocumentExistence, SeePublishedDocument } from '../services'
 
 export const signatureDocs = {
   namespaced: true,
@@ -7,7 +7,7 @@ export const signatureDocs = {
     canSign: false,
     displayedDocuments: {},
     current: '',
-    document: '',
+    documentPath: '',
     isLoading: false
   },
   getters: {
@@ -26,16 +26,30 @@ export const signatureDocs = {
       }
     },
     SET_DOCUMENT_PDF (state, event) {
-      state.document = event
+      const blobContent = new Blob([event], {type: 'application/pdf'})
+      const fileUrl = window.URL.createObjectURL(blobContent)
+      state.documentPath = fileUrl
     },
     FETCH_SIGNED (state, docs) {
-      state.displayedDocuments = docs.items
+      if (docs) {
+        state.displayedDocuments = docs.items
+      } else {
+        state.displayedDocuments = []
+      }
     },
     FETCH_PENDING (state, docs) {
-      state.displayedDocuments = docs.items
+      if (docs) {
+        state.displayedDocuments = docs.items
+      } else {
+        state.displayedDocuments = []
+      }
     },
     FETCH_PENDING_BY_OTHERS (state, docs) {
-      state.displayedDocuments = docs.items
+      if (docs) {
+        state.displayedDocuments = docs.items
+      } else {
+        state.displayedDocuments = []
+      }
     },
     SET_CURRENT (state, event) {
       state.current = event
@@ -48,7 +62,7 @@ export const signatureDocs = {
     async fetchData ({ commit }) {
       commit('SET_IS_LOADING')
       try {
-        let response = await getLocalData()
+        let response = await GetDocumentsToAccept()
         if (response) {
           commit('SET_IS_LOADING')
           commit('SET_DATA', response.data)
@@ -61,6 +75,18 @@ export const signatureDocs = {
       commit('SET_IS_LOADING')
       try {
         let response = await SeePublishedDocument(documentDetails)
+        if (response) {
+          commit('SET_IS_LOADING')
+          commit('SET_DOCUMENT_PDF', response.data)
+        }
+      } catch (err) {
+        // console.log(err)
+      }
+    },
+    async fetchDocumentExistence({commit}, documentDetails, additionalData) {
+      commit('SET_IS_LOADING')
+      try {
+        let response = await CheckDocumentExistence(documentDetails, additionalData)
         if (response) {
           commit('SET_IS_LOADING')
           commit('SET_DOCUMENT_PDF', response.data)
