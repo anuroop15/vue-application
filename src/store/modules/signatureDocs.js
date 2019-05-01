@@ -73,27 +73,23 @@ export const signatureDocs = {
     },
     async fetchDocumentPDF({commit}, documentDetails) {
       commit('SET_IS_LOADING')
-      try {
-        let response = await SeePublishedDocument(documentDetails)
-        if (response) {
-          commit('SET_IS_LOADING')
-          commit('SET_DOCUMENT_PDF', response.data)
-        }
-      } catch (err) {
-        // console.log(err)
-      }
+      return new Promise((resolve, reject) => {
+        SeePublishedDocument(documentDetails).then(response => {
+          resolve(response)
+        }, error => {
+          reject(error)
+        })
+      })
     },
-    async fetchDocumentExistence({commit}, documentDetails, additionalData) {
+    async fetchDocumentExistence({commit}, documentDetails) {
       commit('SET_IS_LOADING')
-      try {
-        let response = await CheckDocumentExistence(documentDetails, additionalData)
-        if (response) {
-          commit('SET_IS_LOADING')
-          commit('SET_DOCUMENT_PDF', response.data)
-        }
-      } catch (err) {
-        // console.log(err)
-      }
+      return new Promise((resolve, reject) => {
+        CheckDocumentExistence(documentDetails).then(response => {
+          resolve(response)
+        }, error => {
+          reject(error)
+        })
+      })
     },
     async fetchSigned ({ commit }, documents) {
       commit('SET_IS_LOADING')

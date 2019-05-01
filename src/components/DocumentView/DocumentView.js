@@ -14,10 +14,5 @@ export default {
        return {
            showModal: false
         }
-    },
-    methods: {
-        getPdfUrl() {
-            return this.urlBase
-        }
     }
 }

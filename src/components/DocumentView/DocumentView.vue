@@ -1,6 +1,6 @@
 <template>
   <div>
-    <embed src="getPdfUrl" type="application/pdf" />
+    <embed :src="urlBase" type="application/pdf"  width="100%" height="100%"/>
   </div>
 </template>
 

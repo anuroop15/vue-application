@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       documents: {},
+      documentPath: '',
       canSign: false,
       selectedRowInfo: {},
       challengeAuth: false,
@@ -74,25 +75,31 @@ export default {
       });
     },
     viewDocument(documentDetails) {
-      let additionalData = {}
-      // additionalData.windowName = '',
-
-      this.fetchDocExistance(documentDetails, additionalData)
-      this.fetchDocumentPDF(documentDetails)
-      let pdfUrl = this.signatureDocs.documentPath
+      this.fetchDocumentExistence(documentDetails).then(data => {
+        if (data.actionResult === 'success') {
+          this.fetchDocumentPDF(documentDetails).then(data => {
+            const blobContent = new Blob([data], {type: 'application/pdf'})
+            const fileUrl = window.URL.createObjectURL(blobContent)
+            this.openPdfWindow(documentDetails, fileUrl)
+          })
+        } else {
+          this.showErrorModal()
+        }
+      })
+    },
+    openPdfWindow(documentDetails, url) {
       this.$vuedals.open({
         title: documentDetails.description,
-        size: "md",
+        size: "lg",
         component: DocumentView,
         props: {
-          urlBase: pdfUrl,
+          urlBase: url,
           parameters: {}
         },
         dismissable:false,
         escapable: true,
 
       });
-      console.log(documentDetails)
     },
     showModalWindow(value) {
       if (value === 'Accept') {
@@ -107,7 +114,7 @@ export default {
                     fetchPending: "signatureDocs/fetchPending",
                     fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
                     fetchDocumentPDF: "signatureDocs/fetchDocumentPDF",
-                    fetchDocExistance: "signatureDocs/fetchDocumentExistence"
+                    fetchDocumentExistence: "signatureDocs/fetchDocumentExistence"
                   })
   },
   computed: {
