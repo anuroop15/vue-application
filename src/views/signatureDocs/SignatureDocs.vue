@@ -1,19 +1,27 @@
 <template>
-  <div>
-    <h1> Signature Page </h1>
-    <div>
+  <div class="santander-signature-pre_container">
+    <div class="santander-signature-pre_header">
+      <p> Signature Page </p>
+    </div>
+    <div data-scopeId class="santander-signature-pre_content">
       <div class="card">
         <h5 class="card-header">Documents to Sign</h5>
         <div class="card-body">
             <vue-tabs @tab-change="getDocuments">
                 <v-tab title="Documents to Sign">
-                  <button class="button" @click="signSelected">Sign Selected Documents</button>
-                  <button class="button" @click="downloadSelected">Download Selected</button>
-                  <AgGridComponent v-on:selected-document="selectedRow"
-                    v-on:document-viewed="viewDocument"
-                    :displayed-documents="displayedDocuments"
-                    :grid-column-defs="gridColumnDefsPending"
-                  />
+                  <div class="row">
+                    <div class="santander-signature-button-wrapper">
+                      <button class="button" @click="signSelected">Sign Selected Documents</button>
+                      <button class="button" @click="downloadSelected">Download Selected</button>
+                    </div>
+                    <div class="santander-signature-grid-wrapper">
+                      <AgGridComponent v-on:selected-document="selectedRow"
+                        v-on:document-viewed="viewDocument"
+                        :displayed-documents="displayedDocuments"
+                        :grid-column-defs="gridColumnDefsPending"
+                      />
+                    </div>
+                  </div>
                 </v-tab>
                 <v-tab title="File of signed Documents">
                   <AgGridComponent v-on:selected-document="selectedRow"
@@ -72,4 +80,4 @@
 </template>
 
 <script src="./SignatureDocs.js"></script>
-<style src="./SignatureDocs.css"></style>
+<style scoped src="./SignatureDocs.css"></style>
