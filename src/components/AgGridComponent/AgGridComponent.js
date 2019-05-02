@@ -2,7 +2,11 @@ import { AgGridVue } from 'ag-grid-vue'
 
 export default {
   name: 'AgGridVueComponent',
-  props: ['displayedDocuments', 'gridColumnDefs'],
+  props: [
+    'displayedDocuments',
+    'gridColumnDefs',
+    'documentsToSign'
+  ],
   data: () => {
     return {
       columnDefs: null,
@@ -17,16 +21,31 @@ export default {
     this.gridOptions = {
       columnDefs: this.gridColumnDefs
     }
-    this.gridOptions.columnDefs[0].cellRenderer = (params) => {
-        let link = document.createElement("a")
-        link.href = '#'
-        link.innerText = params.value
-        link.addEventListener("click", e => {
-          e.preventDefault()
-          this.documentSelectedToView(params)
-        });
-        return link
+    if (this.documentsToSign) {
+      this.gridOptions.columnDefs[0].cellRenderer = (params) => {
+          let link = document.createElement("a")
+          link.href = '#'
+          link.innerText = params.value
+          link.addEventListener("click", e => {
+            e.preventDefault()
+            this.documentSelectedToView(params)
+          });
+          return link
+      }
+    } else {
+
+      this.gridOptions.columnDefs[1].cellRenderer = (params) => {
+          let link = document.createElement("a")
+          link.href = '#'
+          link.innerText = params.value
+          link.addEventListener("click", e => {
+            e.preventDefault()
+            this.customerIdSelectedToView(params)
+          });
+          return link
+      }
     }
+    this.rowSelection = "multiple";
   },
   mounted () {
     this.gridApi = this.gridOptions.api
@@ -52,6 +71,9 @@ export default {
         }
       })
     },
+    customerIdSelectedToView(params) {
+      // do new functionality
+    }
     onCellClicked(params) {
       console.log('cell')
     },

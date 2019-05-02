@@ -11,12 +11,13 @@
                 <v-tab title="Documents to Sign">
                   <div class="row">
                     <div class="santander-signature-button-wrapper">
-                      <button class="button" @click="signSelected">Sign Selected Documents</button>
-                      <button class="button" @click="downloadSelected">Download Selected</button>
+                      <BaseButton class="button" @click="signSelected">Sign Selected Documents</BaseButton>
+                      <BaseButton class="button" @click="downloadSelected">Download Selected</BaseButton>
                     </div>
                     <div class="santander-signature-grid-wrapper">
                       <AgGridComponent v-on:selected-document="selectedRow"
                         v-on:document-viewed="viewDocument"
+                        :documentsToSign="true"
                         :displayed-documents="displayedDocuments"
                         :grid-column-defs="gridColumnDefsPending"
                       />
@@ -26,6 +27,7 @@
                 <v-tab title="File of signed Documents">
                   <AgGridComponent v-on:selected-document="selectedRow"
                     v-on:document-viewed="viewDocument"
+                    :documentsToSign="false"
                     :displayedDocuments="displayedDocuments"
                     :gridColumnDefs="gridColumnDefsSigned"
                   />
@@ -33,6 +35,7 @@
                 <v-tab title="Documents to sign for others">
                   <AgGridComponent v-on:selected-document="selectedRow"
                     v-on:document-viewed="viewDocument"
+                    :documentsToSign="false
                     :displayedDocuments="displayedDocuments"
                     :gridColumnDefs="gridColumnDefsSigned"
                   />

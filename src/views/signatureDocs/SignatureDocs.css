@@ -28,6 +28,9 @@
   width: 100%;
   padding: 15px;
 }
+.santander-signature-button-wrapper >>> .button{
+  float: none;
+}
 .santander-signature-grid-wrapper {
   display: block;
   width: 100%;

@@ -49,6 +49,16 @@ export default {
       if (this.selectedRowInfo && this.selectedRowInfo.description) {
         this.showModal = true
         this.acceptToSign = true
+      } else {
+        this.$vuedals.open({
+          title: "Error",
+          size: "md",
+          component: {
+            render: h => {
+              return h("p", "Please select a document to sign");
+            }
+          },
+        });
       }
     },
     downloadSelected(){
@@ -65,9 +75,7 @@ export default {
           parameters: this.password,
           handler:this.challegeHandlerTest,
         },
-        dismissable:false,
-        escapable: true,
-
+        escapable: true
       });
     },
     viewDocument(documentDetails, resolve, reject) {
@@ -114,7 +122,6 @@ export default {
           onDownload: downloadDocument,
           onSelect: selectDocument
         },
-        dismissable:false,
         escapable: true,
       });
     },
