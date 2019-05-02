@@ -12,9 +12,6 @@ export default {
   name: 'SignatureDocs',
   data() {
     return {
-      documents: {},
-      documentPath: '',
-      canSign: false,
       selectedRowInfo: {},
       challengeAuth: false,
       acceptToSign: false,
@@ -44,7 +41,6 @@ export default {
       } else {
         this.fetchPendingByOthers()
       }
-      this.canSign = !this.canSign
     },
     selectedRow(data) {
       this.selectedRowInfo = data
@@ -74,31 +70,61 @@ export default {
 
       });
     },
-    viewDocument(documentDetails) {
+    viewDocument(documentDetails, resolve, reject) {
       this.fetchDocumentExistence(documentDetails).then(data => {
         if (data.actionResult === 'success') {
           this.fetchDocumentPDF(documentDetails).then(data => {
             const blobContent = new Blob([data], {type: 'application/pdf'})
             const fileUrl = window.URL.createObjectURL(blobContent)
-            this.openPdfWindow(documentDetails, fileUrl)
+            this.openPdfWindow(documentDetails, fileUrl, resolve, reject)
           })
         } else {
           this.showErrorModal()
         }
       })
     },
-    openPdfWindow(documentDetails, url) {
+    openPdfWindow(documentDetails, url, resolve, reject) {
+      const selectDocument = () => {
+        this.$vuedals.close()
+        resolve('selected')
+      }
+      const downloadDocument = () => {
+        var a = document.createElement('a');
+        a.style = "display: none";
+        // var blob = new Blob(data, {type: "application/octet-stream"});
+        // var url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.setAttribute("download", documentDetails.idDocTrack + ".pdf");
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+      }, 100);
+      }
       this.$vuedals.open({
         title: documentDetails.description,
-        size: "lg",
+        size: "xl",
         component: DocumentView,
         props: {
-          urlBase: url,
-          parameters: {}
+          urlBase: url + '#toolbar=1',
+          parameters: {
+            documentDetails: documentDetails
+          },
+          onDownload: downloadDocument,
+          onSelect: selectDocument
         },
         dismissable:false,
         escapable: true,
-
+      });
+    },
+    showErrorModal() {
+      this.$vuedals.open({
+        title: 'Error',
+        size: "md",
+        component: '',
+        dismissable:false,
+        escapable: true,
       });
     },
     showModalWindow(value) {

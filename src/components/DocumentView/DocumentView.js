@@ -8,11 +8,25 @@ export default {
     props: {
         urlBase: {
             type: String
+        },
+        parameters: {
+          type: Object
+        },
+        onDownload: {
+          type: Function
+        },
+        onSelect: {
+          type: Function
         }
     },
     data: function (){
        return {
            showModal: false
         }
+    },
+    methods: {
+      onClose() {
+        this.$vuedals.close()
+      }
     }
 }

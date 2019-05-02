@@ -43,7 +43,14 @@ export default {
     },
     documentSelectedToView(params) {
       params.eGridCell.classList.add('ag-cell-viewed')
-      this.$emit('document-viewed', params.data)
+      const emitPromise = new Promise((resolve, reject) => {
+        this.$emit('document-viewed', params.data, resolve, reject)
+      })
+      emitPromise.then(data => {
+        if (data === 'selected') {
+          params.node.setSelected(true)
+        }
+      })
     },
     onCellClicked(params) {
       console.log('cell')
