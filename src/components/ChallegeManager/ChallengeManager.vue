@@ -1,7 +1,7 @@
 <template>
  <div class="santanter-challenge-manager_container">
   <div class="santander-challenge-manager_select-method" v-if="challengeManager.stage === 'CHALLENGE_SELECT_METHOD'">
-    <p>For your security it is necessary to authenticate your identity. Select the registered mobile phone in which you wish to receive your security code:</p>
+    <p>{{$t('pleaseSelectAnAdditionalAuthenticationProcedure')}}</p>
     <form @submit.prevent="startChallengerNow">
       <template v-for="method in getMethods">
         <div class="form-check" :key="method.label">
@@ -15,35 +15,39 @@
           <label class="form-check-label" for="CHALLENGE_SELECT_METHOD">{{method.label}}</label>
         </div>
       </template>
-    <p>If your mobile phone is not listed, contact your banker to certify a new mobile phone in the bank's security procedure.</p>
-      <button type="button" @click.prevent="cancelChallenger">Close</button>
-      <button type="submit" value="submit">Accept</button>
+    <p class="mt-3">{{$t('OTPPHONE_message_dontSeeMyPhone')}}</p>
+     <div class="mt-3 d-flex justify-content-around">
+      <BaseButton variant="outline" type="button" @click.prevent="cancelChallenger">{{$t('close')}}</BaseButton>
+      <BaseButton variant="primary" type="submit" value="submit">{{$t('accept')}}</BaseButton>
+      </div>
     </form>
   </div>
-  <div class="santander-challenge-manager_challenge" v-if="challengeManager.stage === 'CHALLENGE'|| challengeManager.stageAction ==='CHALLENGE_RETRY_CODE'">
-    <p>You have received a text message with the security code on your mobile phone ({{challengeManager.selectedMethod.label}}) Please enter the code:</p>
-    <div class="row">
-    <div class="col-8">
-          <BaseInput v-model="code" placeholder="Code"/>
-    </div>
-    <div class="col-4">
-          <BaseButton @click="processOTPStart">Accept</BaseButton>
-    </div>
-    </div>
-    <p v-if="challengeManager.stageAction ==='CHALLENGE_RETRY_CODE'">The additional authentication failed. Please try again</p>
-    <p>This code will be valid for the next three (3) minutes </p>
-    <p>Click "new code" to resend</p>
-    <button @click="changeToAlternatePhone">Alternate phone</button>
-    <button @click="startChallengerNow">New code</button>
-  </div>
-  <div class="santander-challenge-manager_challenge" v-if="challengeManager.stage === 'CHALLENGE_RETRY' && challengeManager.stageAction !='CHALLENGE_RETRY_CODE'">
+    <div class="santander-challenge-manager_challenge" v-else-if="challengeManager.stage === 'CHALLENGE_RETRY' && challengeManager.stageAction !='CHALLENGE_RETRY_CODE'">
     <p>{{challengeManager.messages}}</p>
-    <button type="button" @click="cancelChallenger">Close</button>
-    <button type="button" @click="startChallengerNow">Accept</button>
+    <div class="mt-3 d-flex justify-content-around">
+    <BaseButton variant="outline" type="button" @click="cancelChallenger">{{$t('close')}}</BaseButton>
+    <BaseButton variant="primary" type="button" @click="startChallengerNow">{{$t('accept')}}</BaseButton>
+    </div>
+  </div>
+  <div class="santander-challenge-manager_challenge" v-else>
+    <p v-html="$t('youHaveReceivedMessage_OTPPHONE',{label:challengeManager.selectedMethod.label})"></p>
+    
+<div class="input-group mb-3">
+  <input v-model="code" type="text" class="form-control" :placeholder="$t('code')" :aria-label="$t('code')" />
+  <div class="input-group-append">
+    <BaseButton variant="primary" className="santander-challenge-manager_button-accept" @click="processOTPStart">{{$t('accept')}}</BaseButton>
+  </div>
+</div>
+    <p class="santander-challenge-manager_alert" v-if="challengeManager.stageAction ==='CHALLENGE_RETRY_CODE'">{{$t('theAdditionalAuthenticationFailedPleaseTryAgain')}}</p>
+    <p v-html="$t('youHaveNotReceivedMessage_OTPPHONE')"></p>
+     <div class="mt-3 d-flex justify-content-around">
+    <BaseButton className="santander-challenge-manager_button" @click="changeToAlternatePhone">{{$t('newChallengeMethod')}}</BaseButton>
+    <BaseButton className="santander-challenge-manager_button" @click="startChallengerNow">{{$t('newToken')}}</BaseButton>
+    </div>
   </div>
  </div>
 </template>
 
 <script src="./ChallengeManager.js"></script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped src="./ChallengeManager.css"></style>
+<style src="./ChallengeManager.css"></style>

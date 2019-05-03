@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       selectedRowInfo: {},
+      documentDetails: {},
       challengeAuth: false,
       acceptToSign: false,
       showModal: false,
@@ -71,14 +72,26 @@ export default {
         size: "md",
         component: ChallengeManager,
         props: {
-          urlBase:"preferences/json/ChallengeOTPForPasswordChange",
-          parameters: this.password,
-          handler:this.challegeHandlerTest,
+          urlBase:"security/json/ChallengeOTPForDocumentSignature",
+          parameters: {
+            idDocumentTracks: this.documentDetails.idDocTrack
+          },
+          onSuccess:this.signedSuccessful,
+          onError: this.signedError
         },
-        escapable: true
+        dismissable:false,
+        escapable: true,
+
       });
     },
+    signedSuccessful() {
+      this.fetchData()
+    },
+    signedError() {
+      console.log('error')
+    },
     viewDocument(documentDetails, resolve, reject) {
+      this.documentDetails = documentDetails
       this.fetchDocumentExistence(documentDetails).then(data => {
         if (data.actionResult === 'success') {
           this.fetchDocumentPDF(documentDetails).then(data => {
@@ -122,6 +135,7 @@ export default {
           onDownload: downloadDocument,
           onSelect: selectDocument
         },
+        dismissable:false,
         escapable: true,
       });
     },

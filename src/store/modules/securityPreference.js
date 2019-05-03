@@ -7,16 +7,19 @@ import {
   ValidatePhones
 } from "../services";
 
-import { debugExeption, add_deviceprint, doPlain } from "../utils";
+import { en } from "../../views/SecurityPreferences/i18n";
+import { debugExeption, doPlain } from "../utils";
 
 export const securityPreference = {
   namespaced: true,
   state: {
     displayName: "",
     phones: [],
+    phonesChallenge: {},
     securityInfo: {},
     userLoginName: "",
     userName: "",
+    preferred:"",
     showModal: false,
     message: {
       title: "",
@@ -29,6 +32,7 @@ export const securityPreference = {
     SECURITY_PRE_STARTED(state) {
       state.showModal = false;
       state.isLoading = true;
+      state.phones = [];
       state.message = {
         title: "",
         body: ""
@@ -42,6 +46,9 @@ export const securityPreference = {
         body: body
       };
     },
+    SET_PHONES_CHALLENGE(state, payload) {
+      state.phonesChallenge = payload;
+    },
     SECURITY_PRE_SUCCESS(
       state,
       { displayName, phones, securityInfo, userLoginName, userName }
@@ -54,11 +61,14 @@ export const securityPreference = {
       };
       state.displayName = displayName;
       phones.forEach(phone => {
-        let extension = phone.extension ? phone.extension : "";
-        let preferred = phone.preferred ? phone.preferred : "false";
+        if(phone.phoneNumber.includes('x')){
+          phone.extension = phone.phoneNumber.substring(phone.phoneNumber.indexOf("x")+1, phone.phoneNumber.length);
+          phone.phoneNumber = phone.phoneNumber.substring(0,phone.phoneNumber.indexOf("x")-1);
+        }
+        let preferred = phone.preferred ? phone.preferred : false;
+        state.preferred = preferred ? phone.phoneNumber: "";
         state.phones.push({
           preferred,
-          extension,
           ...phone
         });
       });
@@ -87,6 +97,7 @@ export const securityPreference = {
       try {
         let response = await GetPhoneCountryPrefixList();
         if (response.data.actionResult === "success") {
+          response.data.data.items.reverse();
           commit("COUNTRYPREFIXLIST_SUCCESS", response.data.data);
         }
       } catch (err) {
@@ -121,9 +132,9 @@ export const securityPreference = {
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async updateUserLoginName({ commit, state }) {
+    async updateUserLoginName({ commit }, user) {
       try {
-        let response = await ChangeOwnUserLoginName(state.userLoginName);
+        let response = await ChangeOwnUserLoginName(user);
         if (response.data.actionResult === "success") {
           let payload = {
             title: "Success",
@@ -153,9 +164,9 @@ export const securityPreference = {
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async updateOwnDisplayName({ commit, state }) {
+    async updateOwnDisplayName({ commit }, displayName) {
       try {
-        let response = await ChangeOwnDisplayName(state.displayName);
+        let response = await ChangeOwnDisplayName(displayName);
         if (response.data.actionResult === "success") {
           let payload = {
             title: "Success",
@@ -215,19 +226,68 @@ export const securityPreference = {
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async validatePhonesNumbers({ commit }) {
+    async validatePhonesNumbers({ commit }, {data, prefSelected}) {
       try {
-        //call qs and get data on right format or doPlain
-        let response = await ValidatePhones();
+        let phones = [];
+        let pref = null;
+        let indices = true;
+        data.forEach(phone => {
+          let { phoneNumber, extension, phoneCountryCode, preferred } = phone;
+          pref = prefSelected === phoneNumber ? `${phoneCountryCode} ${phoneNumber}` : "";
+          preferred = prefSelected === phoneNumber ? 'on': 'false';
+          pref = extension ? `${pref} x${extension}` : pref;
+          phones.push({
+            phoneNumber,
+            extension,
+            preferred,
+            countryCode: phoneCountryCode.slice(1),
+            number: phoneNumber
+          });
+        });
+        let response = await ValidatePhones(
+          doPlain({ phones, preferred: pref, indices })
+        );
         if (response.data.actionResult === "success") {
-          // =>>start challegen manager
-          console.log(response.data);
+          let phones = [];
+          var warns = "";
+          response.data.actionMessages.forEach(p => {
+            if (p.startsWith("+")) {
+              var parts = p.split(" ");
+              var countryCode = parts[0].replace("+", "");
+              var number = parts[1];
+              var extension =
+                parts.length > 2 && parts[2].includes("x") ? parts[2] : "";
+              var phone = {
+                countryCode,
+                number,
+                extension: extension.replace("x", "")
+              };
+
+              phones.push(phone);
+            } else if (p.includes("WARN")) {
+              if (p.includes("001")) warns += en.noMobileAdded + "\n";
+              if (p.includes("002")) warns += en.phonesUsIndicia + "\n";
+              if (p.includes("003")) warns += en.preferredNoMobile + "\n";
+            }
+          });
+          if (warns != "") {
+            warns += en.sureToContinue;
+            if (confirm(warns)) {
+              commit("SET_PHONES_CHALLENGE", { phones, preferred: pref });
+            } else {
+              return;
+            }
+          }
+          let payload = { phones, indices: true };
+          payload = pref ? { preferred: pref, ...payload } : payload;
+          commit("SET_PHONES_CHALLENGE", payload);
         } else {
-          let message =
-            response.data.actionMessages != null &&
-            response.data.actionMessages.length > 0
-              ? response.data.actionMessages.join("\n")
-              : (message = response.data.actionErrors.join("\n"));
+          let message = "";
+          for (let fieldErrors in response.data.fieldErrors) {
+            for (let fields of response.data.fieldErrors[fieldErrors]) {
+              message += fields + "<br/>";
+            }
+          }
           let err = {
             title: "Error",
             body: message ? message : "Internal Error"
@@ -244,4 +304,9 @@ export const securityPreference = {
       }
     }
   },
+  getters: {
+    getStateProp: state => prop => {
+      return state[prop];
+    }
+  }
 };

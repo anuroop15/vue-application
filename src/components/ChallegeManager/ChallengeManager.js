@@ -1,9 +1,18 @@
 import Vue from "vue";
 import { mapActions, mapState } from "vuex";
+import {es, en , pt} from './i18n';
 import { ChallengeConstant as Constant } from "../../store/utils";
+import { BaseFrameworkFactory } from "ag-grid-community";
 
 export default Vue.extend({
   name: "ChallengeManager",
+  i18n:{
+    messages:{
+        en,
+        es,
+        pt
+    }
+  },
   data() {
     return {
       pickedMethod: "",
@@ -42,12 +51,41 @@ export default Vue.extend({
     },
     processOTPStart() {
       this._processOTP({ urlBase: this.urlBase, token: this.code });
+      this.code ="";
+    },
+    challengeStageHandler(value) {
+      switch (value) {
+        case "CHALLENGE_SUCCESS":
+          this.cancelChallenger();
+          this.onSuccess();
+          break;
+        case "CHALLENGE_TOO_MANY_ATTEMPTS":
+          this.code = "";
+          break;
+        case "CHALLENGE_RETRY":
+          this.code = "";
+          break;
+        default:
+          break;
+      }
+    },
+    challengeStageActionHandler(value){
+      if (value === "CHALLENGE_RETRY_CODE") {
+        this.code = "";
+      }
+    },
+    challengeErrorHandler({ exit, data }){
+      if (exit) {
+        this.$vuedals.close();
+        this.onError(data);
+      }
     },
     ...mapActions("challengeManager", [
       "_challengeInit",
       "_challengeStart",
       "_setStage",
-      "_processOTP"
+      "_processOTP",
+      "_setActionStage"
     ])
   },
   computed: {
@@ -61,7 +99,7 @@ export default Vue.extend({
           type == Constant.authenticationMethod.OTPPHONE
         ) {
           methods.push({
-            label: `${Constant.messages[labelMethod]}(${label})`,
+            label: `${this.$t(labelMethod)}(${label})`,
             value: label
           });
         } else {
@@ -76,35 +114,8 @@ export default Vue.extend({
     ...mapState(["challengeManager"])
   },
   watch: {
-    "challengeManager.stage": {
-      handler: function(value) {
-        switch (value) {
-          case "CHALLENGE_SUCCESS":
-            this.cancelChallenger();
-            this.onSuccess();
-            break;
-          case "CHALLENGE_TOO_MANY_ATTEMPTS":
-            this.code = "";
-            break;
-          default:
-            break;
-        }
-      }
-    },
-    "challengeManager.stageAction":{
-      handler: function(value) {
-        if(value ==='CHALLENGE_RETRY_CODE') {
-          this.code =""
-        }
-      }
-    },
-    "challengeManager.error": {
-      handler: function({ exit, data }) {
-        if (exit) {
-          this.$vuedals.close()
-          this.onError(data);
-        }
-      }
-    }
+    "challengeManager.stage": "challengeStageHandler",
+    "challengeManager.stageAction":"challengeStageActionHandler",
+    "challengeManager.error": "challengeErrorHandler",
   }
 });

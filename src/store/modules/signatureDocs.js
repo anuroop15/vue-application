@@ -75,7 +75,7 @@ export const signatureDocs = {
       commit('SET_IS_LOADING')
       return new Promise((resolve, reject) => {
         SeePublishedDocument(documentDetails).then(response => {
-          resolve(response)
+          resolve(response.data)
         }, error => {
           reject(error)
         })
@@ -85,7 +85,7 @@ export const signatureDocs = {
       commit('SET_IS_LOADING')
       return new Promise((resolve, reject) => {
         CheckDocumentExistence(documentDetails).then(response => {
-          resolve(response)
+          resolve(response.data)
         }, error => {
           reject(error)
         })

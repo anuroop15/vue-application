@@ -1,19 +1,33 @@
-import { mapActions, mapState, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { Component as Vuedal } from "vuedals";
-import { required, sameAs } from "vuelidate/lib/validators";
+import { CoolSelect } from 'vue-cool-select'
+import {en, es, pt} from './i18n'
+import { required, sameAs, numeric, maxLength } from "vuelidate/lib/validators";
 import ChallengeManager from "../../components/ChallegeManager/ChallengeManager.vue";
 
 export default {
   name: "SecurityPreferences",
   components: {
     Vuedal,
+    CoolSelect,
     ChallengeManager
+  },
+  i18n:{
+    messages:{
+        en,
+        es,
+        pt
+    }
   },
   data() {
     return {
+      userLoginName: "",
+      displayName: "",
+      phones: [],
       unbindSelected: "",
       enablePhoneEdit: true,
       startChallenge: false,
+      preferred:"",
       password: {
         oldPassword: "",
         newPassword: "",
@@ -25,31 +39,43 @@ export default {
       }
     };
   },
-  validations: {
-    password: {
-      oldPassword: {
-        required
-      },
-      newPassword: {
-        required
-      },
-      verifyPassword: {
-        required,
-        same: sameAs("newPassword")
-      }
+  validations:{
+        password: {
+          oldPassword: {
+            required
+          },
+          newPassword: {
+            required
+          },
+          verifyPassword: {
+            required,
+            same: sameAs("newPassword")
+          }
+        },
+        phones:{
+          $each:{
+            phoneNumber:{
+              required,
+              numeric,
+              maxLength: maxLength(25),
+            },
+            phoneCountryCode:{
+              required
+            }
+          }
+        }
     },
-    validationGroup: ["password"]
-  },
   created() {
     this.fetchSecurityPre();
     this.fetchPhoneCountryPrefixList();
   },
   methods: {
-    startPhoneChanges(){
-      //step 1 verify phones
-      this.validatePhonesNumbers();
-      //if success start challenger
-      //else show error
+    startPhoneChanges() {
+      let payload ={
+        data: this.phones,
+        prefSelected: this.preferred,
+      }
+      this.validatePhonesNumbers(payload);
     },
     startChallengeChangePassword() {
       this.$v.$touch();
@@ -89,20 +115,65 @@ export default {
         escapable: true
       });
     },
-    sqHandlerOnSuccess(){
+    sqHandlerOnSuccess() {
       this.$v.$reset();
+      //this.validatePhonesNumbers(this.phones);
       this.$vuedals.open({
         size: "xs",
         component: {
           name: "success-password",
 
           render: h => {
-            return h("h6", "Your security questions has been changed successfully");
+            return h(
+              "h6",
+              "Your security questions has been changed successfully"
+            );
           }
         }
       });
     },
-    sqHandlerOnError(data){
+    phoneSaveHandlerOnSuccess() {
+      this.$v.$reset();
+      this.$vuedals.open({
+        size: "xs",
+        component: {
+          name: "success-phones-update",
+          render: h => {
+            return h("h6", this.$t('phonesSaved'));
+          }
+        }
+      });
+    },
+    phoneSaveHandlerOnError(data) {
+      this.$v.$reset();
+      if (data.actionMessages != null && data.actionMessages.length > 0) {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-phone",
+
+            render: h => {
+              return h("h6", data.actionMessages.join("\n"));
+            }
+          }
+        });
+      } else {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-password",
+
+            render: h => {
+              return h(
+                "h6",
+                this.$t('errorSavingPhone')
+              );
+            }
+          }
+        });
+      }
+    },
+    sqHandlerOnError(data) {
       this.$v.$reset();
       if (data.actionMessages != null && data.actionMessages.length > 0) {
         this.$vuedals.open({
@@ -122,9 +193,29 @@ export default {
             name: "error-password",
 
             render: h => {
-              return h("h6", "There has been an error changing the security questions, please try again later");
+              return h(
+                "h6",
+                this.$t('errorChangingSQ')
+              );
             }
           }
+        });
+      }
+    },
+    startChallengePhone(data){
+      if (data) {
+        this.$vuedals.open({
+          title: "Additional authentication required",
+          size: "md",
+          component: ChallengeManager,
+          props: {
+            urlBase: "preferences/json/ChallengeOTPForPhonesOperation",
+            parameters: data,
+            onSuccess: this.phoneSaveHandlerOnSuccess,
+            onError: this.phoneSaveHandlerOnError
+          },
+          dismissable: false,
+          escapable: true
         });
       }
     },
@@ -153,7 +244,10 @@ export default {
             name: "error-password",
 
             render: h => {
-              return h("h6", "There has been an error changing the password, please try again later or validate that your old password is correct");
+              return h(
+                "h6",
+                this.$t('errorChangingPassword')
+              );
             }
           }
         });
@@ -167,28 +261,28 @@ export default {
           name: "success-password",
 
           render: h => {
-            return h("h6", "Your password has been changed successfully");
+            return h("h6", this.$t('passwordChanged'));
           }
         }
       });
     },
     phoneAddInputs() {
       let key = "n" + Math.random() * 10;
-      this.securityPreference.phones.push({
+      this.phones.push({
         phoneCountryCode: "",
         phoneNumber: "",
         key: key
       });
     },
     phoneDelete(key) {
-      this.securityPreference.phones.forEach((value, index) => {
+      this.phones.forEach((value, index) => {
         if (value.key === key) {
-          this.securityPreference.phones.splice(index, 1);
+          this.phones.splice(index, 1);
         }
       });
     },
     phonesEditHandle() {
-      this.enablePhoneEdit = false;
+      this.enablePhoneEdit = this.enablePhoneEdit ? false : true;
     },
     unbindDeviceProcess() {
       this.$vuedals.close();
@@ -209,7 +303,7 @@ export default {
 
           render: h => {
             return h("div", [
-              h("p", `Are you sure you want to unbind ${label}?`),
+              h("p", this.$t('confirmDeleteDevice',{label: label})),
               h(
                 "BaseButton",
                 { on: { click: this.unbindDeviceProcess } },
@@ -225,6 +319,44 @@ export default {
         }
       });
     },
+    showModal(val) {
+      if (val) {
+        this.$vuedals.open({
+          title: this.securityPreference.message.title,
+          size: "xs",
+          component: {
+            name: "inside-modal",
+
+            render: h => {
+              return h("h6", {
+                domProps: { innerHTML: this.securityPreference.message.body }
+              });
+            }
+          }
+        });
+        this.securityPreference.showModal = false;
+      }
+    },
+    fetchUserLoginName() {
+      this.userLoginName = this.$store.getters[
+        "securityPreference/getStateProp"
+      ]("userLoginName");
+    },
+    fetchDisplayName() {
+      this.displayName = this.$store.getters["securityPreference/getStateProp"](
+        "displayName"
+      );
+    },
+    fetchPhones() {
+      this.phones = this.$store.getters["securityPreference/getStateProp"](
+        "phones"
+      );
+    },
+    fetchPreferred(){
+      this.preferred = this.$store.getters["securityPreference/getStateProp"](
+        "preferred"
+      );
+    },
     ...mapActions("securityPreference", [
       "fetchSecurityPre",
       "fetchPhoneCountryPrefixList",
@@ -238,21 +370,11 @@ export default {
     ...mapState(["securityPreference"])
   },
   watch: {
-    "securityPreference.showModal": function(val) {
-      if (val) {
-        this.$vuedals.open({
-          title: this.securityPreference.message.title,
-          size: "xs",
-          component: {
-            name: "inside-modal",
-
-            render: h => {
-              return h("h6", this.securityPreference.message.body);
-            }
-          }
-        });
-        this.securityPreference.showModal = false;
-      }
-    }
+    "securityPreference.userLoginName": "fetchUserLoginName",
+    "securityPreference.displayName": "fetchDisplayName",
+    "securityPreference.phones": "fetchPhones",
+    "securityPreference.showModal": "showModal",
+    "securityPreference.phonesChallenge": "startChallengePhone",
+    "securityPreference.preferred":"fetchPreferred"
   }
 };

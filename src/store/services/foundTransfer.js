@@ -6,10 +6,11 @@ import api from './api'
  */
 export const GetFundsTransfer = () => {
   return api({
-    method: "post",
+    method: "get",
     withCredentials: true,
+    baseURL:"http://localhost:3000/",
     url:
-      "customer/json/GetFundsTransfers",
+      "GetFundsTransfer",
     data: {
       body:
         "status=UNAUTHORISED&status=AUTHORISED&status=CREATED&status=CALL_BACK&status=REJECTED&start=0&count=200"

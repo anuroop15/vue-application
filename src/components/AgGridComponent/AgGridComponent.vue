@@ -11,6 +11,8 @@
                     @selection-changed="onSelectionChanged"
                    :columnDefs="gridOptions.columnDef"
                    :rowData="displayedDocuments"
+                   :rowSelection="rowSelection"
+                   :suppressRowClickSelection="true"
                    v-model="rowData">
                 </ag-grid-vue>
               </div>

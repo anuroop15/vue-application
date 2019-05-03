@@ -23,15 +23,29 @@
 .santander-signature-pre_header a {
   color: #000;
 }
-.santander-signature-button-wrapper {
+x{
   display: block;
   width: 100%;
   padding: 15px;
 }
-.santander-signature-button-wrapper >>> .button{
-  float: none;
-}
+
 .santander-signature-grid-wrapper {
   display: block;
   width: 100%;
 }
+.santander-signature-button-wrapper .button {
+  margin: 15px 5px;
+}
+/* .santander-signature-pre_content >>> .nav-tabs-navigation {
+  background-color: rgb(87, 108, 129);
+}
+.santander-signature-pre_content >>> .nav-tabs-navigation .vue-tabs .nav-tabs > li.active > a, 
+.santander-signature-pre_content >>> .nav-tabs-navigation .vue-tabs .nav-tabs > li.active > a:hover,
+.santander-signature-pre_content >>> .nav-tabs-navigation .vue-tabs .nav-tabs > li.active > a:focus {
+  color: #555555;
+  background-color: rgb(87, 108, 129);
+  border: none;
+  border-top: 2px solid grey;
+  border-bottom-color: transparent;
+  cursor: default;
+} */

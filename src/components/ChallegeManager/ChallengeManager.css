@@ -1,0 +1,10 @@
+.santander-challenge-manager_button {
+    padding: 0 19px !important;
+}
+.santander-challenge-manager_button-accept {
+    height: 38px!important;
+}
+.santander-challenge-manager_alert {
+    color:#ff0000fc;
+    font-weight: 500;
+}

@@ -3,7 +3,11 @@ import {
   ChallengeStart,
   ChallengeCheckOTPPhoneChallenge
 } from "../services";
-import { debugExeption, doPlain ,ChallengeConstant as Constant} from "../utils";
+import {
+  debugExeption,
+  doPlain,
+  ChallengeConstant as Constant
+} from "../utils";
 export const challengeManager = {
   namespaced: true,
   state: {
@@ -11,7 +15,7 @@ export const challengeManager = {
     selectedMethod: {},
     stage: "",
     messages: "",
-    stageAction:"",
+    stageAction: "",
     error: {
       data: {},
       exit: false
@@ -19,6 +23,7 @@ export const challengeManager = {
   },
   mutations: {
     SET_INITIAL_STATE(state) {
+      state.stageAction="";
       state.methods = [];
     },
     SET_METHODS(
@@ -48,13 +53,13 @@ export const challengeManager = {
       state.stage = stage;
       state.messages = actionMessages.join("\n");
     },
-    SET_ERROR(state, data){
-      state.error={
+    SET_ERROR(state, data) {
+      state.error = {
         exit: true,
         data
-      }
+      };
     },
-    SET_STAGE_ACTION(state, action){
+    SET_STAGE_ACTION(state, action) {
       state.stageAction = action;
     }
   },
@@ -62,14 +67,17 @@ export const challengeManager = {
     _setStage({ commit }, stage) {
       commit("SET_STAGE", stage);
     },
+    _setActionStage({commit}, action){
+      commit('SET_STAGE_ACTION', action)
+    },
     async _challengeInit({ commit }, { urlBase, parameters }) {
       commit("SET_INITIAL_STATE");
       try {
-        let response = await ChallengeInitiate(urlBase,doPlain(parameters));
+        let response = await ChallengeInitiate(urlBase, doPlain(parameters));
         if (response.data.actionResult === "challenge") {
           commit("SET_METHODS", response.data);
         } else if (response.data.actionResult === "error") {
-          commit("SET_ERROR", response.data)
+          commit("SET_ERROR", response.data);
         } else {
           commit("SET_METHODS", response.data);
         }
@@ -85,15 +93,15 @@ export const challengeManager = {
         if (response.data.actionResult === "challenge") {
           commit("SET_METHODS_SELECTED", response.data);
         } else if (response.data.actionResult === "error") {
-          commit("SET_ERROR", response.data)
+          commit("SET_ERROR", response.data);
         }
       } catch (err) {
         debugExeption(err);
       }
     },
-    async _processOTP({ commit, state}, { urlBase, token }) {
+    async _processOTP({ commit, state }, { urlBase, token }) {
       try {
-        let data = doPlain({tokenOTP:token})
+        let data = doPlain({ tokenOTP: token });
         let response = await ChallengeCheckOTPPhoneChallenge(urlBase, data);
         if (response.data.actionResult === "success") {
           let {
@@ -104,19 +112,16 @@ export const challengeManager = {
             }
           } = response;
           commit("SET_STAGE", stage);
-          if(state.stage === Constant.challengeStage.RETRY){
-            commit("SET_STAGE_ACTION", `${Constant.challengeStage.RETRY}_CODE`)
-            //show alert with retry alert(this.messages.theAdditionalAuthenticationFailedPleaseTryAgain); set code === 0
+          if (state.stage === Constant.challengeStage.RETRY) {
+            commit("SET_STAGE_ACTION", `${Constant.challengeStage.RETRY}_CODE`);
           }
-        }else if(response.data.actionResult==="challenge"){
+        } else if (response.data.actionResult === "challenge") {
           commit("SET_STAGE", response.data.data.challenge.stage);
-          if(state.stage === Constant.challengeStage.RETRY){
-            commit("SET_STAGE_ACTION", `${Constant.challengeStage.RETRY}_CODE`)
-            //show alert with retry alert(this.messages.theAdditionalAuthenticationFailedPleaseTryAgain); set code === 0
+          if (state.stage === Constant.challengeStage.RETRY) {
+            commit("SET_STAGE_ACTION", `${Constant.challengeStage.RETRY}_CODE`);
           }
-        } 
-        else if (response.data.actionResult === "error") {
-          commit("SET_ERROR", response.data)
+        } else if (response.data.actionResult === "error") {
+          commit("SET_ERROR", response.data);
         }
       } catch (err) {
         debugExeption(err);

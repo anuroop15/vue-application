@@ -3,8 +3,8 @@
     <button
       v-on="$listeners"
       v-bind="$attrs"
-      class="button btn btn-primary btn-sm"
-      :class="buttonClass"
+      class="santander-button"
+      :class="getCssClass"
       :style="buttonStyle"
     >
       <slot/>
@@ -16,79 +16,106 @@
 export default {
   inheritAttrs: false,
   props: {
-    buttonClass: {
-      type: String
-    },
     buttonStyle:{
-      type: String
+      type: String,
+    },
+    className:{
+      type:String,
+    },
+    variant:{
+      type: String,
+      default: 'base'
+    }
+  },
+  computed:{
+    getCssClass(){
+
+      let demo = `santander-button_${this.variant}`
+      return {[demo]:true, [this.className]: this.className}
     }
   }
 };
 </script>
 
 <style scoped>
-.button {
+.santander-button {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   height: 37px;
-  background: rgb(98, 132, 255);
+  color:#ffffff;
+  background: #708FFF;
   padding: 0 25px;
   float:right;
   border: none;
-  border-radius: 6px;
+  border-radius: 2px;
   text-align: center;
   font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.5;
   white-space: nowrap;
   transition: all 0.2s linear;
 }
-.button:hover {
+.santander-button:hover {
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
   box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.button:active {
+.santander-button:active {
   -webkit-transform: scale(1);
   transform: scale(1);
   box-shadow: none;
 }
-.button:focus {
+.santander-button:focus {
   outline: 0;
 }
-.button:disabled {
+.santander-button:disabled {
   -webkit-transform: scale(1);
   transform: scale(1);
   box-shadow: none;
 }
-.button + .button {
+.santander-button + .santander-button {
   margin-left: 1em;
 }
-.button.-fill-gradient {
+.santander-button_primary {
+  background: #576c81;
+}
+.santander-button_outline {
+    background: none;
+    color: #576c81;
+    border: 1.5px solid #d5d5d5;
+}
+.santander-button.-fill-gradient {
   background: linear-gradient(to right, #16c0b0, #84cf6a);
   color: #ffffff;
 }
-.button.-fill-gray {
+.santander-button.-fill-gray {
   background: rgba(0, 0, 0, 0.5);
   color: #ffffff;
 }
-.button.-size-small {
+.santander-button.-size-small {
   height: 32px;
 }
-.button.-icon-right {
+.santander-button.-icon-right {
   text-align: left;
   padding: 0 20px;
 }
-.button.-icon-right > .icon {
+.santander-button.-icon-right > .icon {
   margin-left: 10px;
 }
-.button.-icon-left {
+.santander-button.-icon-left {
   text-align: right;
   padding: 0 20px;
 }
-.button.-icon-left > .icon {
+.santander-button.-icon-left > .icon {
   margin-right: 10px;
 }
-.button.-icon-center {
+.santander-button.-icon-center {
   padding: 0 20px;
+}
+@media (max-width: 650px){
+  .santander-button {
+    height: 34px;
+  }
 }
 </style>

@@ -85,6 +85,10 @@ export const doPlain = function(myObject, preffix, o) {
       } else {
         o = myObject;
       }
-      return qs.stringify(o, { allowDots: true , indices: false });
+      if(o.indices){
+        return qs.stringify(o, { allowDots: true });
+      } else {
+        return qs.stringify(o, { allowDots: true , indices: false });
+      }
   };
   

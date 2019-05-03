@@ -1,0 +1,32 @@
+{
+  "actionErrors": [],
+  "actionMessages": [],
+  "actionResult": "success",
+  "data": [
+    {
+      "ecoIdDoc": "",
+      "joinSigners": "2",
+      "partyName": "RAUL ALEJANDRO BUTTI",
+      "signDateTime": ""
+    },
+    {
+      "ecoIdDoc": "696941",
+      "joinSigners": "2",
+      "partyName": "JOSE ANTONIO BANDIN",
+      "signDateTime": "20190426104745"
+    },
+    {
+      "ecoIdDoc": "697019",
+      "joinSigners": "2",
+      "partyName": "AGUSTIN MARIANI",
+      "signDateTime": "20190501162237"
+    },
+    {
+      "ecoIdDoc": "",
+      "joinSigners": "2",
+      "partyName": "PABLO AUGUSTO VALENTINIS",
+      "signDateTime": ""
+    }
+  ],
+  "fieldErrors": {}
+}
