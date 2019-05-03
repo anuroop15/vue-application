@@ -1,4 +1,4 @@
-import { getLocalData, GetDocumentsToAccept, CheckDocumentExistence, SeePublishedDocument } from '../services'
+import { getLocalData, GetDocTrackDetail, GetDocumentsToAccept, CheckDocumentExistence, SeePublishedDocument } from '../services'
 
 export const signatureDocs = {
   namespaced: true,
@@ -6,6 +6,7 @@ export const signatureDocs = {
     data: {},
     canSign: false,
     displayedDocuments: {},
+    trackDetails: {},
     current: '',
     documentPath: '',
     isLoading: false
@@ -16,46 +17,49 @@ export const signatureDocs = {
     }
   },
   mutations: {
-    SET_DATA (state, event) {
-      if (event.data) {
-        state.data = event.data
-        state.displayedDocuments = event.data.PENDING.items
+    SET_DATA (state, payload) {
+      if (payload.data) {
+        state.data = payload.data
+        state.displayedDocuments = payload.data.PENDING.items
       } else {
-        state.data = event
-        state.displayedDocuments = event.PENDING.items
+        state.data = payload
+        state.displayedDocuments = payload.PENDING.items
       }
     },
-    SET_DOCUMENT_PDF (state, event) {
-      const blobContent = new Blob([event], {type: 'application/pdf'})
+    SET_DOCUMENT_PDF (state, payload) {
+      const blobContent = new Blob([payload], {type: 'application/pdf'})
       const fileUrl = window.URL.createObjectURL(blobContent)
       state.documentPath = fileUrl
     },
-    FETCH_SIGNED (state, docs) {
-      if (docs) {
-        state.displayedDocuments = docs.items
+    SET_TRACK_DETAILS (state, payload) {
+      state.trackDetails = payload
+    },
+    FETCH_SIGNED (state, payload) {
+      if (payload) {
+        state.displayedDocuments = payload.items
       } else {
         state.displayedDocuments = []
       }
     },
-    FETCH_PENDING (state, docs) {
-      if (docs) {
-        state.displayedDocuments = docs.items
+    FETCH_PENDING (state, payload) {
+      if (payload) {
+        state.displayedDocuments = payload.items
       } else {
         state.displayedDocuments = []
       }
     },
-    FETCH_PENDING_BY_OTHERS (state, docs) {
-      if (docs) {
-        state.displayedDocuments = docs.items
+    FETCH_PENDING_BY_OTHERS (state, payload) {
+      if (payload) {
+        state.displayedDocuments = payload.items
       } else {
         state.displayedDocuments = []
       }
     },
-    SET_CURRENT (state, event) {
-      state.current = event
+    SET_CURRENT (state, payload) {
+      state.current = payload
     },
-    SET_IS_LOADING (state, event) {
-      state.isLoading = event === state.isLoading
+    SET_IS_LOADING (state, payload) {
+      state.isLoading = payload === state.isLoading
     }
   },
   actions: {
@@ -85,6 +89,17 @@ export const signatureDocs = {
       commit('SET_IS_LOADING')
       return new Promise((resolve, reject) => {
         CheckDocumentExistence(documentDetails).then(response => {
+          resolve(response.data)
+        }, error => {
+          reject(error)
+        })
+      })
+    },
+    async fetchDocTrackDetails({commit}, documentDetails) {
+      commit('SET_IS_LOADING')
+      return new Promise((resolve, reject) => {
+        GetDocTrackDetail(documentDetails).then(response => {
+          commit('SET_TRACK_DETAILS', response.data)
           resolve(response.data)
         }, error => {
           reject(error)

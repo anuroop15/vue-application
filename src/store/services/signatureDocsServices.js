@@ -59,9 +59,17 @@ export const GetDocumentsToAccept = () => {
     method: "post"
   });
 };
-
+export const GetDocTrackDetail = (docTrackDetails) => {
+  const formData = new FormData()
+  formData.set('idDocTrack', docTrackDetails.idDocTrack)
+  return api({
+    url: "/box/json/GetDocTrackDetail",
+    method: "post",
+    data: formData
+  });
+}
 export const getLocalData = () => {
     return axios.get('http://localhost:8080/api/signaturesDocsApi.json').then(response => {
       return response.data
     })
-  } 
+  }

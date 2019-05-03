@@ -17,6 +17,7 @@
                     <div class="santander-signature-grid-wrapper">
                       <AgGridComponent v-on:selected-document="selectedRow"
                         v-on:document-viewed="viewDocument"
+                        :documentsToSign="true"
                         :displayed-documents="displayedDocuments"
                         :grid-column-defs="gridColumnDefsPending"
                       />
@@ -26,6 +27,8 @@
                 <v-tab title="File of signed Documents">
                   <AgGridComponent v-on:selected-document="selectedRow"
                     v-on:document-viewed="viewDocument"
+                    v-on:customer-selected="customerSelected"
+                    :documentsToSign="false"
                     :displayedDocuments="displayedDocuments"
                     :gridColumnDefs="gridColumnDefsSigned"
                   />
@@ -33,6 +36,8 @@
                 <v-tab title="Documents to sign for others">
                   <AgGridComponent v-on:selected-document="selectedRow"
                     v-on:document-viewed="viewDocument"
+                    v-on:customer-selected="customerSelected"
+                    :documentsToSign="false"
                     :displayedDocuments="displayedDocuments"
                     :gridColumnDefs="gridColumnDefsSigned"
                   />

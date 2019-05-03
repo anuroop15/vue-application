@@ -5,6 +5,7 @@ import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constan
 import { Component as Vuedal } from "vuedals";
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
 import DocumentView from '../../components/DocumentView/DocumentView.vue'
+import SignerList from '../../components/SignerList/SignerList.vue'
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -28,6 +29,7 @@ export default {
     AgGridComponent,
     Modal,
     DocumentView,
+    SignerList,
     VueTabs,
     VTab,
     Vuedal,
@@ -79,7 +81,6 @@ export default {
           onSuccess:this.signedSuccessful,
           onError: this.signedError
         },
-        dismissable:false,
         escapable: true,
 
       });
@@ -102,6 +103,19 @@ export default {
         } else {
           this.showErrorModal()
         }
+      })
+    },
+    customerSelected(trackDetails) {
+      this.fetchDocTrackDetails(trackDetails).then(data => {
+        this.$vuedals.open({
+          title: 'Signers List',
+          size: "lg",
+          component: SignerList,
+          props: {
+            trackDetails: data || {}
+          },
+          escapable: true,
+        });
       })
     },
     openPdfWindow(documentDetails, url, resolve, reject) {
@@ -135,7 +149,6 @@ export default {
           onDownload: downloadDocument,
           onSelect: selectDocument
         },
-        dismissable:false,
         escapable: true,
       });
     },
@@ -144,7 +157,6 @@ export default {
         title: 'Error',
         size: "md",
         component: '',
-        dismissable:false,
         escapable: true,
       });
     },
@@ -161,7 +173,8 @@ export default {
                     fetchPending: "signatureDocs/fetchPending",
                     fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
                     fetchDocumentPDF: "signatureDocs/fetchDocumentPDF",
-                    fetchDocumentExistence: "signatureDocs/fetchDocumentExistence"
+                    fetchDocumentExistence: "signatureDocs/fetchDocumentExistence",
+                    fetchDocTrackDetails: "signatureDocs/fetchDocTrackDetails"
                   })
   },
   computed: {
