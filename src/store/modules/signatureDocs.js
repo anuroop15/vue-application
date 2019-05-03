@@ -32,11 +32,11 @@ export const signatureDocs = {
       state.documentPath = fileUrl
     },
     SET_TRACK_DETAILS (state, payload) {
-      state.trackDetails = payload
+      state.trackDetails = payload.data
     },
-    FETCH_SIGNED (state, payload) {
-      if (payload) {
-        state.displayedDocuments = payload.items
+    FETCH_SIGNED (state) {
+      if (state.data) {
+        state.displayedDocuments = state.data.SIGNED.items
       } else {
         state.displayedDocuments = []
       }
@@ -49,8 +49,8 @@ export const signatureDocs = {
       }
     },
     FETCH_PENDING_BY_OTHERS (state, payload) {
-      if (payload) {
-        state.displayedDocuments = payload.items
+      if (state.data) {
+        state.displayedDocuments = state.data.PENDING_BY_OTHERS.items
       } else {
         state.displayedDocuments = []
       }
@@ -106,17 +106,17 @@ export const signatureDocs = {
         })
       })
     },
-    async fetchSigned ({ commit }, documents) {
+    async fetchSigned ({ commit }) {
       commit('SET_IS_LOADING')
-      commit('FETCH_SIGNED', this.state.signatureDocs.data.SIGNED)
+      commit('FETCH_SIGNED')
     },
-    async fetchPending ({ commit }, documents) {
+    async fetchPending ({ commit }) {
       commit('SET_IS_LOADING')
       commit('FETCH_PENDING', this.state.signatureDocs.data.PENDING)
     },
-    async fetchPendingByOthers ({ commit }, documents) {
+    async fetchPendingByOthers ({ commit }) {
       commit('SET_IS_LOADING')
-      commit('FETCH_PENDING_BY_OTHERS', this.state.signatureDocs.data.PENDING_BY_OTHERS)
+      commit('FETCH_PENDING_BY_OTHERS')
     }
   }
 }

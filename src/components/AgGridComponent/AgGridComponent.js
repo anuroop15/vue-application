@@ -20,7 +20,8 @@ export default {
   },
   beforeMount () {
     this.gridOptions = {
-      columnDefs: this.gridColumnDefs
+      columnDefs: this.gridColumnDefs,
+      rowHeight: 32
     }
     if (this.documentsToSign) {
       this.gridOptions.columnDefs[0].cellRenderer = (params) => {

@@ -4,4 +4,14 @@
 
 .ag-cell.ag-cell-not-inline-editing.ag-cell-with-height.ag-cell-viewed .ag-selection-checkbox .ag-icon {
     pointer-events: auto;
+} 
+.ag-theme-balham .ag-header-cell::after, .ag-theme-balham .ag-header-group-cell::after {
+    border-right: none !important;
+}
+
+.ag-theme-balham {
+font-size: 14px !important
+}       
+.ag-body-horizontal-scroll-viewport {
+    overflow: hidden !important;
 }

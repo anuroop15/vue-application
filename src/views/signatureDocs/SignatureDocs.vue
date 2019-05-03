@@ -9,8 +9,9 @@
         <div class="card-body">
             <vue-tabs @tab-change="getDocuments">
                 <v-tab title="Documents to Sign">
-                  <div class="row">
+                  <div class="col">
                     <div class="santander-signature-button-wrapper">
+                      <button class="button">Select All</button>
                       <button class="button" @click="signSelected">Sign Selected Documents</button>
                       <button class="button" @click="downloadSelected">Download Selected</button>
                     </div>
@@ -25,22 +26,26 @@
                   </div>
                 </v-tab>
                 <v-tab title="File of signed Documents">
-                  <AgGridComponent v-on:selected-document="selectedRow"
-                    v-on:document-viewed="viewDocument"
-                    v-on:customer-selected="customerSelected"
-                    :documentsToSign="false"
-                    :displayedDocuments="displayedDocuments"
-                    :gridColumnDefs="gridColumnDefsSigned"
-                  />
+                  <div class="col">
+                    <AgGridComponent v-on:selected-document="selectedRow"
+                      v-on:document-viewed="viewDocument"
+                      v-on:customer-selected="customerSelected"
+                      :documentsToSign="false"
+                      :displayedDocuments="displayedDocuments"
+                      :gridColumnDefs="gridColumnDefsSigned"
+                    />
+                  </div>
                 </v-tab>
                 <v-tab title="Documents to sign for others">
-                  <AgGridComponent v-on:selected-document="selectedRow"
-                    v-on:document-viewed="viewDocument"
-                    v-on:customer-selected="customerSelected"
-                    :documentsToSign="false"
-                    :displayedDocuments="displayedDocuments"
-                    :gridColumnDefs="gridColumnDefsSigned"
-                  />
+                  <div class="col">
+                    <AgGridComponent v-on:selected-document="selectedRow"
+                      v-on:document-viewed="viewDocument"
+                      v-on:customer-selected="customerSelected"
+                      :documentsToSign="false"
+                      :displayedDocuments="displayedDocuments"
+                      :gridColumnDefs="gridColumnDefsSigned"
+                    />
+                  </div>
                 </v-tab>
             </vue-tabs>
         </div>

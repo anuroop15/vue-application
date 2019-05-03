@@ -35,17 +35,35 @@ x{
 }
 .santander-signature-button-wrapper .button {
   margin: 15px 5px;
+  padding: 5px 10px;
+  color: #fff;
+  border: none;
+  background-color: rgb(89, 107, 126)
 }
-/* .santander-signature-pre_content >>> .nav-tabs-navigation {
+.santander-signature-pre_content >>> .nav-tabs-navigation {
   background-color: rgb(87, 108, 129);
 }
-.santander-signature-pre_content >>> .nav-tabs-navigation .vue-tabs .nav-tabs > li.active > a, 
-.santander-signature-pre_content >>> .nav-tabs-navigation .vue-tabs .nav-tabs > li.active > a:hover,
-.santander-signature-pre_content >>> .nav-tabs-navigation .vue-tabs .nav-tabs > li.active > a:focus {
-  color: #555555;
+.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a,
+.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a:hover, 
+.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a:focus {
+  color: #fff;
   background-color: rgb(87, 108, 129);
   border: none;
   border-top: 2px solid grey;
   border-bottom-color: transparent;
   cursor: default;
-} */
+}
+.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a > span {
+  border-top: 2px solid #fff;
+}
+.santander-signature-pre_content >>> .vue-tabs .nav > li > a {
+  color: #fff;
+}
+.santander-signature-pre_content >>> .vue-tabs .nav > li > a:hover, 
+.santander-signature-pre_content >>>  .vue-tabs .nav > li > a:focus {
+  text-decoration: none;
+  background-color:  rgb(114, 137, 160);
+}
+.card-body {
+  padding-bottom: 25em;
+}

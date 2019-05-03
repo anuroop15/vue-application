@@ -15,6 +15,7 @@ export default {
     return {
       selectedRowInfo: {},
       documentDetails: {},
+      documentSeleced: false,
       challengeAuth: false,
       acceptToSign: false,
       showModal: false,
@@ -87,6 +88,17 @@ export default {
     },
     signedSuccessful() {
       this.fetchData()
+      this.$vuedals.open({
+        title: 'Successfully Signed',
+        size: "lg",
+        component: {
+          render: h => {
+            return h("p", "You have Successfully Signed the document");
+          }
+        },
+        props: {},
+        escapable: true,
+      });
     },
     signedError() {
       console.log('error')
@@ -112,12 +124,13 @@ export default {
           size: "lg",
           component: SignerList,
           props: {
-            trackDetails: data || {}
+            trackDetails: data.data
           },
           escapable: true,
         });
       })
     },
+
     openPdfWindow(documentDetails, url, resolve, reject) {
       const selectDocument = () => {
         this.$vuedals.close()
@@ -144,7 +157,8 @@ export default {
         props: {
           urlBase: url + '#toolbar=1',
           parameters: {
-            documentDetails: documentDetails
+            documentDetails: documentDetails,
+            documentsToSign: this.documentsToSign
           },
           onDownload: downloadDocument,
           onSelect: selectDocument
@@ -156,9 +170,23 @@ export default {
       this.$vuedals.open({
         title: 'Error',
         size: "md",
-        component: '',
+        component: {
+          render: h => {
+            return h("div", [
+              h("p", "The document is not available"),
+              h(
+                "BaseButton",
+                { on: { click: this.closeModal } },
+                "Accept"
+              )
+            ]);
+          }
+        },
         escapable: true,
       });
+    },
+    closeModal() {
+      this.$vuedals.close()
     },
     showModalWindow(value) {
       if (value === 'Accept') {

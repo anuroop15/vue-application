@@ -62,8 +62,10 @@ export const GetDocumentsToAccept = () => {
 export const GetDocTrackDetail = (docTrackDetails) => {
   const formData = new FormData()
   formData.set('idDocTrack', docTrackDetails.idDocTrack)
+  formData.set('idCustomer', docTrackDetails.idCustomer)
+  formData.set('idCompany', docTrackDetails.idCompany)
   return api({
-    url: "/box/json/GetDocTrackDetail",
+    url: "/customer/json/GetDocTrackDetail",
     method: "post",
     data: formData
   });
@@ -72,4 +74,4 @@ export const getLocalData = () => {
     return axios.get('http://localhost:8080/api/signaturesDocsApi.json').then(response => {
       return response.data
     })
-  }
+  } 

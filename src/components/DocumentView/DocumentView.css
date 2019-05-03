@@ -1,6 +1,12 @@
 .document-main {
   height: 500px
 }
-button {
-  display: block
+.document-main .btn {
+  margin: 5px 0px;
+  padding: 5px 10px;
+  display: block;
+  width: 100%;
+  color: #fff;
+  border: none;
+  background-color: rgb(89, 107, 126)
 }

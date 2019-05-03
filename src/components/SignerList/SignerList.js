@@ -2,7 +2,7 @@ export default {
     name: "SignerList",
     props: {
       trackDetails: {
-        type: Object
+        type: Array
       }
     },
     data: function (){
