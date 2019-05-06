@@ -1,0 +1,11 @@
+.signer-button-wrapper {
+  float: right;
+  padding: 20px;
+}
+.signer-button-wrapper >>> button {
+  background-color: rgb(87, 108, 129);
+}
+.signer-table-wrapper >>> button {
+  background-color: rgb(87, 108, 129);
+  padding: 10px 5px;
+}

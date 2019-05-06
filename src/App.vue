@@ -26,7 +26,29 @@ export default {
     height: 100vh;
     margin: 0;
 }
+
+.vuedal {
+  padding: 0px;
+}
+.vuedal header {
+  padding: 20px;
+  color: #fff;
+  background-color: rgb(87, 108, 129);
+}
+.vuedal header span {
+  color: #fff;
+}
+.vuedal .close:not(:disabled):not(.disabled):hover,
+.vuedal .close:not(:disabled):not(.disabled):focus {
+  color: #fff;
+}
+.vuedal header ~ p,
+.vuedal header ~ h6,
+.vuedal header ~ div {
+  padding: 20px;
+}
 @media (max-width: 850px){
+
   .vuedal.lg {
     width: 650px;
   }
@@ -73,5 +95,3 @@ export default {
 }
 
 </style>
-
-

@@ -6,6 +6,9 @@ export default {
       },
       viewSignedDoc: {
         type: Function
+      },
+      closeModal: {
+        type: Function
       }
     },
     data: function (){

@@ -21,7 +21,7 @@ export default {
   beforeMount () {
     this.gridOptions = {
       columnDefs: this.gridColumnDefs,
-      rowHeight: 32
+      rowHeight: 40
     }
     if (this.documentsToSign) {
       this.gridOptions.columnDefs[0].cellRenderer = (params) => {

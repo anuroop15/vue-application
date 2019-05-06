@@ -15,6 +15,7 @@ export default {
     return {
       selectedRowInfo: {},
       documentDetails: {},
+      signedDocDetails: {},
       documentsToSign: true,
       downloadUrl: '',
       documentSeleced: false,
@@ -131,11 +132,18 @@ export default {
     signedError() {
       console.log('error')
     },
-    viewDocument(documentDetails, resolve, reject) {
+    viewPDFDocument(documentDetails, resolve, reject) {
+      this.getPdfDocument(documentDetails, resolve, reject, false)
+    },
+    getPdfDocument(documentDetails, resolve, reject, forSigned) {
       this.documentDetails = documentDetails
-      this.fetchDocumentExistence(documentDetails).then(data => {
+      const documetDetailsObj = {
+        documentDetailsArg: documentDetails,
+        forSignedArg: forSigned
+      }
+      this.fetchDocumentExistence(documentDetails, forSigned).then(data => {
         if (data.actionResult === 'success') {
-          this.fetchDocumentPDF(documentDetails).then(data => {
+          this.fetchDocumentPDF(documetDetailsObj).then(data => {
             const blobContent = new Blob([data], {type: 'application/pdf'})
             const fileUrl = window.URL.createObjectURL(blobContent)
             this.openPdfWindow(documentDetails, fileUrl, resolve, reject)
@@ -145,10 +153,15 @@ export default {
         }
       })
     },
-    viewSignedDoc(documentDetails) {
-
+    viewSignedDoc() {
+      if (this.signedDocDetails) {
+        this.getPdfDocument(this.signedDocDetails, null, null, true)
+      } else {
+        return null
+      }
     },
     customerSelected(trackDetails) {
+      this.signedDocDetails = trackDetails
       this.fetchDocTrackDetails(trackDetails).then(data => {
         this.$vuedals.open({
           title: 'Signers List',
@@ -156,7 +169,8 @@ export default {
           component: SignerList,
           props: {
             trackDetails: data.data,
-            viewSignedDoc: this.viewSignedDoc(trackDetails, null, null)
+            viewSignedDoc: this.viewSignedDoc,
+            closeModal: this.closeModal
           },
           escapable: true,
         });

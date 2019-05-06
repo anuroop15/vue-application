@@ -35,7 +35,7 @@ export const signatureDocs = {
       state.trackDetails = payload.data
     },
     FETCH_SIGNED (state) {
-      if (state.data) {
+      if (state.data.SIGNED) {
         state.displayedDocuments = state.data.SIGNED.items
       } else {
         state.displayedDocuments = []
@@ -49,7 +49,7 @@ export const signatureDocs = {
       }
     },
     FETCH_PENDING_BY_OTHERS (state, payload) {
-      if (state.data) {
+      if (state.data.PENDING_BY_OTHERS) {
         state.displayedDocuments = state.data.PENDING_BY_OTHERS.items
       } else {
         state.displayedDocuments = []
@@ -75,10 +75,11 @@ export const signatureDocs = {
         // console.log(err)
       }
     },
-    async fetchDocumentPDF({commit}, documentDetails) {
+    async fetchDocumentPDF({commit}, documetDetailsObj) {
       commit('SET_IS_LOADING')
+
       return new Promise((resolve, reject) => {
-        SeePublishedDocument(documentDetails).then(response => {
+        SeePublishedDocument(documetDetailsObj.documentDetailsArg, documetDetailsObj.forSignedArg).then(response => {
           resolve(response.data)
         }, error => {
           reject(error)

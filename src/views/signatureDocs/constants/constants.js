@@ -1,4 +1,4 @@
-// import moment from 'moment'
+import moment from 'moment'
 export const GridColumnDefsPending = [
   { headerName: 'Description', field: 'description', checkboxSelection: true,
     sortable: true, width: 350
@@ -9,7 +9,7 @@ export const GridColumnDefsPending = [
   { headerName: 'Reference', field: 'reference', sortable: true },
   { headerName: 'Date', field: 'createdDate', sortable: true,
     cellRenderer: (data) => {
-        return data.value ? (new Date(data.value)).toLocaleDateString() : ""
+        return data.value ? moment(data.value).format('DD-MMM-YY HH:MM') : ""
     }
   }
 ]
@@ -21,7 +21,7 @@ export const GridColumnDefsSigned = [
   { headerName: 'Reference', field: 'reference' },
   { headerName: 'Date', field: 'createdDate',
     cellRenderer: (data) => {
-        return data.value ? (new Date(data.value)).toLocaleDateString() : ""
+        return data.value ? moment(data.value).format('DD-MMM-YY, HH:MM') : ""
     }
   }
 ]

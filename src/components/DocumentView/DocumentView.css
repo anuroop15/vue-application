@@ -10,3 +10,14 @@
   border: none;
   background-color: rgb(89, 107, 126)
 }
+
+@media (min-width: 998px) {
+  .document-main {
+    height: 700px
+  }
+}
+@media (max-width: 997px) {
+  .document-main {
+    height: 500px
+  }
+}

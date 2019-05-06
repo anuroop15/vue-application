@@ -32,16 +32,18 @@ const api = axios.create({
 //     return apiClientExample.get(`/todos/${id}`);
 // }
 
-export const SeePublishedDocument = (documentDetails) => {
+export const SeePublishedDocument = (documentDetails, forSigned) => {
+  const paramsObj = {
+    idDocumentTrack: documentDetails.idDocTrack,
+    idCompany: documentDetails.idCompany,
+    idCustomer: documentDetails.idCustomer
+  }
+  forSigned ? paramsObj.idDocument = documentDetails.idDocument : paramsObj
   return api({
     url: "customer/SeePublishedDocument",
     method: "get",
     responseType: 'arraybuffer',
-    params: {
-      idDocumentTrack: documentDetails.idDocTrack,
-      idCompany: documentDetails.idCompany,
-      idCustomer: documentDetails.idCustomer
-    }
+    params: paramsObj
   })
 }
 export const CheckDocumentExistence = (documentDetails, additionalData) => {
@@ -74,4 +76,4 @@ export const getLocalData = () => {
     return axios.get('http://localhost:8080/api/signaturesDocsApi.json').then(response => {
       return response.data
     })
-  } 
+  }

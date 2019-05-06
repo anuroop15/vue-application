@@ -1,6 +1,6 @@
 <template>
   <div class="signer-list">
-    <div class="">
+    <div class="signer-table-wrapper">
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -23,6 +23,9 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="signer-button-wrapper">
+      <button class="btn" @click="closeModal">Close</button>
     </div>
   </div>
 </template>
