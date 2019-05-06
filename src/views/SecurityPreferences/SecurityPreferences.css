@@ -1,5 +1,5 @@
 .santander-security-pre_container {
-  padding: 0 0 0 0;
+  padding: 0 0 0 0!important;
 }
 .santander-security-pre_content {
   padding: 0 15px;
@@ -54,6 +54,11 @@
   background: none;
 }
 
+.santander-security-pre_phone-delete {
+  background: none!important;
+  padding: 0px 10px!important;
+  border: 2px solid #d5d5d5!important;
+}
 @media (max-width: 800px){
   .santander-security-pre_content {
     padding: 0;

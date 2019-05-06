@@ -23,5 +23,5 @@ export const pt = {
   code: "C\u00F3digo",
   CHALLENGE_METHOD_QUESTION: "Quest\u00F5es de seguran\u00E7a\r\n",
   CHALLENGE_METHOD_OOBPHONE: "Liga\u00E7\u00E3o telef\u00F4nica",
-  CHALLENGE_METHOD_OTPPHONE: "One Time Password"
+  CHALLENGE_METHOD_OTPPHONE: "Uma vez senha"
 };

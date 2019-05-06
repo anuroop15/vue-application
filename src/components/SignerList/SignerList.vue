@@ -18,7 +18,7 @@
             <td>{{doc.signDateTime}}</td>
             <td>{{doc.joinSigners}}</td>
             <td>
-              <button v-if="doc.ecoIdDoc">View Document</button>
+              <button @click="viewSignedDoc" v-if="doc.ecoIdDoc">View Document</button>
             </td>
           </tr>
         </tbody>

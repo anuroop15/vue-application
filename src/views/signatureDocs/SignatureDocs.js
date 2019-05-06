@@ -15,6 +15,8 @@ export default {
     return {
       selectedRowInfo: {},
       documentDetails: {},
+      documentsToSign: true,
+      downloadUrl: '',
       documentSeleced: false,
       challengeAuth: false,
       acceptToSign: false,
@@ -39,10 +41,13 @@ export default {
   methods: {
     getDocuments(selectedTab) {
       if(selectedTab === 0) {
+        this.documentsToSign = true
         this.fetchPending()
       } else if (selectedTab === 1){
+        this.documentsToSign = false
         this.fetchSigned()
       } else {
+        this.documentsToSign = false
         this.fetchPendingByOthers()
       }
     },
@@ -66,7 +71,30 @@ export default {
       }
     },
     downloadSelected(){
-      // download Pdf doc
+      if (this.downloadUrl && this.selectedRowInfo.description) {
+        var a = document.createElement('a');
+        a.style = "display: none";
+        // var blob = new Blob(data, {type: "application/octet-stream"});
+        // var url = window.URL.createObjectURL(blob);
+        a.href = this.downloadUrl;
+        a.setAttribute("download", "document to sign.pdf");
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+      }, 100);
+      } else {
+        this.$vuedals.open({
+          title: "Error",
+          size: "md",
+          component: {
+            render: h => {
+              return h("p", "Please select a document to download");
+            }
+          },
+        });
+      }
     },
     startChallengeDemo(){
       this.startChallenge = true;
@@ -117,6 +145,9 @@ export default {
         }
       })
     },
+    viewSignedDoc(documentDetails) {
+
+    },
     customerSelected(trackDetails) {
       this.fetchDocTrackDetails(trackDetails).then(data => {
         this.$vuedals.open({
@@ -124,7 +155,8 @@ export default {
           size: "lg",
           component: SignerList,
           props: {
-            trackDetails: data.data
+            trackDetails: data.data,
+            viewSignedDoc: this.viewSignedDoc(trackDetails, null, null)
           },
           escapable: true,
         });
@@ -132,6 +164,7 @@ export default {
     },
 
     openPdfWindow(documentDetails, url, resolve, reject) {
+      this.downloadUrl = url
       const selectDocument = () => {
         this.$vuedals.close()
         resolve('selected')

@@ -2,7 +2,7 @@ import Vue from "vue";
 import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
 import { default as Vuedals } from "vuedals";
-import { ClientTable, Event } from "vue-tables-2";
+import { ClientTable } from "vue-tables-2";
 import { Tabs, Tab } from "vue-tabs-component";
 import router from "./router";
 import store from "./store/store";
@@ -10,7 +10,6 @@ import Vuelidate from "vuelidate";
 import VueSelect from "vue-cool-select";
 import VueI18n from 'vue-i18n'
 import App from "./App.vue";
-
 
 import "bootstrap/dist/css/bootstrap.css";
 import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";

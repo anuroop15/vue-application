@@ -22,5 +22,5 @@ export const es = {
   code: "C\u00F3digo",
   CHALLENGE_METHOD_QUESTION: "Preguntas de seguridad",
   CHALLENGE_METHOD_OOBPHONE: "Llamada telef\u00F3nica",
-  CHALLENGE_METHOD_OTPPHONE: "One Time Password"
+  CHALLENGE_METHOD_OTPPHONE: "Contraseña de un solo uso"
 };

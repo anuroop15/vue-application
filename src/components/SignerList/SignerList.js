@@ -3,6 +3,9 @@ export default {
     props: {
       trackDetails: {
         type: Array
+      },
+      viewSignedDoc: {
+        type: Function
       }
     },
     data: function (){

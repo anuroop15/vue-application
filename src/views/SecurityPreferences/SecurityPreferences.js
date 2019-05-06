@@ -35,11 +35,13 @@ export default {
       },
       securityInfo: {
         answer: [],
-        question: []
+        question: [],
+        submitError: false,
       }
     };
   },
-  validations:{
+  validations(){
+    let val ={
         password: {
           oldPassword: {
             required
@@ -64,6 +66,17 @@ export default {
             }
           }
         }
+      }
+      if(this.securityInfo.answer){
+        return Object.assign({},val ,{securityInfo:{
+          answer:{
+            $each:{
+              required
+            }
+          },
+        },})
+      }
+      return val;
     },
   created() {
     this.fetchSecurityPre();
@@ -71,21 +84,27 @@ export default {
   },
   methods: {
     startPhoneChanges() {
+      this.$v.phones.$touch();
+      if (this.$v.phones.$invalid) {
+        this.submitStatus = "ERROR";
+      } else {
+        this.submitStatus = "PENDING";
       let payload ={
         data: this.phones,
         prefSelected: this.preferred,
       }
       this.validatePhonesNumbers(payload);
+    }
     },
     startChallengeChangePassword() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.$v.password.$touch();
+      if (this.$v.password.$invalid) {
         this.submitStatus = "ERROR";
       } else {
         this.submitStatus = "PENDING";
         this.startChallenge = true;
         this.$vuedals.open({
-          title: "Additional authentication required",
+          title: this.$t('additionalAuthenticationRequired'),
           size: "md",
           component: ChallengeManager,
           props: {
@@ -100,24 +119,28 @@ export default {
       }
     },
     startChallengeSQ() {
-      this.$v.$touch();
-      this.$vuedals.open({
-        title: "Additional authentication required",
-        size: "md",
-        component: ChallengeManager,
-        props: {
-          urlBase: "preferences/json/ChallengeOTPForSecurityQuestionsChange",
-          parameters: this.securityInfo,
-          onSuccess: this.sqHandlerOnSuccess,
-          onError: this.sqHandlerOnError
-        },
-        dismissable: false,
-        escapable: true
-      });
+      this.$v.securityInfo.$touch();
+      if(this.$v.securityInfo.answer.$invalid){
+        this.securityInfo.submitError = true;
+      } else {
+        this.securityInfo.submitError = false;
+        this.$vuedals.open({
+          title: "Additional authentication required",
+          size: "md",
+          component: ChallengeManager,
+          props: {
+            urlBase: "preferences/json/ChallengeOTPForSecurityQuestionsChange",
+            parameters: this.securityInfo,
+            onSuccess: this.sqHandlerOnSuccess,
+            onError: this.sqHandlerOnError
+          },
+          dismissable: false,
+          escapable: true
+        });
+      }
     },
     sqHandlerOnSuccess() {
       this.$v.$reset();
-      //this.validatePhonesNumbers(this.phones);
       this.$vuedals.open({
         size: "xs",
         component: {
@@ -126,7 +149,7 @@ export default {
           render: h => {
             return h(
               "h6",
-              "Your security questions has been changed successfully"
+              this.$t('securityQuestionsSuccess')
             );
           }
         }
@@ -205,7 +228,7 @@ export default {
     startChallengePhone(data){
       if (data) {
         this.$vuedals.open({
-          title: "Additional authentication required",
+          title: this.$t('additionalAuthenticationRequired'),
           size: "md",
           component: ChallengeManager,
           props: {
@@ -274,12 +297,8 @@ export default {
         key: key
       });
     },
-    phoneDelete(key) {
-      this.phones.forEach((value, index) => {
-        if (value.key === key) {
-          this.phones.splice(index, 1);
-        }
-      });
+    phoneDelete(index) {
+      this.phones.splice(index, 1);
     },
     phonesEditHandle() {
       this.enablePhoneEdit = this.enablePhoneEdit ? false : true;
@@ -357,6 +376,15 @@ export default {
         "preferred"
       );
     },
+    fetchQuestionsInfo(){
+      let question = this.$store.getters["securityPreference/getStateProp"](
+        "securityInfo"
+      );
+      question.questionsInfo.forEach((question, index)=>{
+        this.securityInfo.question[index]= this.securityInfo.question[index] ? this.securityInfo.question[index] : question[0].id;
+        this.securityInfo.answer[index]= this.securityInfo.answer[index] ? this.securityInfo.answer[index] : '';
+      })
+    },
     ...mapActions("securityPreference", [
       "fetchSecurityPre",
       "fetchPhoneCountryPrefixList",
@@ -375,6 +403,7 @@ export default {
     "securityPreference.phones": "fetchPhones",
     "securityPreference.showModal": "showModal",
     "securityPreference.phonesChallenge": "startChallengePhone",
-    "securityPreference.preferred":"fetchPreferred"
+    "securityPreference.preferred":"fetchPreferred",
+    "securityPreference.securityInfo.questionsInfo":"fetchQuestionsInfo"
   }
 };
