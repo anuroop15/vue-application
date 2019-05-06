@@ -26,7 +26,6 @@ export default {
     height: 100vh;
     margin: 0;
 }
-
 .vuedal {
   padding: 0px;
 }
@@ -48,7 +47,6 @@ export default {
   padding: 20px;
 }
 @media (max-width: 850px){
-
   .vuedal.lg {
     width: 650px;
   }
@@ -95,3 +93,5 @@ export default {
 }
 
 </style>
+
+

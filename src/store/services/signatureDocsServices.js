@@ -76,4 +76,4 @@ export const getLocalData = () => {
     return axios.get('http://localhost:8080/api/signaturesDocsApi.json').then(response => {
       return response.data
     })
-  }
+  } 

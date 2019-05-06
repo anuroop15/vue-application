@@ -5,15 +5,15 @@
     </div>
     <div data-scopeId class="santander-signature-pre_content">
       <div class="card">
-        <h5 class="card-header">Documents to Sign</h5>
+        <h5 class="card-header">{{$t('docsToSign')}}</h5>
         <div class="card-body">
             <vue-tabs @tab-change="getDocuments">
                 <v-tab title="Documents to Sign">
                   <div class="col">
                     <div class="santander-signature-button-wrapper">
                       <button class="button">Select All</button>
-                      <button class="button" @click="signSelected">Sign Selected Documents</button>
-                      <button class="button" @click="downloadSelected">Download Selected</button>
+                      <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
+                      <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
                     </div>
                     <div class="santander-signature-grid-wrapper">
                       <AgGridComponent v-on:selected-document="selectedRow"

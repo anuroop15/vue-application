@@ -7,7 +7,7 @@
         <button @click="onClose" class="btn">Close</button>
       </div>
       <div class="col-md-10 col-12">
-        <embed :src="urlBase" type="application/pdf" width="100%" height="500px"/>
+        <embed :src="urlBase" type="application/pdf" width="100%" height="600px"/>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ import Modal from '../../components/Modal/Modal.vue'
 import { mapActions, mapState } from 'vuex'
 import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
 import { Component as Vuedal } from "vuedals";
+import {en, es, pt} from './i18n';
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
 import DocumentView from '../../components/DocumentView/DocumentView.vue'
 import SignerList from '../../components/SignerList/SignerList.vue'
@@ -24,6 +25,13 @@ export default {
       showModal: false,
       gridColumnDefsPending: GridColumnDefsPending,
       gridColumnDefsSigned: GridColumnDefsSigned
+    }
+  }, 
+  i18n:{
+    messages:{
+        en,
+        es,
+        pt
     }
   },
   created() {
@@ -65,7 +73,7 @@ export default {
           size: "md",
           component: {
             render: h => {
-              return h("p", "Please select a document to sign");
+              return h("p", this.$t('selectToSign'));
             }
           },
         });

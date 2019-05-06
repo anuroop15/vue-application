@@ -9,7 +9,7 @@ export const GridColumnDefsPending = [
   { headerName: 'Reference', field: 'reference', sortable: true },
   { headerName: 'Date', field: 'createdDate', sortable: true,
     cellRenderer: (data) => {
-        return data.value ? moment(data.value).format('DD-MMM-YY HH:MM') : ""
+        return  data.value ? moment(data.value).format('DD-MMM-YY HH:MM') : ""
     }
   }
 ]
@@ -21,7 +21,7 @@ export const GridColumnDefsSigned = [
   { headerName: 'Reference', field: 'reference' },
   { headerName: 'Date', field: 'createdDate',
     cellRenderer: (data) => {
-        return data.value ? moment(data.value).format('DD-MMM-YY, HH:MM') : ""
+        return data.value ? moment(data.value).format('DD-MMM-YY HH:MM') : ""
     }
   }
 ]

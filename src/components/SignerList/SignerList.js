@@ -9,7 +9,7 @@ export default {
       },
       closeModal: {
         type: Function
-      }
+      }	      
     },
     data: function (){
        return {
