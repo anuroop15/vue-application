@@ -59,7 +59,6 @@ export default {
 #app, html, body {
     height: 100vh;
     margin: 0;
-    overflow: hidden;
     font-family: OpenSans-Regular, sans-serif;
 }
 .vuedal {
@@ -129,5 +128,3 @@ export default {
 }
 
 </style>
-
-

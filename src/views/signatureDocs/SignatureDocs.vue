@@ -11,7 +11,7 @@
                 <v-tab :title="$t('docsToSign')">
                   <div class="col">
                     <div class="santander-signature-button-wrapper">
-                      <button class="button">{{$t('selectAll')}}</button>
+                      <button class="button" v-on:click="selectAll">{{$t('selectAll')}}</button>
                       <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
                       <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
                     </div>
@@ -19,6 +19,7 @@
                       <AgGridComponent v-on:selected-document="selectedRow"
                         v-on:document-viewed="viewPDFDocument"
                         v-on:customer-selected="customerSelected"
+                        :selectedAllView="selectedAllViewed"
                         :documentsToSign="true"
                         :displayed-documents="displayedDocuments"
                         :grid-column-defs="gridColumnDefsPending"

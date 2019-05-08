@@ -8,6 +8,7 @@ export default {
   props: [
     'displayedDocuments',
     'gridColumnDefs',
+    'selectedAllView',
     'documentsToSign'
   ],
   data: () => {
@@ -69,6 +70,13 @@ export default {
   watch: {
     displayedDocuments() {
       this.gridOptions.api.sizeColumnsToFit()
+    },
+    selectedAllView () {
+      this.gridOptions.api.forEachNode(node => {
+        if(node.viewed === true) {
+          node.setSelected(true)
+        }
+      })
     }
   },
   methods: {
@@ -78,10 +86,11 @@ export default {
         setTimeout(function () {
           params.api.sizeColumnsToFit()
         })
-      }) 
+      })
     },
     documentSelectedToView(params) {
       params.eGridCell.classList.add('ag-cell-viewed')
+      params.node.viewed = true
       const emitPromise = new Promise((resolve, reject) => {
         this.$emit('document-viewed', params.data, resolve, reject)
       })

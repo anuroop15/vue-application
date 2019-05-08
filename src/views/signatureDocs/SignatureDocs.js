@@ -22,6 +22,8 @@ export default {
       selectedRowInfo: [],
       documentDetails: {},
       signedDocDetails: {},
+      selectedAllViewed: false,
+      documentListToSign: [],
       documentsToSign: true,
       downloadUrl: '',
       documentSeleced: false,
@@ -31,7 +33,7 @@ export default {
       gridColumnDefsPending: GridColumnDefsPending,
       gridColumnDefsSigned: GridColumnDefsSigned
     }
-  }, 
+  },
   i18n:{
     messages:{
         en,
@@ -70,8 +72,27 @@ export default {
     },
     signSelected() {
       if (this.selectedRowInfo && this.selectedRowInfo.length > 0) {
-        this.showModal = true
-        this.acceptToSign = true
+        this.$vuedals.open({
+          title: this.$t('docsToSign'),
+          size: "md",
+          component: {
+            render: h => {
+              return h("div", [
+                h("p", this.$t('You are going to sign selected documents')),
+                h(
+                  "BaseButton",
+                  { on: { click: this.startChallengeDemo } },
+                  "Accept"
+                ),
+                h(
+                  "BaseButton",
+                  { on: { click: this.closeModal } },
+                  "Cancel"
+                )
+              ]);
+            }
+          },
+        });
       } else {
         this.$vuedals.open({
           title: this.$t('error'),
@@ -103,7 +124,7 @@ export default {
           const concatData = _.map(this.selectedRowInfo, (docDetails) => {
             return docDetails.idDocTrack
           })
-          this.fetchPDFsConcatenated(concatData).then(data => {  
+          this.fetchPDFsConcatenated(concatData).then(data => {
             const blobContent = new Blob([data], {type: 'application/pdf'})
             const fileUrl = window.URL.createObjectURL(blobContent)
             var a = document.createElement('a');
@@ -141,7 +162,7 @@ export default {
         props: {
           urlBase:"security/json/ChallengeOTPForDocumentSignature",
           parameters: {
-            idDocumentTracks: this.documentDetails.idDocTrack
+            idDocumentTracks: this.documentListToSign
           },
           onSuccess:this.signedSuccessful,
           onError: this.signedError
@@ -172,6 +193,7 @@ export default {
     },
     getPdfDocument(documentDetails, resolve, reject, forSigned) {
       this.documentDetails = documentDetails
+      this.documentListToSign.push(documentDetails.idDocTrack)
       const documetDetailsObj = {
         documentDetailsArg: documentDetails,
         forSignedArg: forSigned
@@ -195,6 +217,9 @@ export default {
       } else {
         return null
       }
+    },
+    selectAll() {
+      this.selectedAllViewed = true
     },
     customerSelected(trackDetails) {
       this.signedDocDetails = trackDetails
