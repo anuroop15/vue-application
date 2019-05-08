@@ -3,7 +3,7 @@
     <div style="width: 100%; height: 100%">
             <div style="display: flex; flex-direction: row">
               <div style=" overflow: hidden; flex-grow: 2">
-                <ag-grid-vue style="width: 100%; height: 400px;"
+                <ag-grid-vue style="width: 100%; height: 100vh;"
                    class="ag-theme-balham" id="myGrid"
                    :gridOptions="gridOptions"
                    @grid-ready="onGridReady"

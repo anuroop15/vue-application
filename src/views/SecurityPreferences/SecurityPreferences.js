@@ -125,7 +125,7 @@ export default {
       } else {
         this.securityInfo.submitError = false;
         this.$vuedals.open({
-          title: "Additional authentication required",
+          title: this.$t('additionalAuthenticationRequired'),
           size: "md",
           component: ChallengeManager,
           props: {

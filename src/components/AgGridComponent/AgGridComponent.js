@@ -1,4 +1,7 @@
 import { AgGridVue } from 'ag-grid-vue'
+import {en, es, pt } from './i18n'
+import _ from 'lodash'
+
 
 export default {
   name: 'AgGridVueComponent',
@@ -15,52 +18,58 @@ export default {
       enableCheckBox: false
     }
   },
+  i18n:{
+    messages:{
+        en,
+        es,
+        pt
+    }
+  },
   components: {
     AgGridVue
   },
   beforeMount () {
+    const i18nColumnDefs = _.map(this.gridColumnDefs, (obj) => {
+      if(obj.headerName) {
+        obj['headerName'] = this.$t(obj.headerName)
+      }
+      return obj
+    })
     this.gridOptions = {
-      columnDefs: this.gridColumnDefs,
-      rowHeight: 32
+      columnDefs: i18nColumnDefs,
+      rowHeight: 40,
+      headerHeight: 50
     }
-    if (this.documentsToSign) {
-      this.gridOptions.columnDefs[0].cellRenderer = (params) => {
-          let link = document.createElement("a")
-          link.href = '#'
-          link.innerText = params.value
-          link.addEventListener("click", e => {
-            e.preventDefault()
-            this.documentSelectedToView(params)
-          });
-          return link
-      }
-    } else {
-      this.gridOptions.columnDefs[1].cellRenderer = (params) => {
-          let link = document.createElement("a")
-          link.href = '#'
-          link.innerText = params.value
-          link.addEventListener("click", e => {
-            e.preventDefault()
-            this.customerIdSelectedToView(params)
-          });
-          return link
-      }
-      this.gridOptions.columnDefs[0].cellRenderer = (params) => {
-          let link = document.createElement("a")
-          link.href = '#'
-          link.innerText = params.value
-          link.addEventListener("click", e => {
-            e.preventDefault()
-            this.documentSelectedToView(params)
-          });
-          return link
-      }
+    this.gridOptions.columnDefs[1].cellRenderer = (params) => {
+        let link = document.createElement("a")
+        link.href = '#'
+        link.innerText = params.value
+        link.addEventListener("click", e => {
+          e.preventDefault()
+          this.customerIdSelectedToView(params)
+        });
+        return link
+    }
+    this.gridOptions.columnDefs[0].cellRenderer = (params) => {
+        let link = document.createElement("a")
+        link.href = '#'
+        link.innerText = params.value
+        link.addEventListener("click", e => {
+          e.preventDefault()
+          this.documentSelectedToView(params)
+        });
+        return link
     }
     this.rowSelection = 'multiple'
   },
   mounted () {
     this.gridApi = this.gridOptions.api
     this.gridColumnApi = this.gridOptions.columnApi
+  },
+  watch: {
+    displayedDocuments() {
+      this.gridOptions.api.sizeColumnsToFit()
+    }
   },
   methods: {
     onGridReady (params) {
@@ -69,7 +78,7 @@ export default {
         setTimeout(function () {
           params.api.sizeColumnsToFit()
         })
-      })
+      }) 
     },
     documentSelectedToView(params) {
       params.eGridCell.classList.add('ag-cell-viewed')
@@ -93,7 +102,10 @@ export default {
       this.enableCheckBox = true
       let selectedRowDetails = params.api.getSelectedNodes()
       if (selectedRowDetails.length > 0) {
-        this.$emit('selected-document', selectedRowDetails[0].data)
+        const selectedRows = _.map(selectedRowDetails, (row) => {
+          return row.data
+        })
+        this.$emit('selected-document', selectedRows)
       } else {
         this.$emit('selected-document', null)
       }

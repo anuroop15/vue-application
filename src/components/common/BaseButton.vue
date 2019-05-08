@@ -51,7 +51,8 @@ export default {
   border-radius: 2px;
   text-align: center;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  font-family: OpenSans-SemiBold, sans-serif;
   line-height: 1.5;
   white-space: nowrap;
   transition: all 0.2s linear;
@@ -82,8 +83,8 @@ export default {
 }
 .santander-button_outline {
     background: none;
-    color: #576c81;
-    border: 1.5px solid #d5d5d5;
+    color: #777777;
+    border: 1px solid #BFBFBF;
 }
 .santander-button.-fill-gradient {
   background: linear-gradient(to right, #16c0b0, #84cf6a);

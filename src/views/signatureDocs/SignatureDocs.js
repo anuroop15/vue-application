@@ -1,20 +1,25 @@
 import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vue'
-import Modal from '../../components/Modal/Modal.vue'
-import { mapActions, mapState } from 'vuex'
-import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
-import { Component as Vuedal } from "vuedals";
-import {en, es, pt} from './i18n';
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
 import DocumentView from '../../components/DocumentView/DocumentView.vue'
 import SignerList from '../../components/SignerList/SignerList.vue'
+import Modal from '../../components/Modal/Modal.vue'
+
+
+import { mapActions, mapState } from 'vuex'
+import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
+import { Component as Vuedal } from "vuedals";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
+
+import _ from 'lodash'
+import {en, es, pt} from './i18n';
+
 
 export default {
   name: 'SignatureDocs',
   data() {
     return {
-      selectedRowInfo: {},
+      selectedRowInfo: [],
       documentDetails: {},
       signedDocDetails: {},
       documentsToSign: true,
@@ -64,12 +69,12 @@ export default {
       this.selectedRowInfo = data
     },
     signSelected() {
-      if (this.selectedRowInfo && this.selectedRowInfo.description) {
+      if (this.selectedRowInfo && this.selectedRowInfo.length > 0) {
         this.showModal = true
         this.acceptToSign = true
       } else {
         this.$vuedals.open({
-          title: "Error",
+          title: this.$t('error'),
           size: "md",
           component: {
             render: h => {
@@ -80,26 +85,48 @@ export default {
       }
     },
     downloadSelected(){
-      if (this.downloadUrl && this.selectedRowInfo.description) {
-        var a = document.createElement('a');
-        a.style = "display: none";
-        // var blob = new Blob(data, {type: "application/octet-stream"});
-        // var url = window.URL.createObjectURL(blob);
-        a.href = this.downloadUrl;
-        a.setAttribute("download", "document to sign.pdf");
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function(){
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-      }, 100);
+      if (this.downloadUrl && this.selectedRowInfo.length > 0) {
+        if (this.selectedRowInfo.length === 1) {
+          var a = document.createElement('a');
+          a.style = "display: none";
+          // var blob = new Blob(data, {type: "application/octet-stream"});
+          // var url = window.URL.createObjectURL(blob);
+          a.href = this.downloadUrl;
+          a.setAttribute("download", "document to sign.pdf");
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function(){
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          }, 100);
+        } else {
+          const concatData = _.map(this.selectedRowInfo, (docDetails) => {
+            return docDetails.idDocTrack
+          })
+          this.fetchPDFsConcatenated(concatData).then(data => {  
+            const blobContent = new Blob([data], {type: 'application/pdf'})
+            const fileUrl = window.URL.createObjectURL(blobContent)
+            var a = document.createElement('a');
+            a.style = "display: none";
+            // var blob = new Blob(data, {type: "application/octet-stream"});
+            // var url = window.URL.createObjectURL(blob);
+            a.href = fileUrl;
+            a.setAttribute("download", "document to sign.pdf");
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function(){
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(fileUrl);
+            }, 100);
+          })
+        }
       } else {
         this.$vuedals.open({
-          title: "Error",
+          title: this.$t('error'),
           size: "md",
           component: {
             render: h => {
-              return h("p", "Please select a document to download");
+              return h("p", this.$t('selectToDownload'));
             }
           },
         });
@@ -108,7 +135,7 @@ export default {
     startChallengeDemo(){
       this.startChallenge = true;
       this.$vuedals.open({
-        title: "Additional authentication required",
+        title: this.$t('authenticationRequired'),
         size: "md",
         component: ChallengeManager,
         props: {
@@ -130,7 +157,7 @@ export default {
         size: "lg",
         component: {
           render: h => {
-            return h("p", "You have Successfully Signed the document");
+            return h("p", this.$t('successfullySignedDoc'));
           }
         },
         props: {},
@@ -161,8 +188,9 @@ export default {
         }
       })
     },
-    viewSignedDoc() {
+    viewSignedDoc(docId) {
       if (this.signedDocDetails) {
+        this.signedDocDetails.idDocument = docId
         this.getPdfDocument(this.signedDocDetails, null, null, true)
       } else {
         return null
@@ -228,7 +256,7 @@ export default {
         component: {
           render: h => {
             return h("div", [
-              h("p", "The document is not available"),
+              h("p", this.$t('selectToSign')),
               h(
                 "BaseButton",
                 { on: { click: this.closeModal } },
@@ -257,7 +285,8 @@ export default {
                     fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
                     fetchDocumentPDF: "signatureDocs/fetchDocumentPDF",
                     fetchDocumentExistence: "signatureDocs/fetchDocumentExistence",
-                    fetchDocTrackDetails: "signatureDocs/fetchDocTrackDetails"
+                    fetchDocTrackDetails: "signatureDocs/fetchDocTrackDetails",
+                    fetchPDFsConcatenated: "signatureDocs/fetchPDFsConcatenated"
                   })
   },
   computed: {

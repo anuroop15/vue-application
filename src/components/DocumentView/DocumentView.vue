@@ -2,7 +2,7 @@
   <div class="document-main">
     <div class="row">
       <div class="col-md-2 col-12">
-        <button v-if="parameters.documentsToSign" @click="onSelect" class="btn">Select</button>
+        <button v-if="parameters.documentsToSign" @click="onSelect" class="btn">{{$t('select')}}</button>
         <button @click="onDownload" class="btn">Download</button>
         <button @click="onClose" class="btn">Close</button>
       </div>

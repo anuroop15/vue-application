@@ -1,10 +1,9 @@
 <template>
   <div class="signer-list">
     <div class="signer-table-wrapper">
-      <table class="table table-bordered">
+      <table class="table">
         <thead>
           <tr>
-            <th scope="col"></th>
             <th scope="col">Signer Name</th>
             <th scope="col">Signature Date</th>
             <th scope="col">Required signatures</th>
@@ -13,12 +12,11 @@
         </thead>
         <tbody>
           <tr  v-for="(doc, index) in trackDetails" :key="index">
-            <th scope="row"></th>
             <td>{{doc.partyName}}</td>
             <td>{{doc.signDateTime}}</td>
             <td>{{doc.joinSigners}}</td>
             <td>
-              <button @click="viewSignedDoc" v-if="doc.ecoIdDoc">View Document</button>
+              <button @click="viewSignedDoc(doc.ecoIdDoc)" v-if="doc.ecoIdDoc">View Document</button>
             </td>
           </tr>
         </tbody>

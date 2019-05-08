@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export default {
     name: "SignerList",
     props: {
@@ -19,6 +21,9 @@ export default {
     methods: {
       onClose() {
         this.$vuedals.close()
+      },
+      getLocalDateFormat(date) {
+        date !== '' ? moment(date).format('DD-MMM-YY') : ""
       }
     }
 }

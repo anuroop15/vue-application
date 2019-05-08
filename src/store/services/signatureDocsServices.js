@@ -55,6 +55,18 @@ export const CheckDocumentExistence = (documentDetails, additionalData) => {
     data: formData
   });
 }
+export const DownloadPDFsConcatenated = (documentDetails) => {
+  const formData = new FormData()
+  for(var i = 0; i < documentDetails.length; i++) {
+    formData.append('idDocumentTracks', documentDetails[i])
+  }
+  return api({
+    url: "/customer/DownloadPDFsConcatenated",
+    method: "post",
+    responseType: 'arraybuffer',
+    data: formData
+  });
+}
 export const GetDocumentsToAccept = () => {
   return api({
     url: "customer/json/GetDocumentsToAccept",

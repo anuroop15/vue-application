@@ -14,5 +14,17 @@ export const es = {
   preferred: "Principal",
   docsToSign: "Documentos para firmar",
   selectToSign: "Por favor seleccione un documento para firmar",
-  signSelectedDocs: "Firmar documentos seleccionados"
+  signSelectedDocs: "Firmar documentos seleccionados",
+  downloadSelected: "Descargar Seleccionado",
+  selectAll: "Seleccionar todo",
+  fileOfSignedDocuments: "Archivo de documentos firmados",
+  documentsToSignForOthers: "Documentos para firmar por los demás",
+  signaturePage: "Página de firma",
+  successfullySignedDoc: "Has firmado con éxito el documento",
+  selectToDownload: "Por favor seleccione un documento para descargar",
+  error: "Error",
+  authenticationRequired: "Se requiere autenticación adicional",
+  goingToSign: "Vas a firmar los documentos seleccionados",
+  docNotAvailable: "El documento no está disponible",
+  select: "Seleccionar"
 };

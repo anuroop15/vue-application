@@ -1,4 +1,4 @@
-import { getLocalData, GetDocTrackDetail, GetDocumentsToAccept, CheckDocumentExistence, SeePublishedDocument } from '../services'
+import { getLocalData, GetDocTrackDetail, DownloadPDFsConcatenated, GetDocumentsToAccept, CheckDocumentExistence, SeePublishedDocument } from '../services'
 
 export const signatureDocs = {
   namespaced: true,
@@ -80,6 +80,17 @@ export const signatureDocs = {
 
       return new Promise((resolve, reject) => {
         SeePublishedDocument(documetDetailsObj.documentDetailsArg, documetDetailsObj.forSignedArg).then(response => {
+          resolve(response.data)
+        }, error => {
+          reject(error)
+        })
+      })
+    },
+    async fetchPDFsConcatenated({commit}, documetDetailsObj) {
+      commit('SET_IS_LOADING')
+
+      return new Promise((resolve, reject) => {
+        DownloadPDFsConcatenated(documetDetailsObj).then(response => {
           resolve(response.data)
         }, error => {
           reject(error)

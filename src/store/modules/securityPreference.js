@@ -7,7 +7,7 @@ import {
   ValidatePhones
 } from "../services";
 
-import { en } from "../../views/SecurityPreferences/i18n";
+import i18n from "../../i18n";
 import { debugExeption, doPlain } from "../utils";
 
 export const securityPreference = {
@@ -127,7 +127,7 @@ export const securityPreference = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: err.toString().replace("Error: ", "")
+          body: i18n.t('networkError')
         };
         commit("SET_ACTION_NOTIFY", error);
       }
@@ -159,7 +159,7 @@ export const securityPreference = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: err.toString().replace("Error: ", "")
+          body: i18n.t('networkError')
         };
         commit("SET_ACTION_NOTIFY", error);
       }
@@ -191,7 +191,7 @@ export const securityPreference = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: err.toString().replace("Error: ", "")
+          body: i18n.t('networkError')
         };
         commit("SET_ACTION_NOTIFY", error);
       }
@@ -221,7 +221,7 @@ export const securityPreference = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: err.toString().replace("Error: ", "")
+          body: i18n.t('networkError')
         };
         commit("SET_ACTION_NOTIFY", error);
       }
@@ -265,13 +265,13 @@ export const securityPreference = {
 
               phones.push(phone);
             } else if (p.includes("WARN")) {
-              if (p.includes("001")) warns += en.noMobileAdded + "\n";
-              if (p.includes("002")) warns += en.phonesUsIndicia + "\n";
-              if (p.includes("003")) warns += en.preferredNoMobile + "\n";
+              if (p.includes("001")) warns += i18n.t('noMobileAdded') + "\n";
+              if (p.includes("002")) warns += i18n.t('phonesUsIndicia') + "\n";
+              if (p.includes("003")) warns += i18n.t('preferredNoMobile') + "\n";
             }
           });
           if (warns != "") {
-            warns += en.sureToContinue;
+            warns += i18n.t('sureToContinue');
             if (confirm(warns)) {
               commit("SET_PHONES_CHALLENGE", { phones, preferred: pref });
             } else {
@@ -298,7 +298,7 @@ export const securityPreference = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: err.toString().replace("Error: ", "")
+          body: i18n.t('networkError')
         };
         commit("SET_ACTION_NOTIFY", error);
       }

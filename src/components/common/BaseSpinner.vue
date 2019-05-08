@@ -8,7 +8,6 @@
     <div/>
     <div/>
     <div/>
-    <p>demo render{{isVisible}}</p>
   </div>
 </template>
 <script>

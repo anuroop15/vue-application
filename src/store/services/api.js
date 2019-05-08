@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export default axios.create({
-  baseURL: `https://miaecowasdev.mia.usa.sinvest/eco-pre-int-vue/`,
+const api = axios.create({
+  baseURL: process.env.VUE_APP_API_URL,
   withCredentials: true,
   headers: {
     Accept: "*/*",
@@ -10,3 +10,12 @@ export default axios.create({
     "x-requested-with": "XMLHttpRequest"
   }
 });
+
+(()=>{
+ let token = sessionStorage.getItem("santander-f2-apps-access-token");
+ if(token){
+   api.defaults.headers.authorization = `Bearer ${token}`;
+  }
+})()
+
+export default api;

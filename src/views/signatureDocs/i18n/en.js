@@ -15,5 +15,16 @@ export const en = {
   docsToSign: "Documents To Sign",
   selectToSign: "Please select a document to sign",
   signSelectedDocs: "Sign Selected Documents",
-  downloadSelected: "Download Selected"
+  downloadSelected: "Download Selected",
+  selectAll: "Select All",
+  fileOfSignedDocuments: "File of signed Documents",
+  documentsToSignForOthers: "Documents to sign for others",
+  signaturePage: "Signature Page",
+  successfullySignedDoc: "You have Successfully Signed the document",
+  selectToDownload: "Please select a document to download",
+  error: "Error",
+  authenticationRequired: "Additional authentication required",
+  goingToSign: "You are going to sign selected documents",
+  docNotAvailable: "The document is not available",
+  select: "Select"
 };

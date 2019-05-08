@@ -1,9 +1,6 @@
 <template>
-  <div id="app">
-    <select v-model="$i18n.locale">
-      <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
-    </select>
-    <router-view :key="$route.fullPath" />
+  <div id="santanderSecurityPre">
+    <SecurityPreferences/>
     <vuedal></vuedal>
   </div>
 </template>
@@ -11,21 +8,19 @@
 <script>
 import {mapState} from 'vuex';
 import { Component as Vuedal } from "vuedals";
+import SecurityPreferences from '../../views/SecurityPreferences/SecurityPreferences.vue'
 export default {
-  sync:true,
-  name: 'app',
+  name: 'santanderSecurityPre',
   components:{
+    SecurityPreferences,
     Vuedal
   },
-  props:{
+   props:{
     lang:{
       type: String
     }
   },
-  data () {
-    return { langs: ['es', 'en','pt'] }
-  },
-  methods:{
+methods:{
     onChangeLocale(locale){
       this.$i18n.locale = locale;
     }
@@ -42,24 +37,23 @@ export default {
 <style>
 @font-face {
   font-family: 'OpenSans-Regular';
-  src:  url('./assets/fonts/OpenSans-Regular.ttf') format('truetype');
+  src:  url('../../assets/fonts/OpenSans-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'OpenSans-Light';
-  src:  url('./assets/fonts/OpenSans-Light.ttf') format('truetype');
+  src:  url('../../assets/fonts/OpenSans-Light.ttf') format('truetype');
 }
 @font-face {
   font-family: 'OpenSans-SemiBold';
-  src:  url('./assets/fonts/OpenSans-SemiBold.ttf') format('truetype');
+  src:  url('../../assets/fonts/OpenSans-SemiBold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'OpenSans-Bold';
-  src:  url('./assets/fonts/OpenSans-Bold.ttf') format('truetype');
+  src:  url('../../assets/fonts/OpenSans-Bold.ttf') format('truetype');
 }
 #app, html, body {
     height: 100vh;
     margin: 0;
-    overflow: hidden;
     font-family: OpenSans-Regular, sans-serif;
 }
 .vuedal {

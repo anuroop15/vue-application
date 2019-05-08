@@ -1,23 +1,24 @@
 <template>
   <div class="santander-signature-pre_container">
     <div class="santander-signature-pre_header">
-      <p> Signature Page </p>
+      <p> {{$t('signaturePage')}} </p>
     </div>
     <div data-scopeId class="santander-signature-pre_content">
       <div class="card">
         <h5 class="card-header">{{$t('docsToSign')}}</h5>
         <div class="card-body">
             <vue-tabs @tab-change="getDocuments">
-                <v-tab title="Documents to Sign">
+                <v-tab :title="$t('docsToSign')">
                   <div class="col">
                     <div class="santander-signature-button-wrapper">
-                      <button class="button">Select All</button>
+                      <button class="button">{{$t('selectAll')}}</button>
                       <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
                       <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
                     </div>
                     <div class="santander-signature-grid-wrapper">
                       <AgGridComponent v-on:selected-document="selectedRow"
                         v-on:document-viewed="viewPDFDocument"
+                        v-on:customer-selected="customerSelected"
                         :documentsToSign="true"
                         :displayed-documents="displayedDocuments"
                         :grid-column-defs="gridColumnDefsPending"
@@ -25,7 +26,7 @@
                     </div>
                   </div>
                 </v-tab>
-                <v-tab title="File of signed Documents">
+                <v-tab :title="$t('fileOfSignedDocuments')">
                   <div class="col">
                     <AgGridComponent v-on:selected-document="selectedRow"
                       v-on:document-viewed="viewPDFDocument"
@@ -36,7 +37,7 @@
                     />
                   </div>
                 </v-tab>
-                <v-tab title="Documents to sign for others">
+                <v-tab :title="$t('documentsToSignForOthers')">
                   <div class="col">
                     <AgGridComponent v-on:selected-document="selectedRow"
                       v-on:document-viewed="viewPDFDocument"
@@ -54,10 +55,10 @@
     <div v-if="showModal">
       <Modal v-if="acceptToSign" v-on:close="showModalWindow">
         <div slot="header">
-          Documents to Sign
+          {{$t('docsToSign')}}
         </div>
         <div slot="body">
-          You are going to sign selected documents {{selectedRowInfo.description}}
+          {{$t('goingToSign')}} {{selectedRowInfo.description}}
         </div>
         <div slot="footer">
           <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>

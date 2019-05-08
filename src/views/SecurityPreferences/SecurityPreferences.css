@@ -4,7 +4,19 @@
 .santander-security-pre_content {
   padding: 0 15px;
 }
+
+.santander-security-pre_content label {
+  color: #777777;
+  font-family: OpenSans-SemiBold, sans-serif;
+  font-size: 0.875rem;
+}
+
+.santander-security-pre_content input {
+   border: 1px solid #BFBFBF;
+}
+
 .santander-security-pre_header {
+  background-image: linear-gradient(to right, #1D252D, #666E77);
   background-color:#576c81;
   color: #ffffff;
   padding: 7px 26px;
@@ -24,6 +36,7 @@
   padding: 0;
   margin: 0;
   font-size: 1.7rem;
+  font-family: OpenSans-Light;
 }
 
 .santander-security-pre_section {
@@ -39,14 +52,23 @@
 .santander-security-pre_section-name h3 {
   font-size: 1.5rem;
   font-weight: 400;
+  color: #d9292a;
+  font-family: OpenSans-Light, sans-serif;
 }
 
 .santander-security-pre_section-content {
   background-color: #f5f6f7c9;
   border-radius: 2px;
 }
+
+.santander-security-pre_section-content th {
+  font-family: OpenSans-SemiBold, sans-serif;
+  font-size: 12px;
+  color: #777777;
+}
 .santander-security-pre_alert p {
-  color: red;
+  font-size: 0.9rem;
+  color: #d9292a;
   font-weight: 600;
   opacity: 0.7;
 }
@@ -57,7 +79,7 @@
 .santander-security-pre_phone-delete {
   background: none!important;
   padding: 0px 10px!important;
-  border: 2px solid #d5d5d5!important;
+  border: 1px solid #BFBFBF!important;
 }
 @media (max-width: 800px){
   .santander-security-pre_content {

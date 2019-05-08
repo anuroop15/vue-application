@@ -4,8 +4,14 @@
   }
   .signer-button-wrapper >>> button {
     background-color: rgb(87, 108, 129);
+    color: #fff;
   }
   .signer-table-wrapper >>> button {
     background-color: rgb(87, 108, 129);
+    color: #fff;
     padding: 10px 5px;
+  }
+  .signer-table-wrapper >>> th {
+    font-weight: 350;
+    font-size: 20px;
   }
