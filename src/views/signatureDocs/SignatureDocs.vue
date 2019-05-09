@@ -1,3 +1,4 @@
+
 <template>
   <div class="santander-signature-pre_container">
     <div class="santander-signature-pre_header">
@@ -22,7 +23,7 @@
                         :selectedAllView="selectedAllViewed"
                         :documentsToSign="true"
                         :displayed-documents="displayedDocuments"
-                        :grid-column-defs="gridColumnDefsPending"
+                        :gridColumnDefs="gridColumnDefsPending"
                       />
                     </div>
                   </div>
@@ -60,27 +61,6 @@
         </div>
         <div slot="body">
           {{$t('goingToSign')}} {{selectedRowInfo.description}}
-        </div>
-        <div slot="footer">
-          <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>
-          <button class="btn btn-default" @click="showModalWindow('cancel')">Cancel</button>
-        </div>
-      </Modal>
-      <Modal v-if="!acceptToSign && challengeAuth" v-on:close="showModalWindow">
-        <div slot="header">
-          Additional Authentication Required
-        </div>
-        <div slot="body">
-          For you security it is necessary to authenticate your identity. Select the registered mobile phone in which
-          you wish to receive your security code:
-          <p>
-            <input type="radio" />
-            one Time password (+31 ********7 56)
-          </p>
-          <p>
-            if your mobile phone is not listed, contact your banker to certify a new mobile phone in the bank's
-            security procedure.
-          </p>
         </div>
         <div slot="footer">
           <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>

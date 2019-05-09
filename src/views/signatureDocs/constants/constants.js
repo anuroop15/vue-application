@@ -17,7 +17,7 @@ export const GridColumnDefsPending = [
 export const GridColumnDefsSigned = [
   { headerName: 'Description', field: 'description', width: 310},
   { headerName: 'Customer', field: 'idCustomer', width: 80 },
-  { headerName: 'Customer Name', field: 'customerName',  width: 200  },
+  { headerName: 'CustomerName', field: 'customerName',  width: 200  },
   { headerName: 'Reference', field: 'reference' },
   { headerName: 'Date', field: 'createdDate', width: 80,
     cellRenderer: (data) => {

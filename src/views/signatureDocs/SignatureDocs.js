@@ -14,7 +14,6 @@ import 'vue-nav-tabs/themes/vue-tabs.css'
 import _ from 'lodash'
 import {en, es, pt} from './i18n';
 
-
 export default {
   name: 'SignatureDocs',
   data() {
@@ -154,6 +153,7 @@ export default {
       }
     },
     startChallengeDemo(){
+      this.$vuedals.close()
       this.startChallenge = true;
       this.$vuedals.open({
         title: this.$t('authenticationRequired'),
@@ -219,7 +219,7 @@ export default {
       }
     },
     selectAll() {
-      this.selectedAllViewed = true
+      this.selectedAllViewed = !this.selectedAllViewed
     },
     customerSelected(trackDetails) {
       this.signedDocDetails = trackDetails
@@ -243,6 +243,10 @@ export default {
       const selectDocument = () => {
         this.$vuedals.close()
         resolve('selected')
+      }
+      const cancelDocument = () => {
+        this.$vuedals.close()
+        resolve('viewed')
       }
       const downloadDocument = () => {
         var a = document.createElement('a');
@@ -269,9 +273,14 @@ export default {
             documentsToSign: this.documentsToSign
           },
           onDownload: downloadDocument,
-          onSelect: selectDocument
+          onSelect: selectDocument,
+          onCancel: cancelDocument
         },
-        escapable: true,
+        onDismiss() {
+          cancelDocument()
+        },
+        dismissable: false,
+        escapable: true
       });
     },
     showErrorModal() {
@@ -281,7 +290,7 @@ export default {
         component: {
           render: h => {
             return h("div", [
-              h("p", this.$t('selectToSign')),
+              h("p", this.$t('docNotAvailable')),
               h(
                 "BaseButton",
                 { on: { click: this.closeModal } },
@@ -315,6 +324,15 @@ export default {
                   })
   },
   computed: {
+    
+    i18nColumnDefs(columnArray) {
+      _.map(columnArray, (obj) => {
+        if(obj.headerName) {
+          obj['headerName'] = this.$t(obj.headerName)
+        }
+        return obj
+      })
+    },
     displayedDocuments() {
       return this.signatureDocs.displayedDocuments
     },
