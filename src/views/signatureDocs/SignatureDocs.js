@@ -2,12 +2,12 @@ import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vu
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
 import DocumentView from '../../components/DocumentView/DocumentView.vue'
 import SignerList from '../../components/SignerList/SignerList.vue'
-import Modal from '../../components/Modal/Modal.vue'
 
 
 import { mapActions, mapState } from 'vuex'
 import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
 import { Component as Vuedal } from "vuedals";
+import moment from 'moment';
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -41,11 +41,10 @@ export default {
     }
   },
   created() {
-    this.fetchData();
+    this.fetchGetDocumentsToAccept();
   },
   components: {
     AgGridComponent,
-    Modal,
     DocumentView,
     SignerList,
     VueTabs,
@@ -73,19 +72,25 @@ export default {
       if (this.selectedRowInfo && this.selectedRowInfo.length > 0) {
         this.$vuedals.open({
           title: this.$t('docsToSign'),
-          size: "md",
+          size: "sm",
           component: {
             render: h => {
               return h("div", [
                 h("p", this.$t('You are going to sign selected documents')),
                 h(
-                  "BaseButton",
-                  { on: { click: this.startChallengeDemo } },
+                  "button",
+                  { 
+                    class: 'signatures-button',
+                    on: { click: this.startChallengeDemo }
+                  },
                   "Accept"
                 ),
                 h(
-                  "BaseButton",
-                  { on: { click: this.closeModal } },
+                  "button",
+                  { 
+                    class: 'signatures-button',
+                    on: { click: this.closeModal } 
+                  },
                   "Cancel"
                 )
               ]);
@@ -172,13 +177,23 @@ export default {
       });
     },
     signedSuccessful() {
-      this.fetchData()
+      this.fetchGetDocumentsToAccept()
       this.$vuedals.open({
         title: 'Successfully Signed',
-        size: "lg",
+        size: "sm",
         component: {
           render: h => {
-            return h("p", this.$t('successfullySignedDoc'));
+            return h("div", [
+              h("p", this.$t('successfullySignedDoc')),
+              h(
+                "button",
+                { 
+                  class: 'signatures-button button-right',
+                  on: { click: this.closeModal } 
+                },
+                "close"
+              )
+            ]);
           }
         },
         props: {},
@@ -283,14 +298,15 @@ export default {
         escapable: true
       });
     },
-    showErrorModal() {
+    showErrorModal(message) {
+      let content = message ? message.body : this.$t('docNotAvailable')
       this.$vuedals.open({
         title: 'Error',
         size: "md",
         component: {
           render: h => {
             return h("div", [
-              h("p", this.$t('docNotAvailable')),
+              h("p", content),
               h(
                 "BaseButton",
                 { on: { click: this.closeModal } },
@@ -313,7 +329,7 @@ export default {
         this.showModal = !this.showModal
       }
     },
-    ...mapActions({ fetchData: "signatureDocs/fetchData",
+    ...mapActions({ fetchGetDocumentsToAccept: "signatureDocs/fetchGetDocumentsToAccept",
                     fetchSigned: "signatureDocs/fetchSigned",
                     fetchPending: "signatureDocs/fetchPending",
                     fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
@@ -324,18 +340,41 @@ export default {
                   })
   },
   computed: {
-    
-    i18nColumnDefs(columnArray) {
-      _.map(columnArray, (obj) => {
-        if(obj.headerName) {
-          obj['headerName'] = this.$t(obj.headerName)
+    GridColumnDefsPending(){
+      return [
+        { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
+          sortable: true, width: 310
+        },
+        { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
+      
+        { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 200 },
+        { headerName: this.$t('Reference'), field: 'reference', sortable: true },
+        { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
+          cellRenderer: (data) => {
+              return  data.value ? moment(data.value).format('DD-MMM-YY') : ""
+          }
         }
-        return obj
-      })
+      ]
+    },
+    GridColumnDefsSigned(){
+      return [
+        { headerName: this.$t('Description'), field: 'description', width: 310},
+        { headerName: this.$t('Customer'), field: 'idCustomer', width: 80 },
+        { headerName: this.$t('CustomerName'), field: 'customerName',  width: 200  },
+        { headerName: this.$t('Reference'), field: 'reference' },
+        { headerName: this.$t('Date'), field: 'createdDate', width: 80,
+          cellRenderer: (data) => {
+              return data.value ? moment(data.value).format('DD-MMM-YY') : ""
+          }
+        }
+      ]
     },
     displayedDocuments() {
       return this.signatureDocs.displayedDocuments
     },
     ...mapState(["signatureDocs"]),
-  }
+  },
+  watch: {
+    "signatureDocs.message":"showErrorModal",
+  },
 }

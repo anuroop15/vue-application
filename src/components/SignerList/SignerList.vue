@@ -1,7 +1,7 @@
 <template>
   <div class="signer-list">
     <div class="signer-table-wrapper">
-      <table class="table">
+      <table class="table table-responsive-sm">
         <thead>
           <tr>
             <th scope="col">Signer Name</th>
@@ -13,7 +13,7 @@
         <tbody>
           <tr  v-for="(doc, index) in trackDetails" :key="index">
             <td>{{doc.partyName}}</td>
-            <td>{{doc.signDateTime}}</td>
+            <td>{{getLocalDateFormat(doc.signDateTime)}}</td>
             <td>{{doc.joinSigners}}</td>
             <td>
               <button @click="viewSignedDoc(doc.ecoIdDoc)" v-if="doc.ecoIdDoc">View Document</button>

@@ -23,7 +23,7 @@ export default {
         this.$vuedals.close()
       },
       getLocalDateFormat(date) {
-        date !== '' ? moment(date).format('DD-MMM-YY') : ""
+        return date ? moment(date).format('DD-MMM-YY') : date
       }
     }
 }

@@ -1,11 +1,14 @@
 .santander-signature-pre_container {
   padding: 0 0 0 0;
+  height: 100vh;
+  overflow: hidden;
 }
 .santander-signature-pre_content {
-    padding: 0 15px
+    padding: 0
 }
 .santander-signature-pre_header {
-  background-color: rgb(87, 108, 129);
+  background-image: linear-gradient(to right, #1D252D, #666E77);
+  background-color:#576c81;
   color: #ffffff;
   padding: 7px 15px;
   display: flex;
@@ -18,7 +21,8 @@
 .santander-signature-pre_header p {
   padding: 0;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  font-family: OpenSans-Light;
 }
 .santander-signature-pre_header a {
   color: #000;
@@ -34,7 +38,7 @@ x{
   width: 100%;
 }
 .santander-signature-button-wrapper .button {
-  margin: 15px 5px;
+  margin: 15px 10px 15px 0px;
   padding: 5px 10px;
   color: #fff;
   border: none;
@@ -63,4 +67,8 @@ x{
 .santander-signature-pre_content >>>  .vue-tabs .nav > li > a:focus {
   text-decoration: none;
   background-color:  rgb(114, 137, 160);
+}
+.santander-signature-pre_container >>> .card-body {
+  padding: 0px;
+  padding-top: 1.25em;
 }

@@ -3,7 +3,7 @@
     <div class="santander-security-pre_header">
       <p>{{$t('securityPreferences')}}</p>
     </div>
-    <div class="santander-security-pre_content">
+    <div class="santander-security-pre_content mb-2">
       <section class="santander-security-pre_section">
         <div class="santander-security-pre_section-name">
           <h3>{{$t('username')}}</h3>
@@ -274,8 +274,6 @@
           </div>
         </form>
       </section>
-    </div>
-    <div class="santander-security-pre_footer">
     </div>
   </div>
 </template>

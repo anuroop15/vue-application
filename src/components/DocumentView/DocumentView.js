@@ -1,10 +1,16 @@
-import { createDecipher } from "crypto";
-
 /**
  * @vue-data {boolean} show modal
  */
+import {en, es, pt } from './i18n'
 export default {
     name: "DocumentView",
+    i18n:{
+      messages:{
+          en,
+          es,
+          pt
+      }
+    },
     props: {
       urlBase: {
           type: String

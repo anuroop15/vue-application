@@ -37,6 +37,7 @@ export default {
         answer: [],
         question: [],
         submitError: false,
+        devicePrint: true
       }
     };
   },

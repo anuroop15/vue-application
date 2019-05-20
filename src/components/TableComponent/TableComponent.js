@@ -9,7 +9,7 @@ export default {
       //
     },
     created () {
-      this.$store.dispatch('fetchData')
+      this.$store.dispatch('fetchDataDemo')
     },
     computed: {
       users () {

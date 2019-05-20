@@ -2,7 +2,6 @@ import Vue from "vue";
 import { mapActions, mapState } from "vuex";
 import {es, en , pt} from './i18n';
 import { ChallengeConstant as Constant } from "../../store/utils";
-import { BaseFrameworkFactory } from "ag-grid-community";
 
 export default Vue.extend({
   name: "ChallengeManager",

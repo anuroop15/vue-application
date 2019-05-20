@@ -2,16 +2,15 @@
 <template>
   <div class="santander-signature-pre_container">
     <div class="santander-signature-pre_header">
-      <p> {{$t('signaturePage')}} </p>
+      <p>{{$t('docsToSign')}} </p>
     </div>
     <div data-scopeId class="santander-signature-pre_content">
       <div class="card">
-        <h5 class="card-header">{{$t('docsToSign')}}</h5>
         <div class="card-body">
             <vue-tabs @tab-change="getDocuments">
                 <v-tab :title="$t('docsToSign')">
-                  <div class="col">
-                    <div class="santander-signature-button-wrapper">
+                  <div class="pending-container">
+                    <div class="santander-signature-button-wrapper pl-3">
                       <button class="button" v-on:click="selectAll">{{$t('selectAll')}}</button>
                       <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
                       <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
@@ -23,30 +22,30 @@
                         :selectedAllView="selectedAllViewed"
                         :documentsToSign="true"
                         :displayed-documents="displayedDocuments"
-                        :gridColumnDefs="gridColumnDefsPending"
+                        :gridColumnDefs="GridColumnDefsPending"
                       />
                     </div>
                   </div>
                 </v-tab>
                 <v-tab :title="$t('fileOfSignedDocuments')">
-                  <div class="col">
+                  <div class="signed-container">
                     <AgGridComponent v-on:selected-document="selectedRow"
                       v-on:document-viewed="viewPDFDocument"
                       v-on:customer-selected="customerSelected"
                       :documentsToSign="false"
                       :displayedDocuments="displayedDocuments"
-                      :gridColumnDefs="gridColumnDefsSigned"
+                      :gridColumnDefs="GridColumnDefsSigned"
                     />
                   </div>
                 </v-tab>
                 <v-tab :title="$t('documentsToSignForOthers')">
-                  <div class="col">
+                  <div class="pending_others-container">
                     <AgGridComponent v-on:selected-document="selectedRow"
                       v-on:document-viewed="viewPDFDocument"
                       v-on:customer-selected="customerSelected"
                       :documentsToSign="false"
                       :displayedDocuments="displayedDocuments"
-                      :gridColumnDefs="gridColumnDefsSigned"
+                      :gridColumnDefs="GridColumnDefsSigned"
                     />
                   </div>
                 </v-tab>

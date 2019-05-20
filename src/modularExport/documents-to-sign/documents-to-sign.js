@@ -7,6 +7,7 @@ import store from "./documents-to-sign-store";
 import Vuelidate from "vuelidate";
 import VueSelect from "vue-cool-select";
 import i18n from '../../i18n'
+import {isAuthF2} from '../../store/services';
 import documentsToSign from "./documents-to-sign.vue";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -43,8 +44,14 @@ requireComponent.keys().forEach(fileName => {
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
 
-new Vue({
-  store,
-  i18n,
-  render: h => h(documentsToSign)
-}).$mount("#documentsToSign");
+
+const checkToMount = ()=>{
+  isAuthF2()
+  ?new Vue({
+    store,
+    i18n,
+    render: h => h(documentsToSign)
+  }).$mount('#documentsToSign')
+  :setTimeout(checkToMount,500)
+}
+checkToMount()

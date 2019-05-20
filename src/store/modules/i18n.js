@@ -3,7 +3,7 @@ import {isValidLocale} from '../utils'
 export const i18n = {
     namespaced: true,
     state: {
-        locale: 'es'
+        locale: 'en'
     },
     mutations:{
         CHANGE_LOCALE(state, locale) {

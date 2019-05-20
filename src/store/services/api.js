@@ -11,11 +11,14 @@ const api = axios.create({
   }
 });
 
-(()=>{
- let token = sessionStorage.getItem("santander-f2-apps-access-token");
- if(token){
-   api.defaults.headers.authorization = `Bearer ${token}`;
+api.interceptors.request.use( config =>{
+  let token = sessionStorage.getItem("santander-f2-apps-access-token");
+  if(token){
+    config.headers.authorization =`Bearer ${token}`
   }
-})()
+  return config
+}, err =>{
+  return Promise.reject(err)
+})
 
 export default api;

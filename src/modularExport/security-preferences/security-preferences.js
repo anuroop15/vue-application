@@ -6,6 +6,7 @@ import store from "./security-prederences-store";
 import Vuelidate from "vuelidate";
 import VueSelect from "vue-cool-select";
 import i18n from '../../i18n'
+import {isAuthF2} from '../../store/services';
 import santanderSecurityPre from "./security-preferences.vue";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -37,8 +38,14 @@ requireComponent.keys().forEach(fileName => {
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
 
-new Vue({
-  store,
-  i18n,
-  render: h => h(santanderSecurityPre)
-}).$mount("#santanderSecurityPre");
+const checkToMount = ()=>{
+  isAuthF2()
+  ?new Vue({
+    store,
+    i18n,
+    render: h => h(santanderSecurityPre)
+  }).$mount('#santanderSecurityPre')
+  :setTimeout(checkToMount,500)
+}
+checkToMount()
+

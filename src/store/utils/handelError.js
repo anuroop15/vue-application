@@ -1,1 +1,0 @@
-export const handleError = (fn, commit) => (...params) => fn(...params).catch(commit('SET_ERROR',error));

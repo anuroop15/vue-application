@@ -8,7 +8,7 @@ import {
 } from "../services";
 
 import i18n from "../../i18n";
-import { debugExeption, doPlain } from "../utils";
+import { debugExeption, doPlain, add_deviceprint } from "../utils";
 
 export const securityPreference = {
   namespaced: true,
@@ -19,7 +19,7 @@ export const securityPreference = {
     securityInfo: {},
     userLoginName: "",
     userName: "",
-    preferred:"",
+    preferred: "",
     showModal: false,
     message: {
       title: "",
@@ -61,12 +61,18 @@ export const securityPreference = {
       };
       state.displayName = displayName;
       phones.forEach(phone => {
-        if(phone.phoneNumber.includes('x')){
-          phone.extension = phone.phoneNumber.substring(phone.phoneNumber.indexOf("x")+1, phone.phoneNumber.length);
-          phone.phoneNumber = phone.phoneNumber.substring(0,phone.phoneNumber.indexOf("x")-1);
+        if (phone.phoneNumber.includes("x")) {
+          phone.extension = phone.phoneNumber.substring(
+            phone.phoneNumber.indexOf("x") + 1,
+            phone.phoneNumber.length
+          );
+          phone.phoneNumber = phone.phoneNumber.substring(
+            0,
+            phone.phoneNumber.indexOf("x") - 1
+          );
         }
         let preferred = phone.preferred ? phone.preferred : false;
-        state.preferred = preferred ? phone.phoneNumber: "";
+        state.preferred = preferred ? phone.phoneNumber : "";
         state.phones.push({
           preferred,
           ...phone
@@ -93,9 +99,9 @@ export const securityPreference = {
     }
   },
   actions: {
-    async fetchPhoneCountryPrefixList({ commit }) {
+    async fetchPhoneCountryPrefixList({ commit, getters }) {
       try {
-        let response = await GetPhoneCountryPrefixList();
+        let response = await GetPhoneCountryPrefixList(getters.getLocale);
         if (response.data.actionResult === "success") {
           response.data.data.items.reverse();
           commit("COUNTRYPREFIXLIST_SUCCESS", response.data.data);
@@ -105,10 +111,10 @@ export const securityPreference = {
         commit("SET_ACTION_NOTIFY", err);
       }
     },
-    async fetchSecurityPre({ commit }) {
+    async fetchSecurityPre({ commit, getters:{getLocale} }) {
       commit("SECURITY_PRE_STARTED");
       try {
-        let response = await GetSecurityPreferences();
+        let response = await GetSecurityPreferences(getLocale);
         if (response.data.actionResult === "success") {
           commit("SECURITY_PRE_SUCCESS", response.data.data);
         } else {
@@ -124,17 +130,17 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err, "modules/securityPreferences:127");
         let error = {
           title: "Error",
-          body: i18n.t('networkError')
+          body: i18n.t("networkError")
         };
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async updateUserLoginName({ commit }, user) {
+    async updateUserLoginName({ commit, getters:{getLocale} }, user) {
       try {
-        let response = await ChangeOwnUserLoginName(user);
+        let response = await ChangeOwnUserLoginName(user, getLocale);
         if (response.data.actionResult === "success") {
           let payload = {
             title: "Success",
@@ -156,17 +162,20 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err, "modules/securityPreferences:159");
         let error = {
           title: "Error",
-          body: i18n.t('networkError')
+          body: i18n.t("networkError")
         };
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async updateOwnDisplayName({ commit }, displayName) {
+    async updateOwnDisplayName({ commit, getters:{getLocale} }, displayName) {
       try {
-        let response = await ChangeOwnDisplayName(displayName);
+        let response = await ChangeOwnDisplayName(
+          displayName,
+          getLocale
+        );
         if (response.data.actionResult === "success") {
           let payload = {
             title: "Success",
@@ -188,17 +197,21 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err, "modules/securityPreferences:191");
         let error = {
           title: "Error",
-          body: i18n.t('networkError')
+          body: i18n.t("networkError")
         };
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async deleteDevice({ commit }, label) {
+    async deleteDevice({ commit, getters:{getLocale} }, label) {
       try {
-        let response = await UnbindDevice(label);
+        let devicePrint = add_deviceprint();
+        let response = await UnbindDevice(
+          { label, devicePrint },
+          getLocale
+        );
         if (response.data.actionResult === "success") {
           let payload = {
             title: "Success",
@@ -218,23 +231,26 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err, "modules/securityPreferences:222");
         let error = {
           title: "Error",
-          body: i18n.t('networkError')
+          body: i18n.t("networkError")
         };
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-    async validatePhonesNumbers({ commit }, {data, prefSelected}) {
+    async validatePhonesNumbers({ commit, getters:{getLocale} }, { data, prefSelected }) {
       try {
         let phones = [];
         let pref = null;
         let indices = true;
         data.forEach(phone => {
           let { phoneNumber, extension, phoneCountryCode, preferred } = phone;
-          pref = prefSelected === phoneNumber ? `${phoneCountryCode} ${phoneNumber}` : "";
-          preferred = prefSelected === phoneNumber ? 'on': 'false';
+          pref =
+            prefSelected === phoneNumber
+              ? `${phoneCountryCode} ${phoneNumber}`
+              : "";
+          preferred = prefSelected === phoneNumber ? "on" : "false";
           pref = extension ? `${pref} x${extension}` : pref;
           phones.push({
             phoneNumber,
@@ -245,7 +261,8 @@ export const securityPreference = {
           });
         });
         let response = await ValidatePhones(
-          doPlain({ phones, preferred: pref, indices })
+          doPlain({ phones, preferred: pref, indices }),
+          getLocale
         );
         if (response.data.actionResult === "success") {
           let phones = [];
@@ -265,13 +282,14 @@ export const securityPreference = {
 
               phones.push(phone);
             } else if (p.includes("WARN")) {
-              if (p.includes("001")) warns += i18n.t('noMobileAdded') + "\n";
-              if (p.includes("002")) warns += i18n.t('phonesUsIndicia') + "\n";
-              if (p.includes("003")) warns += i18n.t('preferredNoMobile') + "\n";
+              if (p.includes("001")) warns += i18n.t("noMobileAdded") + "\n";
+              if (p.includes("002")) warns += i18n.t("phonesUsIndicia") + "\n";
+              if (p.includes("003"))
+                warns += i18n.t("preferredNoMobile") + "\n";
             }
           });
           if (warns != "") {
-            warns += i18n.t('sureToContinue');
+            warns += i18n.t("sureToContinue");
             if (confirm(warns)) {
               commit("SET_PHONES_CHALLENGE", { phones, preferred: pref });
             } else {
@@ -295,10 +313,10 @@ export const securityPreference = {
           commit("SET_ACTION_NOTIFY", err);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err, "modules/securityPreferences:299");
         let error = {
           title: "Error",
-          body: i18n.t('networkError')
+          body: i18n.t("networkError")
         };
         commit("SET_ACTION_NOTIFY", error);
       }
@@ -307,6 +325,9 @@ export const securityPreference = {
   getters: {
     getStateProp: state => prop => {
       return state[prop];
+    },
+    getLocale: (state, getters, rootState) => {
+      return rootState.i18n.locale;
     }
   }
 };

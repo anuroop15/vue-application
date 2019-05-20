@@ -26,5 +26,12 @@ export const pt = {
   authenticationRequired: "Autenticação adicional necessária",
   goingToSign: "Você vai assinar documentos selecionados",
   docNotAvailable: "O documento não está disponível",
-  select: "Selecione"
+  select: "Selecione",
+  download:"baixar",
+  close:"perto",
+  Description: "Descripción",
+  Customer: "Cliente",
+  CustomerName: "Nome do Cliente",
+  Reference: "Referência",
+  Date: "Encontro"
 };

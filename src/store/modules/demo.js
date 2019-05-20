@@ -18,7 +18,7 @@ export const demo = {
     }
   },
   actions: {
-    async fetchData({ commit }) {
+    async fetchDataDemo({ commit }) {
       commit("SET_IS_LOADING");
       try {
         let response = await demoServiceGetAll();

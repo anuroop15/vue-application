@@ -1,0 +1,113 @@
+@font-face {
+  font-family: "OpenSans-Regular";
+  src: url("./assets/fonts/OpenSans-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OpenSans-Light";
+  src: url("./assets/fonts/OpenSans-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OpenSans-SemiBold";
+  src: url("./assets/fonts/OpenSans-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OpenSans-Bold";
+  src: url("./assets/fonts/OpenSans-Bold.ttf") format("truetype");
+}
+#app,
+#santanderSecurityPre,
+#documentsToSign {
+  height: 100%;
+  margin: 0;
+  position: relative;
+  font-family: OpenSans-Regular, sans-serif;
+}
+#santander_utils-locale {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+/* .vuedals {
+  position: absolute !important;
+}
+body.vuedal-open {
+    overflow: auto!important;
+} */
+
+.vuedal {
+  padding: 0px 0px 20px 0px !important;
+}
+
+.vuedal .signatures-button {
+  margin: 15px 10px 15px 0px;
+  padding: 5px 10px;
+  color: #fff;
+  border: none;
+  background-color: rgb(89, 107, 126)
+}
+.vuedal .signatures-button.button-right {
+  float: right;
+}
+.vuedal header {
+  padding: 20px;
+  position: relative;
+  color: #fff;
+  background-color: rgb(87, 108, 129);
+}
+.vuedal header span {
+  color: #fff;
+}
+.vuedal .close:not(:disabled):not(.disabled):hover,
+.vuedal .close:not(:disabled):not(.disabled):focus {
+  color: #fff;
+}
+.vuedal header ~ p,
+.vuedal header ~ h6,
+.vuedal header ~ div {
+  padding: 20px;
+}
+@media (max-width: 850px) {
+  .vuedal.lg {
+    width: 650px;
+  }
+  .vuedal.xl {
+    width: 650px;
+  }
+}
+
+@media (max-width: 650px) {
+  .vuedal.md {
+    width: 550px;
+  }
+  .vuedal.lg {
+    width: 550px;
+  }
+  .vuedal.xl {
+    width: 550px;
+  }
+}
+@media (max-width: 550px) {
+  .vuedal.md {
+    width: 400px!important;
+  }
+  .vuedal.lg {
+    width: 400px!important;
+  }
+  .vuedal.xl {
+    width: 400px!important;
+  }
+}
+@media (max-width: 400px) {
+  .vuedal.sm {
+    width: 350px!important;
+  }
+  .vuedal.md {
+    width: 350px!important;
+  }
+  .vuedal.lg {
+    width: 350px!important;
+  }
+  .vuedal.xl {
+    width: 350px!important;
+  }
+}

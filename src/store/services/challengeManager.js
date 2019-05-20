@@ -4,9 +4,9 @@ import api from './api'
  * Return a promise of http get ChallengeInitiate
  * @returns {Promise} object represent the api call
  */
-export const ChallengeInitiate = (urlBase, content) => {
+export const ChallengeInitiate = (urlBase, content, locale) => {
   return api({
-    url: `${urlBase}Initiate`,
+    url: `${locale}/${urlBase}Initiate`,
     method: "post",
     data: content,
   });
@@ -16,10 +16,10 @@ export const ChallengeInitiate = (urlBase, content) => {
  * Return a promise of http get StartChallenge
  * @returns {Promise} object represent the api call
  */
-export const ChallengeStart = (urlBase, data) => {
+export const ChallengeStart = (urlBase, data, locale) => {
 
   return api({
-      url: `${urlBase}StartChallenge`,
+      url: `${locale}/${urlBase}StartChallenge`,
       method: "post",
       data: data
     });
@@ -29,9 +29,9 @@ export const ChallengeStart = (urlBase, data) => {
  * Return a promise of http get CheckOTPPhoneChallenge
  * @returns {Promise} object represent the api call
  */
-export const ChallengeCheckOTPPhoneChallenge = (urlBase,data) => {
+export const ChallengeCheckOTPPhoneChallenge = (urlBase,data, locale) => {
     return api({
-      url: `${urlBase}CheckOTPPhoneChallenge`,
+      url: `${locale}/${urlBase}CheckOTPPhoneChallenge`,
       method: "post",
       data: data
     }

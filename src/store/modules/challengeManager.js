@@ -6,7 +6,8 @@ import {
 import {
   debugExeption,
   doPlain,
-  ChallengeConstant as Constant
+  ChallengeConstant as Constant,
+  add_deviceprint
 } from "../utils";
 export const challengeManager = {
   namespaced: true,
@@ -23,7 +24,7 @@ export const challengeManager = {
   },
   mutations: {
     SET_INITIAL_STATE(state) {
-      state.stageAction="";
+      state.stageAction = "";
       state.methods = [];
     },
     SET_METHODS(
@@ -67,13 +68,16 @@ export const challengeManager = {
     _setStage({ commit }, stage) {
       commit("SET_STAGE", stage);
     },
-    _setActionStage({commit}, action){
-      commit('SET_STAGE_ACTION', action)
+    _setActionStage({ commit }, action) {
+      commit("SET_STAGE_ACTION", action);
     },
-    async _challengeInit({ commit }, { urlBase, parameters }) {
+    async _challengeInit({ commit , getters:{getLocale} }, { urlBase, parameters }) {
       commit("SET_INITIAL_STATE");
       try {
-        let response = await ChallengeInitiate(urlBase, doPlain(parameters));
+        if(parameters.devicePrint){
+         parameters.devicePrint = add_deviceprint()
+        }
+        let response = await ChallengeInitiate(urlBase, doPlain(parameters), getLocale);
         if (response.data.actionResult === "challenge") {
           commit("SET_METHODS", response.data);
         } else if (response.data.actionResult === "error") {
@@ -82,27 +86,27 @@ export const challengeManager = {
           commit("SET_METHODS", response.data);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err,"modules/challengeManager:89");
       }
     },
-    async _challengeStart({ commit, getters }, { urlBase, picked }) {
-      let { label, type } = getters.getSelectedMethods(picked);
+    async _challengeStart({ commit, getters:{getLocale, getSelectedMethods} }, { urlBase, picked }) {
+      let { label, type } = getSelectedMethods(picked);
       let data = doPlain({ label, type }, "challengeMethod");
       try {
-        let response = await ChallengeStart(urlBase, data);
+        let response = await ChallengeStart(urlBase, data, getLocale);
         if (response.data.actionResult === "challenge") {
           commit("SET_METHODS_SELECTED", response.data);
         } else if (response.data.actionResult === "error") {
           commit("SET_ERROR", response.data);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err, "modules/challengeManager:103");
       }
     },
-    async _processOTP({ commit, state }, { urlBase, token }) {
+    async _processOTP({ commit, state, getters:{getLocale} }, { urlBase, token }) {
       try {
         let data = doPlain({ tokenOTP: token });
-        let response = await ChallengeCheckOTPPhoneChallenge(urlBase, data);
+        let response = await ChallengeCheckOTPPhoneChallenge(urlBase, data, getLocale);
         if (response.data.actionResult === "success") {
           let {
             data: {
@@ -124,13 +128,16 @@ export const challengeManager = {
           commit("SET_ERROR", response.data);
         }
       } catch (err) {
-        debugExeption(err);
+        debugExeption(err,"modules/challengeManager:131");
       }
     }
   },
   getters: {
     getSelectedMethods: state => label => {
       return state.methods.find(method => method.label === label);
+    },
+    getLocale: (state, getters, rootState) => {
+      return rootState.i18n.locale;
     }
   }
 };
