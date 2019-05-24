@@ -25,6 +25,7 @@ Vue.use(Vuelidate);
 Vue.use(VueSelect, { theme: "bootstrap" });
 
 
+
 Vue.use(ClientTable, { theme: "bootstrap4" });
 
 Vue.component("tabs", Tabs);

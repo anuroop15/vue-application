@@ -1,9 +1,11 @@
 #ag-grid_component {
   width: 100%; 
-  height:90vh;
+  height:91vh;
   padding-bottom: 1rem;
 }
-
+.cell-wrap-text {
+  white-space: normal!important;
+}
 .ag-grid-component_link{
   color: #222222;
   text-decoration: underline;
@@ -43,4 +45,7 @@
 .ag-theme-balham .ag-header-cell,
 .ag-theme-balham .ag-header-group-cell {
   line-height: 50px !important;
+}
+
+@media (max-width: 768px){
 }

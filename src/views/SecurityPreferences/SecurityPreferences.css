@@ -29,8 +29,15 @@
 }
 .santander-security-pre_footer{
   background: #41484E;
+  padding-right: 0.9rem;
   height: 65px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   margin-top: 0.5rem;
+}
+.santander-security-pre_footer button {
+  color: #fff!important;
 }
 .santander-security-pre_header p {
   padding: 0;

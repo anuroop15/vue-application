@@ -1,51 +1,92 @@
 <template>
- <div class="santanter-challenge-manager_container">
-  <div class="santander-challenge-manager_select-method" v-if="challengeManager.stage === 'CHALLENGE_SELECT_METHOD'">
-    <p>{{$t('pleaseSelectAnAdditionalAuthenticationProcedure')}}</p>
-    <form @submit.prevent="startChallengerNow">
-      <template v-for="method in getMethods">
-        <div class="form-check" :key="method.label">
-          <input
-            class="form-check-input"
-            type="radio"
-            v-model="pickedMethod"
-            name="CHALLENGE_SELECT_METHOD"
-            :value="method.value"
-          >
-          <label class="form-check-label" for="CHALLENGE_SELECT_METHOD">{{method.label}}</label>
-        </div>
-      </template>
-    <p class="mt-3">{{$t('OTPPHONE_message_dontSeeMyPhone')}}</p>
-     <div class="mt-3 d-flex justify-content-around">
-      <BaseButton variant="outline" type="button" @click.prevent="cancelChallenger">{{$t('close')}}</BaseButton>
-      <BaseButton variant="primary" type="submit" value="submit">{{$t('accept')}}</BaseButton>
+  <div class="santanter-challenge-manager_container">
+    <div
+      class="santander-challenge-manager_select-method"
+      v-if="challengeManager.stage === 'CHALLENGE_SELECT_METHOD'"
+    >
+      <form class="p-4">
+        <p>{{$t('pleaseSelectAnAdditionalAuthenticationProcedure')}}</p>
+        <template v-for="method in getMethods">
+          <div class="form-check" :key="method.label">
+            <input
+              class="form-check-input"
+              type="radio"
+              v-model="pickedMethod"
+              name="CHALLENGE_SELECT_METHOD"
+              :value="method.value"
+            >
+            <label class="form-check-label" for="CHALLENGE_SELECT_METHOD">{{method.label}}</label>
+          </div>
+        </template>
+        <p class="mt-3">{{$t('OTPPHONE_message_dontSeeMyPhone')}}</p>
+      </form>
+      <div class="pt-3 d-flex justify-content-around santander-challenge-manager_footer">
+        <BaseButton
+          variant="outline"
+          type="button"
+          @click.prevent="cancelChallenger"
+        >{{$t('close')}}</BaseButton>
+        <BaseButton
+          variant="outline"
+          type="button"
+          @click.prevent="startChallengerNow"
+        >{{$t('accept')}}</BaseButton>
       </div>
-    </form>
-  </div>
-    <div class="santander-challenge-manager_challenge" v-else-if="challengeManager.stage === 'CHALLENGE_RETRY' && challengeManager.stageAction !='CHALLENGE_RETRY_CODE'">
-    <p>{{challengeManager.messages}}</p>
-    <div class="mt-3 d-flex justify-content-around">
-    <BaseButton variant="outline" type="button" @click="cancelChallenger">{{$t('close')}}</BaseButton>
-    <BaseButton variant="primary" type="button" @click="startChallengerNow">{{$t('accept')}}</BaseButton>
+    </div>
+    <div
+      class="santander-challenge-manager_challenge"
+      v-else-if="challengeManager.stage === 'CHALLENGE_RETRY' && challengeManager.stageAction !='CHALLENGE_RETRY_CODE'"
+    >
+      <div class="p-4">
+        <p>{{challengeManager.messages}}</p>
+      </div>
+      <div class="pt-3 d-flex justify-content-around santander-challenge-manager_footer">
+        <BaseButton variant="outline" type="button" @click="cancelChallenger">{{$t('close')}}</BaseButton>
+        <BaseButton variant="outline" type="button" @click="startChallengerNow">{{$t('accept')}}</BaseButton>
+      </div>
+    </div>
+    <div class="santander-challenge-manager_challenge" v-else>
+      <div class="p-4">
+        <p
+          v-html="$t('youHaveReceivedMessage_OTPPHONE',{label:challengeManager.selectedMethod.label})"
+        ></p>
+
+        <div class="input-group mb-3">
+          <input
+            v-model="code"
+            type="text"
+            class="form-control"
+            :placeholder="$t('code')"
+            :aria-label="$t('code')"
+          >
+          <div class="input-group-append">
+            <BaseButton
+              variant="primary"
+              class="santander-challenge-manager_button-accept"
+              @click="processOTPStart"
+            >{{$t('accept')}}</BaseButton>
+          </div>
+        </div>
+        <p
+          class="santander-challenge-manager_alert"
+          v-if="challengeManager.stageAction ==='CHALLENGE_RETRY_CODE'"
+        >{{$t('theAdditionalAuthenticationFailedPleaseTryAgain')}}</p>
+        <p v-html="$t('youHaveNotReceivedMessage_OTPPHONE')"></p>
+      </div>
+      <div class="pt-3 d-flex justify-content-around santander-challenge-manager_footer">
+        <BaseButton
+          variant="outline"
+          class="santander-challenge-manager_button"
+          @click="changeToAlternatePhone"
+        >{{$t('newChallengeMethod')}}</BaseButton>
+        <BaseButton
+          variant="outline"
+          class="santander-challenge-manager_button"
+          @click="startChallengerNow"
+        >{{$t('newToken')}}</BaseButton>
+      </div>
     </div>
   </div>
-  <div class="santander-challenge-manager_challenge" v-else>
-    <p v-html="$t('youHaveReceivedMessage_OTPPHONE',{label:challengeManager.selectedMethod.label})"></p>
-    
-<div class="input-group mb-3">
-  <input v-model="code" type="text" class="form-control" :placeholder="$t('code')" :aria-label="$t('code')" />
-  <div class="input-group-append">
-    <BaseButton variant="primary" className="santander-challenge-manager_button-accept" @click="processOTPStart">{{$t('accept')}}</BaseButton>
-  </div>
-</div>
-    <p class="santander-challenge-manager_alert" v-if="challengeManager.stageAction ==='CHALLENGE_RETRY_CODE'">{{$t('theAdditionalAuthenticationFailedPleaseTryAgain')}}</p>
-    <p v-html="$t('youHaveNotReceivedMessage_OTPPHONE')"></p>
-     <div class="mt-3 d-flex justify-content-around">
-    <BaseButton className="santander-challenge-manager_button" @click="changeToAlternatePhone">{{$t('newChallengeMethod')}}</BaseButton>
-    <BaseButton className="santander-challenge-manager_button" @click="startChallengerNow">{{$t('newToken')}}</BaseButton>
-    </div>
-  </div>
- </div>
 </template>
 
 <script src="./ChallengeManager.js"></script>

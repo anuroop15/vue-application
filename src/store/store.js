@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { demo, fundsTransfers,signatureDocs, securityPreference, challengeManager , i18n } from './modules';
+import { demo, fundsTransfers,signatureDocs, signatureDocsNonMillennium, securityPreference, challengeManager , i18n } from './modules';
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     demo,
     signatureDocs,
     fundsTransfers,
+    signatureDocsNonMillennium,
     securityPreference,
     challengeManager,
     i18n

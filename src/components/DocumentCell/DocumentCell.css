@@ -1,0 +1,12 @@
+.santander-document-cell_container p{
+    word-wrap: break-word;
+    margin: 0;
+    white-space: normal!important;
+}
+
+.santander-document-cell_container-desc {
+    text-align: right;
+}
+.santander-document-cell{
+    border-bottom: 1px solid #D5D5D5;
+}

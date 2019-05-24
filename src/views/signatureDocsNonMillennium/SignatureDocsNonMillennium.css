@@ -68,15 +68,7 @@ x{
   text-decoration: none;
   background-color:  rgb(114, 137, 160);
 }
-.santander-signature-pre_container >>> .card {
-  border: none!important;
-}
 .santander-signature-pre_container >>> .card-body {
   padding: 0px;
-}
-
-@media (max-width: 768px){
-  .santander-signature-button-wrapper .button {
-    margin: 5px;
-  }
+  padding-top: 1.25em;
 }

@@ -1,4 +1,6 @@
 export default {
+  view:"View",
+  signers:"Signers List",
   networkError:
     "We could not retrieve your security preferences detail. Please try again later.",
   noMobileAdded:

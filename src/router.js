@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import SignatureDocs from './views/signatureDocs/SignatureDocs.vue'
+import SignatureDocsNonMillennium from './views/signatureDocsNonMillennium/SignatureDocsNonMillennium.vue'
 import DemoRoutes from './views/DemoRoutes/DemoRoutes.vue'
 import FundsTransfers from './views/FundsTransfers/FundsTransfers.vue'
 import SecurityPreferences from './views/SecurityPreferences/SecurityPreferences.vue'
@@ -29,6 +30,11 @@ export default new Router({
         path: '/security-preferences',
         name: 'Security Preferences',
         component: SecurityPreferences
+      },
+      {
+        path: '/signature-non-millennium',
+        name: 'Signature Non Millennium',
+        component: SignatureDocsNonMillennium
       }
     ]
 })

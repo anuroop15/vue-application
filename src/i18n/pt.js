@@ -1,4 +1,6 @@
 export default {
+  view:"Visão",
+  signers:"Lista de assinantes",
   networkError:
     "Não foi possível recuperar os detalhes das suas preferências de segurança. Por favor, tente novamente mais tarde",
   noMobileAdded:

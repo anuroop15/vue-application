@@ -10,7 +10,7 @@ import {
 import i18n from "../../i18n";
 import {debugExeption} from "../utils";
 
-export const signatureDocs = {
+export const signatureDocsNonMillennium = {
   namespaced: true,
   state: {
     data: {},
@@ -146,10 +146,20 @@ export const signatureDocs = {
     async fetchPDFsConcatenated({ commit, getters:{getLocale} }, documetDetailsObj) {
       commit("SET_IS_LOADING");
       try {
+        let response = await GenerateOauthTokenForDocument(getLocale)
+        if(isAuthF2()){
+          if((response.data.actionResult === 'success')) {
+            return await DownloadPDFsConcatenated(
+              documetDetailsObj,
+              response.data.data.access_token,
+              getLocale )
+          }
+        } else {
           return await DownloadPDFsConcatenated(
             documetDetailsObj,
+            null,
             getLocale )
-        
+        }
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -160,7 +170,7 @@ export const signatureDocs = {
       } 
     },
     async fetchDocumentExistence({ commit,getters:{getLocale}}, documentDetails) {
-      commit("SET_IS_LOADING");     
+      commit("SET_IS_LOADING");
       try {
         if(isAuthF2()){
           let response = await GenerateOauthTokenForDocument(getLocale)
@@ -182,10 +192,16 @@ export const signatureDocs = {
     },
     async fetchDocTrackDetails({ commit, getters:{getLocale} }, documentDetails) {
       commit("SET_IS_LOADING");
-
       try {
-        return await GetDocTrackDetail(documentDetails, getLocale )
-        
+        let response = await GenerateOauthTokenForDocument(getLocale)
+        if(isAuthF2()){
+          if((response.data.actionResult === 'success')) {
+            return await GetDocTrackDetail(documentDetails, response.data.data.access_token,
+              getLocale )
+          }
+        } else {
+          return await GetDocTrackDetail(documentDetails, getLocale )
+        }
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -207,5 +223,5 @@ export const signatureDocs = {
       commit("SET_IS_LOADING");
       commit("FETCH_PENDING_BY_OTHERS");
     }
-  }
+  },
 };

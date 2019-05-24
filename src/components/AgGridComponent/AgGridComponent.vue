@@ -7,11 +7,14 @@
                    :gridOptions="gridOptions"
                    @grid-ready="onGridReady"
                    @row-selected="onCellClicked"
-                    @selection-changed="onSelectionChanged"
+                   @selection-changed="onSelectionChanged"
+                   @column-event="onChange"
                    :columnDefs="gridOptions.columnDef"
                    :rowData="displayedDocuments"
                    :rowSelection="rowSelection"
+                   :context="context"
                    :suppressRowClickSelection="true"
+                   :frameworkComponents="frameworkComponents"
                    v-model="rowData" />
               </div>
         </div>

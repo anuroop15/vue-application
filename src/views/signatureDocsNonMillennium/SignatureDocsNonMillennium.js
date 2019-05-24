@@ -15,7 +15,7 @@ import _ from 'lodash'
 import {en, es, pt} from './i18n';
 
 export default {
-  name: 'SignatureDocs',
+  name: 'SignatureDocsNonMillennium',
   data() {
     return {
       selectedRowInfo: [],
@@ -53,18 +53,6 @@ export default {
     ChallengeManager,
   },
   methods: {
-    getDocuments(selectedTab) {
-      if(selectedTab === 0) {
-        this.documentsToSign = true
-        this.fetchPending()
-      } else if (selectedTab === 1){
-        this.documentsToSign = false
-        this.fetchSigned()
-      } else {
-        this.documentsToSign = false
-        this.fetchPendingByOthers()
-      }
-    },
     selectedRow(data) {
       this.selectedRowInfo = data
     },
@@ -88,7 +76,7 @@ export default {
                 h(
                   "button",
                   { 
-                    class: 'signatures-button m-3',
+                    class: 'signatures-button',
                     on: { click: this.closeModal } 
                   },
                   "Cancel"
@@ -309,10 +297,7 @@ export default {
               h("p", content),
               h(
                 "BaseButton",
-                { on: { click: this.closeModal } , props:{
-                  variant:'outline',
-                  className:'m-3'
-                }},
+                { on: { click: this.closeModal } },
                 "Accept"
               )
             ]);
@@ -332,14 +317,14 @@ export default {
         this.showModal = !this.showModal
       }
     },
-    ...mapActions({ fetchGetDocumentsToAccept: "signatureDocs/fetchGetDocumentsToAccept",
-                    fetchSigned: "signatureDocs/fetchSigned",
-                    fetchPending: "signatureDocs/fetchPending",
-                    fetchPendingByOthers: "signatureDocs/fetchPendingByOthers",
-                    fetchDocumentPDF: "signatureDocs/fetchDocumentPDF",
-                    fetchDocumentExistence: "signatureDocs/fetchDocumentExistence",
-                    fetchDocTrackDetails: "signatureDocs/fetchDocTrackDetails",
-                    fetchPDFsConcatenated: "signatureDocs/fetchPDFsConcatenated"
+    ...mapActions({ fetchGetDocumentsToAccept: "signatureDocsNonMillennium/fetchGetDocumentsToAccept",
+                    fetchSigned: "signatureDocsNonMillennium/fetchSigned",
+                    fetchPending: "signatureDocsNonMillennium/fetchPending",
+                    fetchPendingByOthers: "signatureDocsNonMillennium/fetchPendingByOthers",
+                    fetchDocumentPDF: "signatureDocsNonMillennium/fetchDocumentPDF",
+                    fetchDocumentExistence: "signatureDocsNonMillennium/fetchDocumentExistence",
+                    fetchDocTrackDetails: "signatureDocsNonMillennium/fetchDocTrackDetails",
+                    fetchPDFsConcatenated: "signatureDocsNonMillennium/fetchPDFsConcatenated"
                   })
   },
   computed: {
@@ -373,11 +358,11 @@ export default {
       ]
     },
     displayedDocuments() {
-      return this.signatureDocs.displayedDocuments
+      return this.signatureDocsNonMillennium.displayedDocuments
     },
-    ...mapState(["signatureDocs"]),
+    ...mapState(["signatureDocsNonMillennium"]),
   },
   watch: {
-    "signatureDocs.message":"showErrorModal",
+    "signatureDocsNonMillennium.message":"showErrorModal",
   },
 }

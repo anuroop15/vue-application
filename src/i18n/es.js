@@ -1,4 +1,6 @@
 export default {
+  view:"Ver",
+  signers:"Listado de Firmantes",
   networkError:
     "No pudimos recuperar sus preferencias de seguridad. Por favor, inténtelo de nuevo más tarde.",
   noMobileAdded:

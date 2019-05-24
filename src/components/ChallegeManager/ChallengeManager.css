@@ -1,3 +1,6 @@
+.santanter-challenge-manager_container {
+    padding:0px!important;
+}
 .santander-challenge-manager_button {
     padding: 0 19px !important;
 }
@@ -8,3 +11,10 @@
     color:#ff0000fc;
     font-weight: 500;
 }
+.santander-challenge-manager_footer{
+    background: #41484E;
+    height: 65px;
+  }
+  .santander-challenge-manager_footer button {
+      color: #fff!important;
+  }

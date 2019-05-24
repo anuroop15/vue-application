@@ -10,7 +10,7 @@
             <vue-tabs @tab-change="getDocuments">
                 <v-tab :title="$t('docsToSign')">
                   <div class="pending-container">
-                    <div class="santander-signature-button-wrapper pl-3">
+                    <div class="santander-signature-button-wrapper pl-2">
                       <button class="button" v-on:click="selectAll">{{$t('selectAll')}}</button>
                       <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
                       <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>

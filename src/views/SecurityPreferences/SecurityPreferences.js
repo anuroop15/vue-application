@@ -322,18 +322,26 @@ export default {
           name: "prompt-modal-security",
 
           render: h => {
-            return h("div", [
-              h("p", this.$t('confirmDeleteDevice',{label: label})),
-              h(
-                "BaseButton",
-                { on: { click: this.unbindDeviceProcess } },
-                "OK"
-              ),
-              h(
-                "BaseButton",
-                { on: { click: this.unbindDeviceCancel } },
-                "Cancel"
-              )
+            return h("div", {style:'padding:0!important'}, [
+              h("p", {style:'padding:20px'}, this.$t('confirmDeleteDevice',{label: label})),
+              h('div',{class:'santander-security-pre_footer'},[
+                h(
+                  "BaseButton",
+                  { on: { click: this.unbindDeviceCancel },props:{
+                    variant:'outline',
+                    className:'ml-3'
+                  }
+                 },
+                  this.$t('cancel')
+                ),
+                h(
+                  "BaseButton",
+                  { on: { click: this.unbindDeviceProcess }, 
+                  props:{ variant:'outline', className:'ml-3'}
+                 },
+                  "OK"
+                )
+              ]),
             ]);
           }
         }
