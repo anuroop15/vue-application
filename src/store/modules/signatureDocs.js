@@ -9,7 +9,7 @@ import {
 } from "../services";
 import i18n from "../../i18n";
 import {debugExeption} from "../utils";
-import actions from './actions/actionConstants';
+import actions from './actions/actions';
 
 export const signatureDocs = {
   namespaced: true,
@@ -86,5 +86,5 @@ export const signatureDocs = {
       };
     }
   },
-  actions
+  actions: actions
 };

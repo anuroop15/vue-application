@@ -66,7 +66,7 @@ export default {
           body: i18n.t("networkError")
         };
         commit(mutations['SET_ACTION_NOTIFY'], error);
-      }   
+      }
     },
     async fetchPDFsConcatenated({ commit, getters:{getLocale} }, documetDetailsObj) {
       commit(mutations['SET_IS_LOADING']);
@@ -74,7 +74,7 @@ export default {
           return await DownloadPDFsConcatenated(
             documetDetailsObj,
             getLocale )
-        
+
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -82,10 +82,10 @@ export default {
           body: i18n.t("networkError")
         };
         commit(mutations['SET_ACTION_NOTIFY'], error);
-      } 
+      }
     },
     async fetchDocumentExistence({ commit,getters:{getLocale}}, documentDetails) {
-      commit(mutations['SET_IS_LOADING']);     
+      commit(mutations['SET_IS_LOADING']);
       try {
         if(isAuthF2()){
           let response = await GenerateOauthTokenForDocument(getLocale)
@@ -103,14 +103,14 @@ export default {
           body: i18n.t("networkError")
         };
         commit(mutations['SET_ACTION_NOTIFY'], error);
-      } 
+      }
     },
     async fetchDocTrackDetails({ commit, getters:{getLocale} }, documentDetails) {
       commit(mutations['SET_IS_LOADING']);
 
       try {
         return await GetDocTrackDetail(documentDetails, getLocale )
-        
+
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -118,7 +118,7 @@ export default {
           body: i18n.t("networkError")
         };
         commit(mutations['SET_ACTION_NOTIFY'], error);
-      }          
+      }
     },
     async fetchSigned({ commit }) {
       commit(mutations['SET_IS_LOADING']);
