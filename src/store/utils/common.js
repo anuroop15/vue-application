@@ -2,6 +2,40 @@
 import qs from 'qs';
 import { logClientSideInfo } from "../services";
 
+export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+export const getErrorMessage = response =>{
+  let message = '<ul>';
+  let hasError = false;
+  for(let actionMessage in response.actionMessages){
+    hasError = true;
+    message += '<li>';
+    message += response.actionMessages[actionMessage];
+    message += '</li>';
+  }
+  for(let actionError in response.actionErrors){
+    hasError = true;
+    message += '<li>';
+    message += response.actionErrors[actionError];
+    message += '</li>';
+  }
+  for(let fieldError in response.fieldErrors){
+    hasError = true;
+    message += '<li>';
+    message += response.fieldErrors[fieldError];
+    message += '</li>';
+  }
+  message +='</ul>';
+  return hasError ? messege : '';
+}
+export const randomString = (string_length) => {
+  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  let randomstring = '';
+  for (var i=0; i<string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    randomstring += chars.substring(rnum,rnum+1);
+  }
+  return randomstring;
+}
 export const debugExeption = (e, origen, other) => {
   try {
     var myLog = new Array();
@@ -74,12 +108,17 @@ export const debugExeption = (e, origen, other) => {
   } catch (e2) {}
 };
 
-export const doPlain = function(myObject, preffix, o) {
+export const doPlain = function(myObject, preffix, o, options) {
+      let config = { allowDots: true , indices: false }
       try {
         o = o || {};
       } catch (e) {
         o = {};
       }
+      if(options){
+        config = Object.assign({},options, config)
+      }
+
       if (preffix) {
        o[preffix]=myObject;
       } else {
@@ -88,7 +127,7 @@ export const doPlain = function(myObject, preffix, o) {
       if(o.indices){
         return qs.stringify(o, { allowDots: true });
       } else {
-        return qs.stringify(o, { allowDots: true , indices: false });
+        return qs.stringify(o, config);
       }
   };
   

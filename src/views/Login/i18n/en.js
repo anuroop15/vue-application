@@ -1,0 +1,15 @@
+export const en = {
+    signin:"eBanking Access",
+    username:"User Name",
+    Password:"Password",
+    ForgotPassword:"Forgot your password?",
+    CreateUser:"Register a New User",
+    disclaimer:"This site is intended for use by Authorized Users only. Any attempt to deny access to, hack into and/or deface this site will result in criminal prosecution under local, state, federal and international law. If you have reached this website in error, please remove yourself by typing the correct URL name of the website intended. We reserve the right to monitor access to/from this website in accordance with the company's policies",
+    bindThisDevice:"Register This Computer",
+    bindDeviceQuestion:"Register this computer?",
+    deviceName:"Computer Name",
+    bindDeviceLink:"have you already registered this computer?",
+    Continue:"Continue",
+    deviceBindMessage : "If the system continues to prompt you to register a device that has already been registered, it is possible that the device did not register correctly. To correct the problem, continue with the login process. Once logged in, select Security Preferences > Registered Computers. Click on the X next to the registered device to unbind the device. You may then register the device the next time you log in.",
+    useCurrentUser:"Use your current user. If you don\u2019t have one, or you have forgotten it, please contact your banker",
+}

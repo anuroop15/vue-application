@@ -5,6 +5,8 @@ import SignatureDocsNonMillennium from './views/signatureDocsNonMillennium/Signa
 import DemoRoutes from './views/DemoRoutes/DemoRoutes.vue'
 import FundsTransfers from './views/FundsTransfers/FundsTransfers.vue'
 import SecurityPreferences from './views/SecurityPreferences/SecurityPreferences.vue'
+import SecurityPreferencesOld from './views/SecurityPreferencesOld/SecurityPreferencesOld.vue'
+import Login from './views/Login/Login.vue'
 
 Vue.use(Router)
 
@@ -15,6 +17,11 @@ export default new Router({
         path: '/',
         name: 'Main',
         component: DemoRoutes
+      },
+      {
+        path: '/Login',
+        name: 'Login',
+        component: Login
       },
       {
         path: '/signatures',
@@ -35,6 +42,11 @@ export default new Router({
         path: '/signature-non-millennium',
         name: 'Signature Non Millennium',
         component: SignatureDocsNonMillennium
+      },
+      {
+        path: '/security-preferences-old',
+        name: 'Security Preferences Old',
+        component: SecurityPreferencesOld
       }
     ]
 })

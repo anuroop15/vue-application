@@ -1,0 +1,15 @@
+export const es = {
+    signin: "Acceso a eBanking",
+    username:"Nombre de Usuario",
+    Password:"Contrase\u00F1a",
+    ForgotPassword:"\u00BFOlvid\u00F3 su clave?",
+    CreateUser:"Registro Nuevo Usuario",
+    disclaimer:"Este sitio ha sido dise\u00F1ado para ser usado solamente por Usuarios Autorizados. Cualquier intento para impedir el acceso a, atacar o <i>hackear</i> y/o alterar este sitio dar\u00E1 lugar a un procedimiento penal bajo las leyes locales, estatales, federales e internacionales.  Si usted ha llegado a este sitio web por error, por favor escriba correctamente el nombre de la URL que usted intenta visitar.  Nos reservamos el derecho de controlar el acceso a/desde este sitio web, de acuerdo con las pol\u00EDticas de la empresa.",
+    bindThisDevice:"Registrar este computador",
+    bindDeviceQuestion:"\u00BFDesea registrar esta computadora?",
+    deviceName:"Nombre de la computadora",
+    bindDeviceLink:"Ya ha registrado esta computadora?",
+    Continue:"Continuar",
+    deviceBindMessage : "Si la p\u00E1gina contin\u00FAa pidi\u00E9ndole registrar un dispositivo que ya ha sido registrado, es posible que el dispositivo no fuera registrado correctamente. Para corregir el problema, contin\u00FAe con el proceso de login. Una vez dentro, seleccione Preferencias de Seguridad > Computadoras registradas. Haga clic en la X a la derecha del dispositivo registrado para desvincularlo. Una vez hecho eso, la siguiente vez que entre a la p\u00E1gina, podr\u00E1 registrar el dispositivo correctamente.",
+    useCurrentUser:"Use su usuario existente. Si no tienen uno, o lo ha olvidado, por favor contacte con su banquero",
+};

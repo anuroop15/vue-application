@@ -50,3 +50,20 @@ export const ValidatePhones = (phones, locale) => {
     data: phones
   });
 };
+
+export const ChangeSiteAuthentication = (data, locale)=>{
+  return api({
+    url:`${locale}/preferences/json/ChangeSiteAuthentication`,
+    method:"post",
+    data:data
+  })
+}
+
+export const GetEnrollmentInformation = (data, locale) =>{
+  data += '&6d82538337fa4041bbe902d7753e4f6d=86dad655-7ba8-4e2f-b643-c3b00e655faa'
+  return api({
+    url:`${locale}/security/json/GetEnrollmentInformation`,
+    method:"post",
+    data:data
+  })
+}

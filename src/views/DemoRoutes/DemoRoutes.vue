@@ -1,6 +1,6 @@
 <template>
   <div class="santander-main_container">
-    <img class="santander-main_logo" src="../../assets/logo.png">
+    <Header />
     <div class="santander-main_routes">
     <h4>Available Routes</h4>
     <template v-for="item in items">

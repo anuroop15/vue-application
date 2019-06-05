@@ -1,9 +1,9 @@
-import TableDemo from '../../components/TableDemo/TableDemo.vue';
+import Header from '../../components/Header/Header.vue';
 
 export default {
     props:['id'],
     components: {
-        TableDemo,
+        Header
     },
     created() {
         this.$router.options.routes.forEach(route => {

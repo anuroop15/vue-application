@@ -44,6 +44,21 @@ x{
   border: none;
   background-color: rgb(89, 107, 126)
 }
+.santander-signature-pre_menu {
+  background: #576C81;
+  color: #fff;
+}
+.santander-signature-pre_menu a {
+  color: #ffffff;
+}
+.santander-signature-pre_menu .active {
+  background: #576C81!important;
+  color: #fff!important;
+  border: none!important;
+}
+.santander-signature-pre_menu .active span {
+  border-top: 2px solid #fff;
+}
 .santander-signature-pre_content >>> .nav-tabs-navigation {
   background-color: rgb(87, 108, 129);
 }
@@ -78,5 +93,9 @@ x{
 @media (max-width: 768px){
   .santander-signature-button-wrapper .button {
     margin: 5px;
+    font-size: 0.68rem;
+  }
+  .santander-signature-pre_menu a{
+    padding: 3px 0 2px 13px  !important;
   }
 }

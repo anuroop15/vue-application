@@ -1,7 +1,21 @@
 .signer-list {
  padding: 0px!important;
+ margin-top: -20px;
 }
-
+.signer-list_item{
+  border-radius: 2px;
+  -webkit-box-shadow: 0 0 20px rgba(0,0,0,.19), 0 1px 3px rgba(0,0,0,.23);
+  box-shadow: 0 0 20px rgba(0,0,0,.19), 0 1px 3px rgba(0,0,0,.23);
+  margin-top: 10px;
+}
+.signer-list_cell:not(:first-of-type):before{
+  content : "";
+  position: absolute;
+  left    : 4px;
+  height  : 1px;
+  width   : 99%;  /* or 100px */
+  border-bottom: 1px solid #d5d5d5
+}
 .signer-button-wrapper {
     float: right;
     padding: 20px;

@@ -1,26 +1,28 @@
 <template>
   <div class="signer-list">
     <div class="signer-table-wrapper">
-      <table class="table table-responsive-sm">
-        <thead>
-          <tr>
-            <th scope="col">Signer Name</th>
-            <th scope="col">Signature Date</th>
-            <th scope="col">Required signatures</th>
-            <th scope="col">Required signatures</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr  v-for="(doc, index) in trackDetails" :key="index">
-            <td>{{doc.partyName}}</td>
-            <td>{{getLocalDateFormat(doc.signDateTime)}}</td>
-            <td>{{doc.joinSigners}}</td>
-            <td>
-              <button @click="viewSignedDoc(doc.ecoIdDoc)" v-if="doc.ecoIdDoc">View Document</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <template v-for="(doc, index) in trackDetails">
+        <div class="signer-list_item p-2" :key="index">
+          <div class="row signer-list_cell mb-1 mt-1">
+            <div class="col-5 text-uppercase">Signer Name</div>
+            <div class="col-7 text-right">{{doc.partyName}}</div>
+          </div>
+          <div class="row signer-list_cell mb-1 mt-1">
+            <div class="col-8 text-uppercase">Signature Date</div>
+            <div class="col-4 text-right">{{getLocalDateFormat(doc.signDateTime)}}</div>
+          </div>
+          <div class="row signer-list_cell mb-1 mt-1">
+            <div class="col-10 text-uppercase">Required signatures</div>
+            <div class="col-2 text-right">{{doc.joinSigners}}</div>
+          </div>
+          <div class="row signer-list_cell mb-1 mt-1">
+            <div class="col-8 text-uppercase">Required signatures</div>
+            <div class="col-4 text-right">
+              <BaseButton @click="viewSignedDoc(doc.ecoIdDoc)" v-if="doc.ecoIdDoc">View Document</BaseButton>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
     <div class="signer-button-wrapper">
       <button class="btn" @click="closeModal">Close</button>

@@ -5,7 +5,6 @@ import SignerList from '../../components/SignerList/SignerList.vue'
 
 
 import { mapActions, mapState } from 'vuex'
-import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
 import { Component as Vuedal } from "vuedals";
 import moment from 'moment';
 import {VueTabs, VTab} from 'vue-nav-tabs'
@@ -29,8 +28,21 @@ export default {
       challengeAuth: false,
       acceptToSign: false,
       showModal: false,
-      gridColumnDefsPending: GridColumnDefsPending,
-      gridColumnDefsSigned: GridColumnDefsSigned
+      currentActive: 0,
+      ColumnDefs:[
+        { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
+          sortable: true, width: 310
+        },
+        { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
+      
+        { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 200 },
+        { headerName: this.$t('Reference'), field: 'reference', sortable: true },
+        { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
+          cellRenderer: (data) => {
+              return  data.value ? moment(data.value).format('DD-MMM-YY') : ""
+          }
+        }
+      ],
     }
   },
   i18n:{
@@ -54,6 +66,8 @@ export default {
   },
   methods: {
     getDocuments(selectedTab) {
+      this.currentActive = selectedTab;
+      this.setColumnDefinition();
       if(selectedTab === 0) {
         this.documentsToSign = true
         this.fetchPending()
@@ -76,7 +90,7 @@ export default {
           component: {
             render: h => {
               return h("div", [
-                h("p", this.$t('You are going to sign selected documents')),
+                h("p", this.$t('goingToSign')),
                 h(
                   "button",
                   { 
@@ -122,7 +136,7 @@ export default {
           a.click();
           setTimeout(function(){
             document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            window.URL.revokeObjectURL(this.downloadUrl);
           }, 100);
         } else {
           const concatData = _.map(this.selectedRowInfo, (docDetails) => {
@@ -201,6 +215,7 @@ export default {
       });
     },
     signedError() {
+      // eslint-disable-next-line
       console.log('error')
     },
     viewPDFDocument(documentDetails, resolve, reject) {
@@ -253,7 +268,7 @@ export default {
       })
     },
 
-    openPdfWindow(documentDetails, url, resolve, reject) {
+    openPdfWindow(documentDetails, url, resolve) {
       this.downloadUrl = url
       const selectDocument = () => {
         this.$vuedals.close()
@@ -332,6 +347,36 @@ export default {
         this.showModal = !this.showModal
       }
     },
+    setColumnDefinition(){
+      if(this.currentActive===0){
+        this.ColumnDefs = [
+          { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
+            sortable: true, width: 310
+          },
+          { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
+        
+          { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 200 },
+          { headerName: this.$t('Reference'), field: 'reference', sortable: true },
+          { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
+            cellRenderer: (data) => {
+                return  data.value ? moment(data.value).format('DD-MMM-YY') : ""
+            }
+          }
+        ]
+      } else {
+        this.ColumnDefs = [
+          { headerName: this.$t('Description'), field: 'description', width: 310},
+          { headerName: this.$t('Customer'), field: 'idCustomer', width: 80 },
+          { headerName: this.$t('CustomerName'), field: 'customerName',  width: 200  },
+          { headerName: this.$t('Reference'), field: 'reference' },
+          { headerName: this.$t('Date'), field: 'createdDate', width: 80,
+            cellRenderer: (data) => {
+                return data.value ? moment(data.value).format('DD-MMM-YY') : ""
+            }
+          }
+        ]
+      }
+    },
     ...mapActions({ fetchGetDocumentsToAccept: "signatureDocs/fetchGetDocumentsToAccept",
                     fetchSigned: "signatureDocs/fetchSigned",
                     fetchPending: "signatureDocs/fetchPending",
@@ -343,35 +388,6 @@ export default {
                   })
   },
   computed: {
-    GridColumnDefsPending(){
-      return [
-        { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
-          sortable: true, width: 310
-        },
-        { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
-      
-        { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 200 },
-        { headerName: this.$t('Reference'), field: 'reference', sortable: true },
-        { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
-          cellRenderer: (data) => {
-              return  data.value ? moment(data.value).format('DD-MMM-YY') : ""
-          }
-        }
-      ]
-    },
-    GridColumnDefsSigned(){
-      return [
-        { headerName: this.$t('Description'), field: 'description', width: 310},
-        { headerName: this.$t('Customer'), field: 'idCustomer', width: 80 },
-        { headerName: this.$t('CustomerName'), field: 'customerName',  width: 200  },
-        { headerName: this.$t('Reference'), field: 'reference' },
-        { headerName: this.$t('Date'), field: 'createdDate', width: 80,
-          cellRenderer: (data) => {
-              return data.value ? moment(data.value).format('DD-MMM-YY') : ""
-          }
-        }
-      ]
-    },
     displayedDocuments() {
       return this.signatureDocs.displayedDocuments
     },

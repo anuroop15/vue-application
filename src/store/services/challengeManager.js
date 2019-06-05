@@ -37,3 +37,18 @@ export const ChallengeCheckOTPPhoneChallenge = (urlBase,data, locale) => {
     }
     );
   };
+
+export const ChallengeCheckQuestionsChallenge = (urlBase, data, locale) =>{
+  return api({
+    url:`${locale}/${urlBase}CheckQuestionsChallenge`,
+    method:"post",
+    data: data
+  })
+}
+
+export const CheckAuthStatus = (urlBase,locale) =>{
+  return api({
+    url:`${locale}/${urlBase}CheckAuthStatus`,
+    method:"post"
+  })
+}

@@ -9,6 +9,7 @@ import {
 } from "../services";
 import i18n from "../../i18n";
 import {debugExeption} from "../utils";
+import actions from './actions/actionConstants';
 
 export const signatureDocs = {
   namespaced: true,
@@ -65,7 +66,7 @@ export const signatureDocs = {
         state.displayedDocuments = [];
       }
     },
-    FETCH_PENDING_BY_OTHERS(state, payload) {
+    FETCH_PENDING_BY_OTHERS(state) {
       if (state.data.PENDING_BY_OTHERS) {
         state.displayedDocuments = state.data.PENDING_BY_OTHERS.items;
       } else {
@@ -85,127 +86,5 @@ export const signatureDocs = {
       };
     }
   },
-  actions: {
-    async fetchGetDocumentsToAccept({ commit, getters:{getLocale} }) {
-    //async fetchData({ commit, getters:{getLocale} }) {
-      commit("SET_IS_LOADING");
-      try {
-        let response = await GetDocumentsToAccept(getLocale);
-        if (response.data.actionResult === "success") {
-          commit("SET_IS_LOADING");
-          commit("SET_DATA", response.data);
-        } else {
-          let message =
-            response.data.actionMessages != null &&
-            response.data.actionMessages.length > 0
-              ? response.data.actionMessages.join("\n")
-              : (message = response.data.actionErrors.join("\n"));
-          let err = {
-            title: "Error",
-            body: message ? message : "Internal Error"
-          };
-          commit("SET_ACTION_NOTIFY", err);
-        }
-      } catch (err) {
-        debugExeption(err)
-        let error = {
-          title: "Error",
-          body: i18n.t("networkError")
-        };
-        commit("SET_ACTION_NOTIFY", error);
-      }
-    },
-    async fetchDocumentPDF({ commit, getters:{getLocale} }, documetDetailsObj) {
-      commit("SET_IS_LOADING");
-      try {
-        if(isAuthF2()){
-          let response = await GenerateOauthTokenForDocument(getLocale)
-          if((response.data.actionResult === 'success')) {
-            return await SeePublishedDocument(
-              documetDetailsObj.documentDetailsArg,
-              documetDetailsObj.forSignedArg,
-              response.data.data.access_token,
-              getLocale )
-          }
-        } else {
-          return await SeePublishedDocument(
-            documetDetailsObj.documentDetailsArg,
-            documetDetailsObj.forSignedArg,
-            null,
-            getLocale )
-        }
-      } catch (err) {
-        debugExeption(err)
-        let error = {
-          title: "Error",
-          body: i18n.t("networkError")
-        };
-        commit("SET_ACTION_NOTIFY", error);
-      }   
-    },
-    async fetchPDFsConcatenated({ commit, getters:{getLocale} }, documetDetailsObj) {
-      commit("SET_IS_LOADING");
-      try {
-          return await DownloadPDFsConcatenated(
-            documetDetailsObj,
-            getLocale )
-        
-      } catch (err) {
-        debugExeption(err)
-        let error = {
-          title: "Error",
-          body: i18n.t("networkError")
-        };
-        commit("SET_ACTION_NOTIFY", error);
-      } 
-    },
-    async fetchDocumentExistence({ commit,getters:{getLocale}}, documentDetails) {
-      commit("SET_IS_LOADING");     
-      try {
-        if(isAuthF2()){
-          let response = await GenerateOauthTokenForDocument(getLocale)
-          if((response.data.actionResult === 'success')) {
-            return await CheckDocumentExistence(documentDetails, response.data.data.access_token,
-              getLocale )
-          }
-        } else {
-          return await CheckDocumentExistence(documentDetails, getLocale )
-        }
-      } catch (err) {
-        debugExeption(err)
-        let error = {
-          title: "Error",
-          body: i18n.t("networkError")
-        };
-        commit("SET_ACTION_NOTIFY", error);
-      } 
-    },
-    async fetchDocTrackDetails({ commit, getters:{getLocale} }, documentDetails) {
-      commit("SET_IS_LOADING");
-
-      try {
-        return await GetDocTrackDetail(documentDetails, getLocale )
-        
-      } catch (err) {
-        debugExeption(err)
-        let error = {
-          title: "Error",
-          body: i18n.t("networkError")
-        };
-        commit("SET_ACTION_NOTIFY", error);
-      }          
-    },
-    async fetchSigned({ commit }) {
-      commit("SET_IS_LOADING");
-      commit("FETCH_SIGNED");
-    },
-    async fetchPending({ commit }) {
-      commit("SET_IS_LOADING");
-      commit("FETCH_PENDING", this.state.signatureDocs.data.PENDING);
-    },
-    async fetchPendingByOthers({ commit }) {
-      commit("SET_IS_LOADING");
-      commit("FETCH_PENDING_BY_OTHERS");
-    }
-  }
+  actions
 };

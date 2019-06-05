@@ -1,7 +1,7 @@
 <template>
   <div class="santander-document-cell_container">
     <template v-for="(i, index) in params.headers">
-      <div class="row santander-document-cell pt-2 pb-2" :key="i.field">
+      <div class="row santander-document-cell" :key="i.field">
         <div :class="{'col-6':(index===2), 'col-4':(index!=2)}">
           <p class="text-uppercase align-middle">{{i.headerName}}</p>
         </div>

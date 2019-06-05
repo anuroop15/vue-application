@@ -2,7 +2,7 @@ import AgGridComponent from '../../components/AgGridComponent/AgGridComponent.vu
 import ChallengeManager from '../../components/ChallegeManager/ChallengeManager.vue'
 import DocumentView from '../../components/DocumentView/DocumentView.vue'
 import SignerList from '../../components/SignerList/SignerList.vue'
-
+import ChallegeManagerPhone from '../../components/ChallegeManagerPhone/ChallegeManagerPhone.vue'
 
 import { mapActions, mapState } from 'vuex'
 import { GridColumnDefsPending, GridColumnDefsSigned } from './constants/constants'
@@ -51,6 +51,7 @@ export default {
     VTab,
     Vuedal,
     ChallengeManager,
+    ChallegeManagerPhone
   },
   methods: {
     selectedRow(data) {
@@ -151,7 +152,7 @@ export default {
       this.$vuedals.open({
         title: this.$t('authenticationRequired'),
         size: "md",
-        component: ChallengeManager,
+        component: ChallegeManagerPhone,
         props: {
           urlBase:"security/json/ChallengeOTPForDocumentSignature",
           parameters: {

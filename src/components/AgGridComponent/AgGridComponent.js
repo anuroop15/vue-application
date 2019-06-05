@@ -2,6 +2,7 @@ import { AgGridVue } from "ag-grid-vue";
 import { en, es, pt } from "./i18n";
 import _ from "lodash";
 import DocumentCell from "../DocumentCell/DocumentCell.vue";
+
 const addLink = method => params => {
   let link = document.createElement("a");
   link.href = "#";
@@ -14,14 +15,15 @@ const addLink = method => params => {
   return link;
 };
 const getComponentSize = () => {
-  let root = document.querySelectorAll(".ag-root-wrapper");
-  for (let r of root) {
-    if (r.offsetWidth > 0) {
-      return r.offsetWidth;
-    }
-  }
+  return document.querySelector(".ag-root-wrapper").offsetWidth;
 };
-
+const reSize = () => {
+  let size =
+    document.querySelector(".santander-signature-pre_container").offsetHeight -
+    document.querySelector(".santander-signature-pre_top-area").offsetHeight -
+    20;
+  document.querySelector("#ag-grid_component").style.height = `${size}px`;
+};
 export default {
   name: "AgGridVueComponent",
   props: [
@@ -38,7 +40,7 @@ export default {
       domLayout: null,
       rowSelection: null,
       enableCheckBox: false,
-      isVisible:false,
+      isVisible: false
     };
   },
   i18n: {
@@ -76,7 +78,8 @@ export default {
   watch: {
     "$store.state.i18n.locale": "onLocaleRefreshColDef",
     displayedDocuments() {
-      this.getColumnsToFit()
+      this.getColumnsToFit();
+      reSize();
     },
     selectedAllView() {
       this.gridOptions.api.forEachNode(node => {
@@ -87,54 +90,62 @@ export default {
     }
   },
   methods: {
-    getColumnsToFit(){
-      this.gridOptions.api.sizeColumnsToFit()
+    getColumnsToFit() {
+      this.gridApi.sizeColumnsToFit();
     },
     onLocaleRefreshColDef() {
       let columnDefs = this.gridColumnDefs;
       columnDefs[1].cellRenderer = addLink(this.customerIdSelectedToView);
       columnDefs[0].cellRenderer = addLink(this.documentSelectedToView);
-      if(getComponentSize() < 700){
-        this.setResponseCell()
-      }else{
+      if (getComponentSize() < 700) {
+        this.setResponseCell();
+      } else {
         this.gridOptions.api.setColumnDefs(columnDefs);
-        this.gridOptions.api.setHeaderHeight(55)
+        this.gridOptions.api.setHeaderHeight(55);
       }
 
       this.gridOptions.api.sizeColumnsToFit();
       this.gridOptions.api.refreshHeader();
+      reSize();
     },
-    setResponseCell(){
-      this.gridOptions.api.setHeaderHeight(0)
-      this.gridOptions.api.setColumnDefs([{
-        autoHeight:true,
-        cellRenderer: "DocumentCell",
-        cellClass: "cell-wrap-text",
-        cellRendererParams:{
-          headers: this.gridColumnDefs,
-      }
-      }])
+    setResponseCell() {
+      this.gridOptions.api.setHeaderHeight(0);
+      this.gridOptions.api.setColumnDefs([
+        {
+          autoHeight: true,
+          cellRenderer: "DocumentCell",
+          cellClass: "cell-wrap-text",
+          cellRendererParams: {
+            headers: this.gridColumnDefs
+          }
+        }
+      ]);
+      reSize();
     },
-    onChange(params){
-      console.log(params)
+    onChange() {
+      /**
+       * handler for column envent
+       * params is pass as argument
+       */
     },
     onGridReady(params) {
-      this.getColumnsToFit()
-      let intiColDefs = params.api.getModel().context.contextParams.seed.gridOptions.columnDefs;
-      getComponentSize() < 700 
-      ? this.setResponseCell()
-      : null
+      reSize();
+      this.getColumnsToFit();
+      let intiColDefs = params.api.getModel().context.contextParams.seed
+        .gridOptions.columnDefs;
+      getComponentSize() < 700 ? this.setResponseCell() : null;
       window.addEventListener("resize", () => {
-        let size = getComponentSize()
-        if(size < 700){
+        let size = getComponentSize();
+        reSize();
+        if (size < 700) {
           this.setResponseCell();
         } else {
-          params.api.setHeaderHeight(55)
-          params.api.setColumnDefs(intiColDefs)
+          params.api.setHeaderHeight(55);
+          params.api.setColumnDefs(intiColDefs);
         }
-        setTimeout(()=> {
-          this.getColumnsToFit()
-          params.api.resetRowHeights()
+        setTimeout(() => {
+          this.getColumnsToFit();
+          params.api.resetRowHeights();
         });
       });
     },
@@ -156,8 +167,11 @@ export default {
       params.eGridCell.classList.add("ag-cell-viewed");
       this.$emit("customer-selected", params.data);
     },
-    onCellClicked(params) {
-      console.log("cell");
+    onCellClicked() {
+      /**
+       * handler for row-selected event
+       * params is pass as argument
+       */
     },
     onSelectionChanged(params) {
       this.enableCheckBox = true;
