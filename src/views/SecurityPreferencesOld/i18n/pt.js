@@ -20,6 +20,7 @@ export const pt = {
   strengthMessage:
     "A senha deve ter pelo menos 8 caracteres, pelo menos um número, pelo menos uma letra minúscula e uma letra maiúscula",
   passwordsDontMatch: "As senhas não coincidem",
+  passwordConfirmation: "Tem certeza de que deseja ALTERAR sua senha?",
   invalidMessage: "Por favor digite uma senha",
   passwordChanged: "Sua senha foi alterada com sucesso",
   errorChangingPassword:

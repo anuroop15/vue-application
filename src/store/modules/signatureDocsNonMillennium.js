@@ -37,11 +37,8 @@ export const signatureDocsNonMillennium = {
     SET_DATA(state, payload) {
       if (payload.data) {
         state.data = payload.data;
-        state.displayedDocuments = payload.data.PENDING.items;
-      } else {
-        state.data = payload;
-        state.displayedDocuments = payload.PENDING.items;
-      }
+        state.displayedDocuments = payload.data.items;
+      } 
     },
     SET_DOCUMENT_PDF(state, payload) {
       const blobContent = new Blob([payload], { type: "application/pdf" });
@@ -50,27 +47,6 @@ export const signatureDocsNonMillennium = {
     },
     SET_TRACK_DETAILS(state, payload) {
       state.trackDetails = payload.data;
-    },
-    FETCH_SIGNED(state) {
-      if (state.data.SIGNED) {
-        state.displayedDocuments = state.data.SIGNED.items;
-      } else {
-        state.displayedDocuments = [];
-      }
-    },
-    FETCH_PENDING(state, payload) {
-      if (payload) {
-        state.displayedDocuments = payload.items;
-      } else {
-        state.displayedDocuments = [];
-      }
-    },
-    FETCH_PENDING_BY_OTHERS(state, payload) {
-      if (state.data.PENDING_BY_OTHERS) {
-        state.displayedDocuments = state.data.PENDING_BY_OTHERS.items;
-      } else {
-        state.displayedDocuments = [];
-      }
     },
     SET_CURRENT(state, payload) {
       state.current = payload;
@@ -210,18 +186,6 @@ export const signatureDocsNonMillennium = {
         };
         commit("SET_ACTION_NOTIFY", error);
       }          
-    },
-    async fetchSigned({ commit }) {
-      commit("SET_IS_LOADING");
-      commit("FETCH_SIGNED");
-    },
-    async fetchPending({ commit }) {
-      commit("SET_IS_LOADING");
-      commit("FETCH_PENDING", this.state.signatureDocs.data.PENDING);
-    },
-    async fetchPendingByOthers({ commit }) {
-      commit("SET_IS_LOADING");
-      commit("FETCH_PENDING_BY_OTHERS");
     }
   },
 };

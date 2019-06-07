@@ -3,9 +3,12 @@ import {
   GetPhoneCountryPrefixList,
   ChangeOwnUserLoginName,
   ChangeOwnDisplayName,
+  ChangeSiteAuthentication,
+  ChangeSecurityQuestions,
+  ChangeOwnPassword,
   UnbindDevice,
   ValidatePhones,
-  ChangeSiteAuthentication
+  SeeSecurityQuestionsSetAnswersVisible,
 } from "../services";
 
 import i18n from "../../i18n";
@@ -18,6 +21,7 @@ export const securityPreferenceOld = {
     phones: [],
     phonesChallenge: {},
     securityInfo: {},
+    answersInfo:{},
     userLoginName: "",
     imagesInfo: null,
     userName: "",
@@ -83,6 +87,14 @@ export const securityPreferenceOld = {
       state.imagesInfo = imagesInfo;
       state.userLoginName = userLoginName;
       state.userName = userName;
+    },
+    SET_ANSWERS_INFO(state, {answersInfo}){
+      state.answersInfo = answersInfo;
+    },
+    SET_USER_IMAGES(state, imageSelected){
+      let obj = Object.assign({}, state.securityInfo.siteToUserInfo)
+      obj.image.fakeName = imageSelected
+      state.securityInfo.siteToUserInfo = obj
     },
     SECURITY_PRE_LOAD_IMGS(state, { imagesInfo }) {
       state.imagesInfo = imagesInfo;
@@ -154,6 +166,55 @@ export const securityPreferenceOld = {
         commit("SET_ACTION_NOTIFY", error);
       }
     },
+    async fetchSecurityQuestionsAnswer({ commit, getters: { getLocale } }){
+      try {
+        let data = {
+          devicePrint: add_deviceprint(),
+          informationType: ["ANSWERS"],
+          sendImageData: false
+        };
+        let response = await GetEnrollmentInformation(doPlain(data), getLocale);
+        if (response.data.actionResult === "success") {
+          commit("SET_ANSWERS_INFO", response.data.data);
+        } else {
+          let message =
+            response.data.actionMessages != null &&
+            response.data.actionMessages.length > 0
+              ? response.data.actionMessages.join("\n")
+              : (message = response.data.actionErrors.join("\n"));
+          let err = {
+            title: "Error",
+            body: message ? message : "Internal Error"
+          };
+          commit("SET_ACTION_NOTIFY", err);
+        }
+      } catch (err) {
+        debugExeption(err, "modules/securityPreferences:162");
+        let error = {
+          title: "Error",
+          body: i18n.t("networkError")
+        };
+        commit("SET_ACTION_NOTIFY", error);
+      }
+    },
+    async setAnswersVisible({ commit, dispatch , getters: { getLocale } }){
+      try {
+        let data = {
+          devicePrint: add_deviceprint()
+        }
+        let response = await SeeSecurityQuestionsSetAnswersVisible(doPlain(data), getLocale)
+        if(response.data.actionResult === "success"){
+          dispatch('fetchSecurityQuestionsAnswer')
+        }
+      } catch (err) {
+        debugExeption(err, "modules/securityPreferences:162");
+        let error = {
+          title: "Error",
+          body: i18n.t("networkError")
+        };
+        commit("SET_ACTION_NOTIFY", error);
+      }
+    },
     async fetchMoreImages({ commit, getters: { getLocale } }) {
       try {
         let data = {
@@ -185,7 +246,45 @@ export const securityPreferenceOld = {
         commit("SET_ACTION_NOTIFY", error);
       }
     },
-
+    async updateSecurityQuestions({commit, getters: { getLocale } }, payload){
+      try{
+        let data ={
+          devicePrint: add_deviceprint(),
+          ...payload
+        }
+        let response = await ChangeSecurityQuestions(doPlain(data), getLocale)
+        if (response.data.actionResult === "success"){
+          let message =
+          response.data.actionMessages != null &&
+          response.data.actionMessages.length > 0
+            ? response.data.actionMessages.join("\n")
+            : (message = response.data.actionErrors.join("\n"));
+        let err = {
+          title: "Success",
+          body: message
+        };
+        commit("SET_ACTION_NOTIFY", err);
+      } else {
+        let message =
+          response.data.actionMessages != null &&
+          response.data.actionMessages.length > 0
+            ? response.data.actionMessages.join("\n")
+            : (message = response.data.actionErrors.join("\n"));
+        let err = {
+          title: "Error",
+          body: message
+        };
+        commit("SET_ACTION_NOTIFY", err);
+      }
+      } catch (err) {
+        debugExeption(err, "modules/securityPreferences:");
+        let error = {
+          title: "Error",
+          body: i18n.t("networkError")
+        };
+        commit("SET_ACTION_NOTIFY", error);
+      }
+    },
     async updateSiteAuthentication(
       {
         commit,
@@ -198,13 +297,16 @@ export const securityPreferenceOld = {
           devicePrint: add_deviceprint(),
           ...payload
         };
-        let response = await ChangeSiteAuthentication(data, getLocale);
+        let response = await ChangeSiteAuthentication(doPlain(data), getLocale);
         if (response.data.actionResult === "success") {
-          let payload = {
+          let notify = {
             title: "Success",
-            body: response.data.actionMessages
+            body: response.data.actionMessages[0]
           };
-          commit("SET_ACTION_SUCCESS", payload);
+          if(payload.imageSelected.length > 0){
+            commit("SET_USER_IMAGES", payload.imageSelected)
+          }
+          commit("SET_ACTION_SUCCESS", notify);
         } else {
           let message =
             response.data.actionMessages != null &&
@@ -301,6 +403,37 @@ export const securityPreferenceOld = {
         };
         commit("SET_ACTION_NOTIFY", error);
       }
+    },
+    async updateOwnPassword({ commit,getters: { getLocale }}, {oldPassword, newPassword}){
+      try{
+        let response = await ChangeOwnPassword(doPlain({oldPassword, newPassword}, 'event'), getLocale)
+        if (response.data.actionResult === "success") {
+          let payload = {
+            title: "Success",
+            body: response.data.actionMessages,
+          };
+          commit("SET_ACTION_SUCCESS", payload);
+        } else {
+          let message =
+            response.data.actionMessages != null &&
+            response.data.actionMessages.length > 0
+              ? response.data.actionMessages.join("\n")
+              : (message = response.data.actionErrors.join("\n"));
+          let err = {
+            title: "Error",
+            body: message ? message : "Internal Error"
+          };
+          commit("SET_ACTION_NOTIFY", err);
+        }
+      }catch (err) {
+        debugExeption(err, "modules/securityPreferences:318");
+        let error = {
+          title: "Error",
+          body: i18n.t("networkError")
+        };
+        commit("SET_ACTION_NOTIFY", error);
+      }
+
     },
     async deleteDevice(
       {

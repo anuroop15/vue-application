@@ -20,6 +20,7 @@ export const en = {
   strengthMessage:
     "Password must have 8 char at least, at least one number, at least one lower-case letter and one upper-case letter",
   passwordsDontMatch: "Passwords do not match",
+  passwordConfirmation: "Are you sure you want to CHANGE your password?",
   invalidMessage: "Please type a password",
   passwordChanged: "Your password has been changed successfully",
   errorChangingPassword:

@@ -1,7 +1,7 @@
 import api from './api'
 
 export const isAuthF2 =()=>{
-    return sessionStorage.getItem("santander-f2-apps-access-token");
+    return JSON.parse(sessionStorage.getItem("santander-f2-apps-context"));
 }
 
 export const logClientSideInfo = (logs, isError) => {

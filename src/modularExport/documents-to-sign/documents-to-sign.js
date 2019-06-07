@@ -6,8 +6,8 @@ import { Tabs, Tab } from "vue-tabs-component";
 import store from "./documents-to-sign-store";
 import Vuelidate from "vuelidate";
 import VueSelect from "vue-cool-select";
-import i18n from '../../i18n'
-import {isAuthF2} from '../../store/services';
+import i18n from "../../i18n";
+import { isAuthF2 } from "../../store/services";
 import documentsToSign from "./documents-to-sign.vue";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -26,8 +26,6 @@ Vue.use(VueSelect, { theme: "bootstrap" });
 Vue.component("tabs", Tabs);
 Vue.component("tab", Tab);
 
-
-
 const requireComponent = require.context(
   "../../components/common",
   true,
@@ -45,13 +43,16 @@ requireComponent.keys().forEach(fileName => {
 });
 
 
-const checkToMount = ()=>{
-  isAuthF2()
-  ?new Vue({
-    store,
-    i18n,
-    render: h => h(documentsToSign)
-  }).$mount('#documentsToSign')
-  :setTimeout(checkToMount,500)
-}
-checkToMount()
+const checkToMount = () => {
+  if (isAuthF2()) {
+    i18n.locale = isAuthF2().lang;
+    new Vue({
+      store,
+      i18n,
+      render: h => h(documentsToSign)
+    }).$mount("#documentsToSign");
+  } else {
+    setTimeout(checkToMount, 500);
+  }
+};
+checkToMount();

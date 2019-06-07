@@ -12,9 +12,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use( config =>{
-  let token = sessionStorage.getItem("santander-f2-apps-access-token");
+  let token = JSON.parse(sessionStorage.getItem("santander-f2-apps-context"));
   if(token){
-    config.headers.authorization =`Bearer ${token}`
+    config.headers.authorization =`Bearer ${token.accessToken}`
   }
   return config
 }, err =>{

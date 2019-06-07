@@ -39,13 +39,16 @@ requireComponent.keys().forEach(fileName => {
 });
 
 const checkToMount = ()=>{
-  isAuthF2()
-  ?new Vue({
-    store,
-    i18n,
-    render: h => h(santanderSecurityPre)
-  }).$mount('#santanderSecurityPre')
-  :setTimeout(checkToMount,500)
+  if (isAuthF2()) {
+    i18n.locale = isAuthF2().lang;
+    new Vue({
+      store,
+      i18n,
+      render: h => h(santanderSecurityPre)
+    }).$mount("#santanderSecurityPre");
+  } else {
+    setTimeout(checkToMount, 500);
+  }
 }
 checkToMount()
 

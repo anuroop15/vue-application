@@ -8,24 +8,24 @@
       <div class="card">
         <div class="card-body">
           <div class="santander-signature-pre_top-area">
-          <div class="santander-signature-pre_menu">
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a :class="{'nav-link':true,active:(currentActive===0)}" href="#" @click.prevent="getDocuments(0)"><span>{{$t('docsToSign')}}</span></a>
-              </li>
-              <li class="nav-item">
-                <a :class="{'nav-link':true,active:(currentActive===1)}" href="#" @click.prevent="getDocuments(1)"><span>{{$t('fileOfSignedDocuments')}}</span></a>
-              </li>
-              <li class="nav-item">
-                <a :class="{'nav-link':true,active:(currentActive===2)}" href="#" @click.prevent="getDocuments(2)" ><span>{{$t('documentsToSignForOthers')}}</span></a>
-              </li>
-            </ul>
-          </div>
-          <div v-if="currentActive===0"  class="santander-signature-button-wrapper pl-2">
-                  <button class="button" v-on:click="selectAll">{{$t('selectAll')}}</button>
-                  <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
-                  <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
-          </div>
+            <div class="santander-signature-pre_menu">
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a :class="{'nav-link':true,active:(currentActive===0)}" href="#" @click.prevent="getDocuments(0)"><span>{{$t('docsToSign')}}</span></a>
+                </li>
+                <li class="nav-item">
+                  <a :class="{'nav-link':true,active:(currentActive===1)}" href="#" @click.prevent="getDocuments(1)"><span>{{$t('fileOfSignedDocuments')}}</span></a>
+                </li>
+                <li class="nav-item">
+                  <a :class="{'nav-link':true,active:(currentActive===2)}" href="#" @click.prevent="getDocuments(2)" ><span>{{$t('documentsToSignForOthers')}}</span></a>
+                </li>
+              </ul>
+            </div>
+            <div v-if="currentActive===0"  class="santander-signature-button-wrapper pl-2">
+                    <button class="button" v-on:click="selectAll">{{$t('selectAll')}}</button>
+                    <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
+                    <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
+            </div>
           </div>
           <div class="santander-signature-grid-wrapper">
                   <AgGridComponent

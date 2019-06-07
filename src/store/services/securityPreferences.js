@@ -51,7 +51,11 @@ export const ValidatePhones = (phones, locale) => {
   });
 };
 
+//test CSRF token
+const token ="&8fce9eb97eb94996b19a2b06f1b291a7=e92ad394-a595-4e68-b5d3-2d9be01370dc"
+
 export const ChangeSiteAuthentication = (data, locale)=>{
+  data += token
   return api({
     url:`${locale}/preferences/json/ChangeSiteAuthentication`,
     method:"post",
@@ -59,8 +63,35 @@ export const ChangeSiteAuthentication = (data, locale)=>{
   })
 }
 
+export const ChangeOwnPassword = (data, locale)=>{
+  data += token
+  return api({
+    url:`${locale}/preferences/json/ChangeOwnPassword`,
+    method:"post",
+    data:data
+  })
+}
+
+export const ChangeSecurityQuestions = (data, locale) =>{
+  data += token
+  return api({
+    url:`${locale}/preferences/json/ChangeSecurityQuestions`,
+    method:"post",
+    data:data
+  })
+}
+
+ export const SeeSecurityQuestionsSetAnswersVisible = (data, locale) =>{
+  data += token
+  return api({
+    url:`${locale}/preferences/json/SeeSecurityQuestionsSetAnswersVisible`,
+    method:"post",
+    data:data
+  })
+ }
+
 export const GetEnrollmentInformation = (data, locale) =>{
-  data += '&6d82538337fa4041bbe902d7753e4f6d=86dad655-7ba8-4e2f-b643-c3b00e655faa'
+  data += token
   return api({
     url:`${locale}/security/json/GetEnrollmentInformation`,
     method:"post",

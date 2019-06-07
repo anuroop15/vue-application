@@ -1,0 +1,50 @@
+<!-- Santander BPI Wealth
+	 OpenF2 Container Test Build
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="F2 Container for Santander BPI Wealth">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Santander BPI Wealth F2 Container</title>
+	<link rel="stylesheet" href="./assets/bootstrap.css" type="text/css">
+</head>
+
+<body class="p-4">
+	<button class="btn" onClick="F2.Events.emit('changeLanguage','en')">emit local change</button>
+	<select class="form-control" onchange="F2.Events.emit('changeLanguage',event.target.value)">
+		<option>es</option>
+		<option>en</option>
+		<option>pt</option>
+	  </select>
+	<h3>F2 Container for Santander BPI Wealth apps in IHS</h3>
+	<br />
+
+	<span style="font-family: Lato, " Helvetica Neue", Helvetica, arial, sans-serif; font-size:2.3em;
+		font-weight:lighter">
+		Widget reference com_santander_bpiwealth_securitypreferences ( OAUTH )
+	</span>
+	<hr />
+	<br />
+	<span style="font-family: Lato, " Helvetica Neue", Helvetica, arial, sans-serif; font-size:2.3em;
+		font-weight:lighter">
+		Widget reference com_santander_bpiwealth_documentsignature ( OAUTH )
+	</span>
+	<hr />
+	<%for(let a of APPS){%>
+	<div style="width: 100%;">
+		<section class="f2-autoload tundra vgn" data-f2-appid="<%=a.id%>"
+			data-f2-context="{&quot;accessToken&quot;:&quot;YI686eak66848QM00268ZyRFLiaLsJNwP&quot;}"
+			data-f2-manifesturl="<%=a.path%>">
+		</section>
+	</div>
+	<br />
+	<br />
+	<%}%>
+	</section>
+	<script src="./assets/f2.min.js" type="text/javascript"></script>
+</body>
+
+</html>

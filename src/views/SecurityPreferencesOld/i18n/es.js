@@ -20,6 +20,7 @@ export const es = {
   strengthMessage:
     "La contraseña debe tener 8 caracteres como mínimo, al menos un número, al menos una letra minúscula y una letra mayúscula",
   passwordsDontMatch: "Las contraseñas no coinciden",
+  passwordConfirmation: "Seguro que desea CAMBIAR su contraseña?",
   invalidMessage: "Por favor escriba una contraseña",
   passwordChanged: "Tu contraseña ha sido cambiada exitosamente",
   errorChangingPassword:

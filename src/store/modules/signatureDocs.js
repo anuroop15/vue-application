@@ -1,15 +1,8 @@
-import {
-  GetDocTrackDetail,
-  DownloadPDFsConcatenated,
-  GetDocumentsToAccept,
-  CheckDocumentExistence,
-  SeePublishedDocument,
-  GenerateOauthTokenForDocument,
-  isAuthF2
-} from "../services";
-import i18n from "../../i18n";
-import {debugExeption} from "../utils";
+
+// import i18n from "../../i18n";
+// import {debugExeption} from "../utils";
 import actions from './actions/actions';
+import { mutations } from './mutations/mutations';
 
 export const signatureDocs = {
   namespaced: true,
@@ -35,13 +28,18 @@ export const signatureDocs = {
     }
   },
   mutations: {
-    SET_DATA(state, payload) {
+    [mutations['SET_DATA']](state, payload) {
       if (payload.data) {
         state.data = payload.data;
-        state.displayedDocuments = payload.data.PENDING.items;
+        //if added => quick fix it was throwing a exception 
+        if(payload.data.PENDING){
+          state.displayedDocuments = payload.data.PENDING.items;
+        }
       } else {
         state.data = payload;
+        if(payload.PENDING){
         state.displayedDocuments = payload.PENDING.items;
+        }
       }
     },
     SET_DOCUMENT_PDF(state, payload) {
@@ -52,7 +50,7 @@ export const signatureDocs = {
     SET_TRACK_DETAILS(state, payload) {
       state.trackDetails = payload.data;
     },
-    FETCH_SIGNED(state) {
+    [mutations['FETCH_SIGNED']](state) {
       if (state.data.SIGNED) {
         state.displayedDocuments = state.data.SIGNED.items;
       } else {
@@ -79,7 +77,7 @@ export const signatureDocs = {
     SET_IS_LOADING(state, payload) {
       state.isLoading = payload === state.isLoading;
     },
-    SET_ACTION_NOTIFY(state,{ body, title }){
+    [mutations['SET_ACTION_NOTIFY']](state,{ body, title }){
       state.message = {
         title: title,
         body: body

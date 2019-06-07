@@ -58,6 +58,12 @@ export const GetDocumentsToAccept = (locale) => {
     method: "post"
   });
 };
+export const GetDocumentsToAcceptCount = (locale) => {
+  return api({
+    url: `${locale}/customer/json/GetDocumentsToAcceptCount`,
+    method: "post"
+  });
+};
 export const GetDocTrackDetail = (docTrackDetails, locale) => {
   const formData = new FormData()
   formData.set('idDocTrack', docTrackDetails.idDocTrack)

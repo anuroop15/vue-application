@@ -3,14 +3,15 @@ import { Component as Vuedal } from "vuedals";
 import { CoolSelect } from 'vue-cool-select'
 import {en, es, pt} from './i18n'
 import { required, sameAs, numeric, maxLength } from "vuelidate/lib/validators";
-import ChallengeManager from "../../components/ChallegeManager/ChallengeManager.vue";
+import ChallegeManagerPhone from "../../components/ChallegeManagerPhone/ChallegeManagerPhone.vue";
 
 export default {
   name: "SecurityPreferencesOld",
   components: {
     Vuedal,
     CoolSelect,
-    ChallengeManager
+    ChallegeManagerPhone,
+
   },
   i18n:{
     messages:{
@@ -25,6 +26,7 @@ export default {
       displayName: "",
       phones: [],
       unbindSelected: "",
+      enableSaveSQ:false,
       enablePhoneEdit: true,
       startChallenge: false,
       siteToUserInfo:null,
@@ -100,7 +102,7 @@ export default {
       this.validatePhonesNumbers(payload);
     }
     },
-    startChallengeChangePassword() {
+    startChangePassword() {
       this.$v.password.$touch();
       if (this.$v.password.$invalid) {
         this.submitStatus = "ERROR";
@@ -108,56 +110,120 @@ export default {
         this.submitStatus = "PENDING";
         this.startChallenge = true;
         this.$vuedals.open({
-          title: this.$t('additionalAuthenticationRequired'),
-          size: "md",
-          component: ChallengeManager,
-          props: {
-            urlBase: "preferences/json/ChallengeOTPForPasswordChange",
-            parameters: this.password,
-            onSuccess: this.passwordHandlerOnSuccess,
-            onError: this.passwordHandlerOnError
-          },
-          dismissable: false,
-          escapable: true
+          title: "Confirmation",
+          size: "sm",
+          component: {
+            name: "prompt-modal-security",
+  
+            render: h => {
+              return h("div", {style:'padding:0!important'}, [
+                h("p", {style:'padding:20px'}, this.$t('passwordConfirmation')),
+                h('div',{class:'santander-security-pre_footer'},[
+                  h(
+                    "BaseButton",
+                    { on: { click: this.changePasswordCancel },props:{
+                      variant:'outline',
+                      className:'ml-3'
+                    }
+                   },
+                    this.$t('cancel')
+                  ),
+                  h(
+                    "BaseButton",
+                    { on: { click: this.changePassword }, 
+                    props:{ variant:'outline', className:'ml-3'}
+                   },
+                    "OK"
+                  )
+                ]),
+              ]);
+            }
+          }
         });
       }
     },
-    startChallengeSQ() {
+    changePasswordCancel() {
+      this.password = {
+        oldPassword: "",
+        newPassword: "",
+        verifyPassword: ""
+      };
+      this.$vuedals.close()
+      this.$v.$reset();
+    },
+    changePassword() {
+      this.updateOwnPassword(this.password);
+      this.changePasswordCancel()
+    },
+    changeSecurityQ(){
       this.$v.securityInfo.$touch();
       if(this.$v.securityInfo.answer.$invalid){
         this.securityInfo.submitError = true;
       } else {
         this.securityInfo.submitError = false;
+        let {answer, question} = this.securityInfo;
+        this.updateSecurityQuestions({answer, question})
+      }
+    },
+    seeSecurityQuestionsChallenger() {
         this.$vuedals.open({
           title: this.$t('additionalAuthenticationRequired'),
           size: "md",
-          component: ChallengeManager,
-          props: {
-            urlBase: "preferences/json/ChallengeOTPForSecurityQuestionsChange",
-            parameters: this.securityInfo,
-            onSuccess: this.sqHandlerOnSuccess,
-            onError: this.sqHandlerOnError
+          component: {
+            name:"see-security-questions",
+            render: h => {
+              return h("div",{style:'padding:0!important'},[
+                h(ChallegeManagerPhone,{
+                  style:'padding:20px!important',
+                  props: {
+                    urlBase: "preferences/json/SeeSecurityQuestions",
+                    parameters: {devicePrint:true},
+                  },
+                  on:{
+                    onSuccess: this.seeSqHandlerOnSuccess,
+                    onError: this.seeSqHandlerOnError
+                  },
+                })
+              ])
+            } 
           },
           dismissable: false,
           escapable: true
         });
-      }
     },
-    sqHandlerOnSuccess() {
-      this.$v.$reset();
-      this.$vuedals.open({
-        size: "xs",
-        component: {
-          name: "success-password",
+    seeSqHandlerOnError(data) {
+      this.$vuedals.close()
+      console.log(data)
+      // if (data.actionMessages != null && data.actionMessages.length > 0) {
+      //   this.$vuedals.open({
+      //     size: "xs",
+      //     component: {
+      //       name: "error-password",
 
-          render: h => {
-            return h(
-              "h6",
-              this.$t('securityQuestionsSuccess')
-            );
-          }
-        }
-      });
+      //       render: h => {
+      //         return h("h6", data.actionMessages.join("\n"));
+      //       }
+      //     }
+      //   });
+      // } else {
+      //   this.$vuedals.open({
+      //     size: "xs",
+      //     component: {
+      //       name: "error-password",
+
+      //       render: h => {
+      //         return h(
+      //           "h6",
+      //           this.$t('errorChangingSQ')
+      //         );
+      //       }
+      //     }
+      //   });
+      // }
+    },
+    seeSqHandlerOnSuccess() {
+      this.$vuedals.close()
+      this.setAnswersVisible()
     },
     phoneSaveHandlerOnSuccess() {
       this.$v.$reset();
@@ -200,41 +266,12 @@ export default {
         });
       }
     },
-    sqHandlerOnError(data) {
-      this.$v.$reset();
-      if (data.actionMessages != null && data.actionMessages.length > 0) {
-        this.$vuedals.open({
-          size: "xs",
-          component: {
-            name: "error-password",
-
-            render: h => {
-              return h("h6", data.actionMessages.join("\n"));
-            }
-          }
-        });
-      } else {
-        this.$vuedals.open({
-          size: "xs",
-          component: {
-            name: "error-password",
-
-            render: h => {
-              return h(
-                "h6",
-                this.$t('errorChangingSQ')
-              );
-            }
-          }
-        });
-      }
-    },
     startChallengePhone(data){
       if (data) {
         this.$vuedals.open({
           title: this.$t('additionalAuthenticationRequired'),
           size: "md",
-          component: ChallengeManager,
+          component: ChallegeManagerPhone,
           props: {
             urlBase: "preferences/json/ChallengeOTPForPhonesOperation",
             parameters: data,
@@ -246,61 +283,15 @@ export default {
         });
       }
     },
-    passwordHandlerOnError(data) {
-      this.password = {
-        oldPassword: "",
-        newPassword: "",
-        verifyPassword: ""
-      };
-      this.$v.$reset();
-      if (data.actionMessages != null && data.actionMessages.length > 0) {
-        this.$vuedals.open({
-          size: "xs",
-          component: {
-            name: "error-password",
-
-            render: h => {
-              return h("h6", data.actionMessages.join("\n"));
-            }
-          }
-        });
-      } else {
-        this.$vuedals.open({
-          size: "xs",
-          component: {
-            name: "error-password",
-
-            render: h => {
-              return h(
-                "h6",
-                this.$t('errorChangingPassword')
-              );
-            }
-          }
-        });
-      }
-    },
-    passwordHandlerOnSuccess() {
-      this.$v.$reset();
-      this.$vuedals.open({
-        size: "xs",
-        component: {
-          name: "success-password",
-
-          render: h => {
-            return h("h6", this.$t('passwordChanged'));
-          }
-        }
-      });
-    },
     selectImages(fakeName){
       this.selectedImages = fakeName;
     },
     siteUpdate(){
       this.updateSiteAuthentication({
         caption: this.siteToUserInfo.phrase,
-        imagesSelected: this.imagesSelected
+        imageSelected: this.selectedImages
       });
+      this.selectedImages = null;
     },
     phoneAddInputs() {
       let key = "n" + Math.random() * 10;
@@ -419,6 +410,24 @@ export default {
         ...siteToUserInfo
       };
     },
+    fetchAnswersInfo(){
+      let tempAnswer = [];
+      let tempQuestion = [];
+      let answersInfo =  this.$store.getters["securityPreferenceOld/getStateProp"](
+        "answersInfo"
+      );
+      let answersInfoOrdered = {};
+      Object.keys(answersInfo).sort().forEach(key =>{
+        answersInfoOrdered[key] = answersInfo[key]
+      })
+      for(let answer in answersInfoOrdered){
+        tempAnswer.push(answersInfoOrdered[answer]);
+        tempQuestion.push(answer);
+      }
+      this.securityInfo.answer = tempAnswer;
+      this.securityInfo.question = tempQuestion;
+      this.enableSaveSQ = true;
+    },
     fetchImagesInfo(){
       let imagesInfo =  this.$store.getters["securityPreferenceOld/getStateProp"](
         "imagesInfo"
@@ -442,7 +451,10 @@ export default {
       "fetchPhoneCountryPrefixList",
       "updateUserLoginName",
       "updateOwnDisplayName",
+      "updateOwnPassword",
+      "updateSecurityQuestions",
       "deleteDevice",
+      "setAnswersVisible",
       "validatePhonesNumbers"
     ])
   },
@@ -458,6 +470,7 @@ export default {
     "securityPreferenceOld.phonesChallenge": "startChallengePhone",
     "securityPreferenceOld.preferred":"fetchPreferred",
     "securityPreferenceOld.securityInfo.questionsInfo":"fetchQuestionsInfo",
+    "securityPreferenceOld.answersInfo":"fetchAnswersInfo",
     "securityPreferenceOld.imagesInfo":"fetchImagesInfo",
   }
 };
