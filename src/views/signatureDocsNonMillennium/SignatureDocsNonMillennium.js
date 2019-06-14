@@ -152,45 +152,61 @@ export default {
       this.$vuedals.open({
         title: this.$t('authenticationRequired'),
         size: "md",
-        component: ChallegeManagerPhone,
-        props: {
-          urlBase:"security/json/ChallengeOTPForDocumentSignature",
-          parameters: {
-            idDocumentTracks: this.documentListToSign
-          },
-          onSuccess:this.signedSuccessful,
-          onError: this.signedError
+        component: {
+          render: h=>{
+            return h(ChallegeManagerPhone,{
+              props: {
+                urlBase:"customer/json/AcceptDocuments",
+                parameters: {
+                  idDocumentTracks: this.documentListToSign
+                },
+              },
+              on:{
+                onSuccess:this.signedSuccessful,
+                onError: this.signedError
+              }
+            })
+          }
         },
         escapable: true,
-
       });
     },
     signedSuccessful() {
-      this.fetchGetDocumentsToAccept()
-      this.$vuedals.open({
-        title: 'Successfully Signed',
-        size: "sm",
-        component: {
-          render: h => {
-            return h("div", [
-              h("p", this.$t('successfullySignedDoc')),
-              h(
-                "button",
-                { 
-                  class: 'signatures-button button-right',
-                  on: { click: this.closeModal } 
-                },
-                "close"
-              )
-            ]);
-          }
-        },
-        props: {},
-        escapable: true,
-      });
+      this.$vuedals.close()
+      // Call  => /en/customer/json/AcceptDocumentsValidate
+      // check current site
+      this.checkAcceptDocuments().then(data => {
+        if(data.data.actionResult === 'success') {
+          this.fetchGetDocumentsToAccept()
+          this.$vuedals.open({
+            title: 'Successfully Signed',
+            size: "sm",
+            component: {
+              render: h => {
+                return h("div", [
+                  h("p", this.$t('successfullySignedDoc')),
+                  h(
+                    "button",
+                    { 
+                      class: 'signatures-button button-right',
+                      on: { click: this.closeModal } 
+                    },
+                    "close"
+                  )
+                ]);
+              }
+            },
+            props: {},
+            escapable: true,
+          });
+        } else {
+          this.showErrorModal()
+        }
+      })
     },
-    signedError() {
-      console.log('error')
+    signedError(data) {
+      this.$vuedals.close()
+      console.log(data)
     },
     viewPDFDocument(documentDetails, resolve, reject) {
       this.getPdfDocument(documentDetails, resolve, reject, false)
@@ -211,6 +227,7 @@ export default {
           })
         } else {
           this.showErrorModal()
+          reject()
         }
       })
     },
@@ -224,22 +241,6 @@ export default {
     },
     selectAll() {
       this.selectedAllViewed = !this.selectedAllViewed
-    },
-    customerSelected(trackDetails) {
-      this.signedDocDetails = trackDetails
-      this.fetchDocTrackDetails(trackDetails).then(data => {
-        this.$vuedals.open({
-          title: 'Signers List',
-          size: "lg",
-          component: SignerList,
-          props: {
-            trackDetails: data.data.data,
-            viewSignedDoc: this.viewSignedDoc,
-            closeModal: this.closeModal
-          },
-          escapable: true,
-        });
-      })
     },
 
     openPdfWindow(documentDetails, url, resolve, reject) {
@@ -319,13 +320,11 @@ export default {
       }
     },
     ...mapActions({ fetchGetDocumentsToAccept: "signatureDocsNonMillennium/fetchGetDocumentsToAccept",
-                    fetchSigned: "signatureDocsNonMillennium/fetchSigned",
                     fetchPending: "signatureDocsNonMillennium/fetchPending",
-                    fetchPendingByOthers: "signatureDocsNonMillennium/fetchPendingByOthers",
                     fetchDocumentPDF: "signatureDocsNonMillennium/fetchDocumentPDF",
                     fetchDocumentExistence: "signatureDocsNonMillennium/fetchDocumentExistence",
-                    fetchDocTrackDetails: "signatureDocsNonMillennium/fetchDocTrackDetails",
-                    fetchPDFsConcatenated: "signatureDocsNonMillennium/fetchPDFsConcatenated"
+                    fetchPDFsConcatenated: "signatureDocsNonMillennium/fetchPDFsConcatenated",
+                    checkAcceptDocuments: "signatureDocsNonMillennium/checkAcceptDocuments"
                   })
   },
   computed: {

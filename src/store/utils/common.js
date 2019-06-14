@@ -103,8 +103,7 @@ export const debugExeption = (e, origen, other) => {
     try {
       myLog.push("userAgent = " + navigator.userAgent);
     } catch (e4) {}
-    doPlain()
-    logClientSideInfo(myLog, true);
+    logClientSideInfo(doPlain(myLog), true);
   } catch (e2) {}
 };
 

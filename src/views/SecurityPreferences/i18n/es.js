@@ -1,4 +1,15 @@
 export const es = {
+  showAnswers:"Ver respuestas: Esta accion le pedira alguna pregunta de seguridad antes de permitirle ver o cambiar las respuestas de sus preguntas de seguridad.",
+  phoneDeleteConfirmation:"Seguro que desea eliminar este tel\u00E9fono?",
+  phoneAlias:"Nombre su tel\u00E9fono",
+  phoneCountryCode:"Country Code",
+  phoneAreaCode:"C\u00F3digo \u00C1rea",
+  phoneUpdate:"\u00DAltima actualizacion",
+  site2userAuthentication:"Frase e Imagen",
+  imageLabel:"Imagen",
+  imageTitle:"Haga click para seleccionar la imagen",
+  moreImages:"M\u00E1s im\u00E1genes",
+  captionLabel:"Su frase",
   password: "Contraseña",
   oldPassword: "Contraseña anterior",
   oldPasswordError:"Se requiere contraseña antigua",
@@ -15,6 +26,7 @@ export const es = {
   strengthMessage:
     "La contraseña debe tener 8 caracteres como mínimo, al menos un número, al menos una letra minúscula y una letra mayúscula",
   passwordsDontMatch: "Las contraseñas no coinciden",
+  passwordConfirmation: "Seguro que desea CAMBIAR su contraseña?",
   invalidMessage: "Por favor escriba una contraseña",
   passwordChanged: "Tu contraseña ha sido cambiada exitosamente",
   errorChangingPassword:
@@ -52,6 +64,7 @@ export const es = {
   areaCode: "Código de área",
   areaCodeError:"Código de área es requerido",
   countryCode: "Código de país",
+  countryCodeError:"Código de país es requerido",
   loadingData: "Cargando datos...",
   label: "Etiqueta",
   bindingType: "Tipo de Union",

@@ -1,4 +1,15 @@
 export const pt = {
+  showAnswers:"Exibir Respostas:ap\u00F3s passar pela autentica\u00E7\u00E3o voc\u00EA poder\u00E1 ver/modificar suas respostas de seguran\u00E7a.",
+  phoneDeleteConfirmation:"Tem certeza de que deseja EXCLUIR este telefone?",
+  phoneAlias:"Apelido do telefone",
+  phoneCountryCode:"C\u00F3digo Pa\u00EDs",
+  phoneAreaCode:"DDD",
+  phoneUpdate:"\u00DAltima atualiza\u00E7\u00E3o",
+  site2userAuthentication:"Imagem e Frase",
+  imageLabel:"Sua Imagem",
+  imageTitle:"Clique em uma imagem para selecion\u00E1-la",
+  moreImages:"Mais imagens",
+  captionLabel:"Su frase",
   password: "Senha",
   oldPassword: "Senha Antiga",
   oldPasswordError:"Senha antiga é necessária",
@@ -15,6 +26,7 @@ export const pt = {
   strengthMessage:
     "A senha deve ter pelo menos 8 caracteres, pelo menos um número, pelo menos uma letra minúscula e uma letra maiúscula",
   passwordsDontMatch: "As senhas não coincidem",
+  passwordConfirmation: "Tem certeza de que deseja ALTERAR sua senha?",
   invalidMessage: "Por favor digite uma senha",
   passwordChanged: "Sua senha foi alterada com sucesso",
   errorChangingPassword:
@@ -52,6 +64,7 @@ export const pt = {
   areaCode: "Código de área",
   areaCodeError:"Código de área es requerido",
   countryCode: "Código do país",
+  countryCodeError:"Código do país es requerido",
   loadingData: "Carregando dados...",
   label: "Rótulo",
   bindingType: "Tipo de ligação",

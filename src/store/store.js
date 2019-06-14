@@ -7,7 +7,6 @@ import {
   signatureDocs,
   signatureDocsNonMillennium,
   securityPreference,
-  securityPreferenceOld,
   challengeManager,
   i18n,
   auth
@@ -21,7 +20,6 @@ const store = new Vuex.Store({
     fundsTransfers,
     signatureDocsNonMillennium,
     securityPreference,
-    securityPreferenceOld,
     challengeManager,
     i18n,
     auth

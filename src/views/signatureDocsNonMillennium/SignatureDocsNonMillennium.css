@@ -72,3 +72,8 @@ x{
   padding: 0px;
   padding-top: 1.25em;
 }
+@media only screen and (max-width: 787px ) {
+  .santander-signature-button-wrapper.pl-3 >>> .button {
+    width: 96%;
+  }
+}

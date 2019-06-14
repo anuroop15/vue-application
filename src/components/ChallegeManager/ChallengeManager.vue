@@ -1,5 +1,9 @@
 <template>
   <div class="santanter-challenge-manager_container">
+    <div  v-if="challengeManager.isLoading" class="santanter-challenge-manager-spinner">
+       <BaseSpinner />
+    </div>
+    <div v-else class="santanter-challenge-manager_container-cont">
     <div
       class="santander-challenge-manager_select-method"
       v-if="challengeManager.stage === 'CHALLENGE_SELECT_METHOD'"
@@ -59,7 +63,7 @@
             :placeholder="$t('code')"
             :aria-label="$t('code')"
           >
-          <div class="input-group-append">
+          <div class="ml-3 pppinput-group-append">
             <BaseButton
               variant="primary"
               class="santander-challenge-manager_button-accept"
@@ -86,6 +90,7 @@
         >{{$t('newToken')}}</BaseButton>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

@@ -1,5 +1,9 @@
 <template>
   <div class="santanter-challenge-manager_container">
+    <div  v-if="isLoading" class="santanter-challenge-manager-spinner">
+       <BaseSpinner />
+    </div>
+    <div v-else class="santanter-challenge-manager_container-cont">
     <div
       class="santander-challenge-manager_select-method"
       v-if="step ==='SELECT_METHOD'"
@@ -43,6 +47,7 @@
       v-else-if="step==='OOBPHONE'"
       v-html="$t('YouWillReceiveACallShortly',{label:info.selectedMethod.label, code:info.oobToken})"
     ></div>
+    </div>
   </div>
 </template>
 

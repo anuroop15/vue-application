@@ -1,10 +1,10 @@
 import {
-  GetDocTrackDetail,
   DownloadPDFsConcatenated,
-  GetDocumentsToAccept,
+  GetDocumentsToAcceptNonMillennium,
   CheckDocumentExistence,
-  SeePublishedDocument,
+  SeePublishedDocumentNonMillennium,
   GenerateOauthTokenForDocument,
+  AcceptDocumentsValidateNonMillennium,
   isAuthF2
 } from "../services";
 import i18n from "../../i18n";
@@ -66,7 +66,7 @@ export const signatureDocsNonMillennium = {
     //async fetchData({ commit, getters:{getLocale} }) {
       commit("SET_IS_LOADING");
       try {
-        let response = await GetDocumentsToAccept(getLocale);
+        let response = await GetDocumentsToAcceptNonMillennium(getLocale);
         if (response.data.actionResult === "success") {
           commit("SET_IS_LOADING");
           commit("SET_DATA", response.data);
@@ -97,14 +97,14 @@ export const signatureDocsNonMillennium = {
         if(isAuthF2()){
           let response = await GenerateOauthTokenForDocument(getLocale)
           if((response.data.actionResult === 'success')) {
-            return await SeePublishedDocument(
+            return await SeePublishedDocumentNonMillennium(
               documetDetailsObj.documentDetailsArg,
               documetDetailsObj.forSignedArg,
               response.data.data.access_token,
               getLocale )
           }
         } else {
-          return await SeePublishedDocument(
+          return await SeePublishedDocumentNonMillennium(
             documetDetailsObj.documentDetailsArg,
             documetDetailsObj.forSignedArg,
             null,
@@ -122,20 +122,10 @@ export const signatureDocsNonMillennium = {
     async fetchPDFsConcatenated({ commit, getters:{getLocale} }, documetDetailsObj) {
       commit("SET_IS_LOADING");
       try {
-        let response = await GenerateOauthTokenForDocument(getLocale)
-        if(isAuthF2()){
-          if((response.data.actionResult === 'success')) {
-            return await DownloadPDFsConcatenated(
-              documetDetailsObj,
-              response.data.data.access_token,
-              getLocale )
-          }
-        } else {
-          return await DownloadPDFsConcatenated(
-            documetDetailsObj,
-            null,
-            getLocale )
-        }
+        return await DownloadPDFsConcatenated(
+          documetDetailsObj,
+          null,
+          getLocale )
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -148,15 +138,7 @@ export const signatureDocsNonMillennium = {
     async fetchDocumentExistence({ commit,getters:{getLocale}}, documentDetails) {
       commit("SET_IS_LOADING");
       try {
-        if(isAuthF2()){
-          let response = await GenerateOauthTokenForDocument(getLocale)
-          if((response.data.actionResult === 'success')) {
-            return await CheckDocumentExistence(documentDetails, response.data.data.access_token,
-              getLocale )
-          }
-        } else {
-          return await CheckDocumentExistence(documentDetails, getLocale )
-        }
+        return await CheckDocumentExistence(documentDetails, getLocale )
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -166,18 +148,10 @@ export const signatureDocsNonMillennium = {
         commit("SET_ACTION_NOTIFY", error);
       } 
     },
-    async fetchDocTrackDetails({ commit, getters:{getLocale} }, documentDetails) {
+    async checkAcceptDocuments({ commit, getters:{getLocale}}) {
       commit("SET_IS_LOADING");
       try {
-        let response = await GenerateOauthTokenForDocument(getLocale)
-        if(isAuthF2()){
-          if((response.data.actionResult === 'success')) {
-            return await GetDocTrackDetail(documentDetails, response.data.data.access_token,
-              getLocale )
-          }
-        } else {
-          return await GetDocTrackDetail(documentDetails, getLocale )
-        }
+        return await AcceptDocumentsValidateNonMillennium(getLocale)
       } catch (err) {
         debugExeption(err)
         let error = {
@@ -185,7 +159,7 @@ export const signatureDocsNonMillennium = {
           body: i18n.t("networkError")
         };
         commit("SET_ACTION_NOTIFY", error);
-      }          
+      }
     }
   },
 };

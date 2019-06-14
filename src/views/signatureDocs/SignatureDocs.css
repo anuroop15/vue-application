@@ -6,6 +6,10 @@
 .santander-signature-pre_content {
     padding: 0
 }
+
+.santander-doc_wrap-text > .ag-cell-wrapper > .ag-cell-value {
+  display: inherit!important;
+}
 .santander-signature-pre_header {
   background-image: linear-gradient(to right, #1D252D, #666E77);
   background-color:#576c81;
@@ -86,10 +90,18 @@ x{
 .santander-signature-pre_container >>> .card {
   border: none!important;
 }
-.santander-signature-pre_container >>> .card-body {
-  padding: 0px;
+.santander-signature-pre_container > .card > .card-body {
+  padding: 0px!important;
 }
-
+.santander-signature_nav-link {
+  display: block!important;
+  padding: 0.5rem 1rem!important;
+}
+.santander-signature_nav-link span {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+} 
 @media (max-width: 768px){
   .santander-signature-button-wrapper .button {
     margin: 5px;

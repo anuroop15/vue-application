@@ -12,7 +12,8 @@ const i18n = new VueI18n({
        en,
        es,
        pt,
-      }
+      },
+      silentTranslationWarn: true
   });
 
 export default i18n;

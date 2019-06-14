@@ -23,6 +23,8 @@ export const en = {
   successfullySignedDoc: "You have Successfully Signed the document",
   selectToDownload: "Please select a document to download",
   error: "Error",
+  errorSigning:
+    "There has been an error signing the documents, please try again later",
   authenticationRequired: "Additional authentication required",
   goingToSign: "You are going to sign selected documents",
   docNotAvailable: "The document is not available",

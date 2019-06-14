@@ -5,19 +5,17 @@
       <p>{{$t('docsToSign')}}</p>
     </div>
     <div data-scope-id class="santander-signature-pre_content">
-      <div class="card">
-        <div class="card-body">
           <div class="santander-signature-pre_top-area">
             <div class="santander-signature-pre_menu">
               <ul class="nav nav-tabs">
                 <li class="nav-item">
-                  <a :class="{'nav-link':true,active:(currentActive===0)}" href="#" @click.prevent="getDocuments(0)"><span>{{$t('docsToSign')}}</span></a>
+                  <a :class="{'santander-signature_nav-link':true,'nav-link':false,active:(currentActive===0)}" href="#" @click.prevent="getDocuments(0)"><span>{{$t('docsToSign')}}</span></a>
                 </li>
                 <li class="nav-item">
-                  <a :class="{'nav-link':true,active:(currentActive===1)}" href="#" @click.prevent="getDocuments(1)"><span>{{$t('fileOfSignedDocuments')}}</span></a>
+                  <a :class="{'santander-signature_nav-link':true,'nav-link':false,active:(currentActive===1)}" href="#" @click.prevent="getDocuments(1)"><span>{{$t('fileOfSignedDocuments')}}</span></a>
                 </li>
                 <li class="nav-item">
-                  <a :class="{'nav-link':true,active:(currentActive===2)}" href="#" @click.prevent="getDocuments(2)" ><span>{{$t('documentsToSignForOthers')}}</span></a>
+                  <a :class="{'santander-signature_nav-link':true,'nav-link':false,active:(currentActive===2)}" href="#" @click.prevent="getDocuments(2)" ><span>{{$t('documentsToSignForOthers')}}</span></a>
                 </li>
               </ul>
             </div>
@@ -38,8 +36,6 @@
                     :gridColumnDefs="ColumnDefs"
                   />
           </div>
-        </div>
-      </div>
     </div>
     <div v-if="showModal">
       <Modal v-if="acceptToSign" v-on:close="showModalWindow">
@@ -55,4 +51,4 @@
 </template>
 
 <script src="./SignatureDocs.js"></script>
-<style scoped src="./SignatureDocs.css"></style>
+<style src="./SignatureDocs.css"></style>

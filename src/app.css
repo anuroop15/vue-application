@@ -27,10 +27,10 @@
   top: 0px;
   right: 0px;
 }
-/* .vuedals {
-  position: absolute !important;
-}
-body.vuedal-open {
+.vuedals {
+      z-index: 1200!important;
+} 
+/* body.vuedal-open {
     overflow: auto!important;
 } */
 .santander-tooltip {

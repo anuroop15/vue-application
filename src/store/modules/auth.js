@@ -42,7 +42,7 @@ export const auth = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: i18n.t("networkError")
+          body: i18n.t("networkError",{section: 'auth'})
         };
         commit("SET_ACTION_NOTIFY", error);
       }
@@ -66,7 +66,7 @@ export const auth = {
         debugExeption(err);
         let error = {
           title: "Error",
-          body: i18n.t("networkError")
+          body: i18n.t("networkError",{section: 'auth'})
         };
         commit("SET_ACTION_NOTIFY", error);
       }

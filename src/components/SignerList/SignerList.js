@@ -1,7 +1,15 @@
 import moment from 'moment'
+import { es, en, pt } from "./i18n";
 
 export default {
     name: "SignerList",
+    i18n: {
+      messages: {
+        en,
+        es,
+        pt
+      }
+    },
     props: {
       trackDetails: {
         type: Array

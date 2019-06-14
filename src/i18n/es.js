@@ -2,7 +2,7 @@ export default {
   view:"Ver",
   signers:"Listado de Firmantes",
   networkError:
-    "No pudimos recuperar sus preferencias de seguridad. Por favor, inténtelo de nuevo más tarde.",
+    "No pudimos recuperar sus {section}. Por favor, inténtelo de nuevo más tarde.",
   noMobileAdded:
     "Importante: Para tener acceso e-banking es necesario registrar, al menos, un número móvil.",
   phonesUsIndicia:

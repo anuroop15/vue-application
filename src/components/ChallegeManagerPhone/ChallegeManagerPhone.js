@@ -37,7 +37,8 @@ export default {
       },
       messages:{},
       step: "SELECT_METHOD",
-      logs:[]
+      logs:[],
+      isLoading: true,
     };
   },
   props: {
@@ -63,18 +64,21 @@ export default {
     },
     upDate({ data: { challengeInfo } }) {
       this.info = Object.assign({}, this.info, challengeInfo);
+      this.isLoading = false;
     },
     _handelOnSuccess(data) {
       this._log('onSuccess start')
       this.$emit("onSuccess", data);
       this._log("onSuccess end")
       this._sendLog()
+      this.isLoading = false;
     },
     _handelError(data) {
       this._log('onError start')
       this.$emit("onError", data);
       this._log('onError end')
       this._sendLog()
+      this.isLoading = false;
     },
     async _challengeInit() {
       try {
@@ -100,6 +104,7 @@ export default {
         this._sendLog()
       } catch (err) {
         debugExeption(err);
+        this._handelError(err.response.data)
       }
     },
     async startChallengerNow() {
@@ -128,6 +133,7 @@ export default {
         this._sendLog()
       } catch (err) {
         debugExeption(err);
+        this._handelError(err.response.data)
       }
     },
     async checkSqChallengerNow() {
@@ -163,6 +169,7 @@ export default {
         this._sendLog()
       } catch (err) {
         debugExeption(err);
+        this._handelError(err.response.data)
       }
     },
     async _checkAuthStatus(time) {
@@ -205,6 +212,7 @@ export default {
           this._sendLog();
       } catch (err) {
         debugExeption(err);
+        this._handelError(err.response.data)
       }
     },
     onStageChange(stage, oldStage) {

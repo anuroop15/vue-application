@@ -2,7 +2,7 @@ export default {
   view:"Visão",
   signers:"Lista de assinantes",
   networkError:
-    "Não foi possível recuperar os detalhes das suas preferências de segurança. Por favor, tente novamente mais tarde",
+    "Não foi possível recuperar os detalhes das suas {section}. Por favor, tente novamente mais tarde",
   noMobileAdded:
     "Importante: Para ter acesso a e-banking, é necessário registrar pelo menos um número de celular.",
   phonesUsIndicia:

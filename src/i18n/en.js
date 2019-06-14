@@ -2,7 +2,7 @@ export default {
   view:"View",
   signers:"Signers List",
   networkError:
-    "We could not retrieve your security preferences detail. Please try again later.",
+    "We could not retrieve your {section} detail. Please try again later.",
   noMobileAdded:
     "Important: To have e-banking access, it is necessary to register at least one mobile number.",
   phonesUsIndicia:

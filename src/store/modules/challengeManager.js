@@ -20,7 +20,8 @@ export const challengeManager = {
     error: {
       data: {},
       exit: false
-    }
+    },
+    isLoading:true,
   },
   mutations: {
     SET_INITIAL_STATE(state) {
@@ -37,6 +38,7 @@ export const challengeManager = {
     ) {
       state.methods = methods;
       state.stage = stage;
+      state.isLoading = false;
     },
     SET_STAGE(state, stage) {
       state.stage = stage;
@@ -50,11 +52,13 @@ export const challengeManager = {
         actionMessages
       }
     ) {
+      state.isLoading = false;
       state.selectedMethod = selectedMethod;
       state.stage = stage;
       state.messages = actionMessages.join("\n");
     },
     SET_ERROR(state, data) {
+      state.isLoading = false;
       state.error = {
         exit: true,
         data
@@ -87,6 +91,7 @@ export const challengeManager = {
         }
       } catch (err) {
         debugExeption(err,"modules/challengeManager:89");
+        commit("SET_ERROR", err.response.data)
       }
     },
     async _challengeStart({ commit, getters:{getLocale, getSelectedMethods} }, { urlBase, picked }) {
@@ -101,6 +106,7 @@ export const challengeManager = {
         }
       } catch (err) {
         debugExeption(err, "modules/challengeManager:103");
+        commit("SET_ERROR", err.response.data)
       }
     },
     async _processOTP({ commit, state, getters:{getLocale} }, { urlBase, token }) {
@@ -129,6 +135,7 @@ export const challengeManager = {
         }
       } catch (err) {
         debugExeption(err,"modules/challengeManager:131");
+        commit("SET_ERROR", err.response.data)
       }
     }
   },

@@ -31,12 +31,9 @@ export default {
       currentActive: 0,
       ColumnDefs:[
         { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
-          sortable: true, width: 310
-        },
+          sortable: true, width: 300, cellClass:'santander-doc_wrap-text' },
         { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
-      
-        { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 200 },
-        { headerName: this.$t('Reference'), field: 'reference', sortable: true },
+        { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 150 },
         { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
           cellRenderer: (data) => {
               return  data.value ? moment(data.value).format('DD-MMM-YY') : ""
@@ -214,9 +211,29 @@ export default {
         escapable: true,
       });
     },
-    signedError() {
-      // eslint-disable-next-line
-      console.log('error')
+    signedError(data) {
+      if (data.actionMessages != null && data.actionMessages.length > 0) {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-sign-document",
+            render: h => {
+              return h("h6", data.actionMessages.join("\n"));
+            }
+          }
+        });
+      } else {
+        this.$vuedals.open({
+          size: "xs",
+          component: {
+            name: "error-sign-document",
+            render: h => {
+              return h("h6", this.$t("errorSigning"));
+            }
+          }
+        });
+      }
+
     },
     viewPDFDocument(documentDetails, resolve, reject) {
       this.getPdfDocument(documentDetails, resolve, reject, false)
@@ -237,6 +254,7 @@ export default {
           })
         } else {
           this.showErrorModal()
+          reject()
         }
       })
     },
@@ -351,12 +369,10 @@ export default {
       if(this.currentActive===0){
         this.ColumnDefs = [
           { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
-            sortable: true, width: 310
-          },
+            sortable: true, width: 300, cellClass:'santander-doc_wrap-text' },
           { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
         
-          { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 200 },
-          { headerName: this.$t('Reference'), field: 'reference', sortable: true },
+          { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 150 },
           { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
             cellRenderer: (data) => {
                 return  data.value ? moment(data.value).format('DD-MMM-YY') : ""
@@ -365,10 +381,9 @@ export default {
         ]
       } else {
         this.ColumnDefs = [
-          { headerName: this.$t('Description'), field: 'description', width: 310},
+          { headerName: this.$t('Description'), field: 'description', width: 300,cellClass:'santander-doc_wrap-text'},
           { headerName: this.$t('Customer'), field: 'idCustomer', width: 80 },
-          { headerName: this.$t('CustomerName'), field: 'customerName',  width: 200  },
-          { headerName: this.$t('Reference'), field: 'reference' },
+          { headerName: this.$t('CustomerName'), field: 'customerName',  width: 150  },
           { headerName: this.$t('Date'), field: 'createdDate', width: 80,
             cellRenderer: (data) => {
                 return data.value ? moment(data.value).format('DD-MMM-YY') : ""

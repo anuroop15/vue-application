@@ -29,20 +29,6 @@
         </div>
       </div>
     </div>
-    <div v-if="showModal">
-      <Modal v-if="acceptToSign" v-on:close="showModalWindow">
-        <div slot="header">
-          {{$t('docsToSign')}}
-        </div>
-        <div slot="body">
-          {{$t('goingToSign')}} {{selectedRowInfo.description}}
-        </div>
-        <div slot="footer">
-          <button class="btn btn-default" @click="showModalWindow('Accept')">Accept</button>
-          <button class="btn btn-default" @click="showModalWindow('cancel')">Cancel</button>
-        </div>
-      </Modal>
-    </div>
   </div>
 </template>
 

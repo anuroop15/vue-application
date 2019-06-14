@@ -2,6 +2,7 @@ import { AgGridVue } from "ag-grid-vue";
 import { en, es, pt } from "./i18n";
 import _ from "lodash";
 import DocumentCell from "../DocumentCell/DocumentCell.vue";
+import CellToolTip from "./CellToolTip/CellToolTip.vue"
 
 const addLink = method => params => {
   let link = document.createElement("a");
@@ -18,10 +19,12 @@ const getComponentSize = () => {
   return document.querySelector(".ag-root-wrapper").offsetWidth;
 };
 const reSize = () => {
-  let size =
-    document.querySelector(".santander-signature-pre_container").offsetHeight -
-    document.querySelector(".santander-signature-pre_top-area").offsetHeight -
-    20;
+  let container = document.querySelector(".santander-signature-pre_container");
+  let topArea = document.querySelector(".santander-signature-pre_top-area");
+  if(container.offsetParent.offsetTop != 0){
+    container.style.height = `${document.documentElement.clientHeight - 350}px`
+  }
+  let size = container.offsetHeight - topArea.offsetHeight - 37;
   document.querySelector("#ag-grid_component").style.height = `${size}px`;
 };
 export default {
@@ -52,10 +55,11 @@ export default {
   },
   components: {
     AgGridVue,
-    DocumentCell
+    DocumentCell,
+    CellToolTip
   },
   beforeMount() {
-    this.frameworkComponents = { DocumentCell: DocumentCell };
+    this.frameworkComponents = { DocumentCell: DocumentCell, CellToolTip: CellToolTip };
     this.context = { componentParent: this };
     this.gridOptions = {
       columnDefs: this.gridColumnDefs,
@@ -63,7 +67,8 @@ export default {
       headerHeight: 50
     }
     this.minHeight = 100
-    this.gridOptions.columnDefs[0].cellRenderer = addLink(this.documentSelectedToView)
+    this.gridOptions.columnDefs[0].cellRenderer = "CellToolTip"
+    //addLink(this.documentSelectedToView)
     if (!this.millenniumGrid) {
       this.gridOptions.columnDefs[1].cellRenderer = addLink(this.customerIdSelectedToView)
     }
@@ -77,26 +82,27 @@ export default {
   },
   watch: {
     "$store.state.i18n.locale": "onLocaleRefreshColDef",
-    displayedDocuments() {
+    "selectedAllView":"onChangeSelectedAllView",
+     displayedDocuments() {
       this.getColumnsToFit();
       reSize();
     },
-    selectedAllView() {
+  },
+  methods: {
+    onChangeSelectedAllView() {
       this.gridOptions.api.forEachNode(node => {
         if (node.viewed === true) {
           node.setSelected(true);
         }
       });
-    }
-  },
-  methods: {
+    },
     getColumnsToFit() {
       this.gridApi.sizeColumnsToFit();
     },
     onLocaleRefreshColDef() {
       let columnDefs = this.gridColumnDefs;
       columnDefs[1].cellRenderer = addLink(this.customerIdSelectedToView);
-      columnDefs[0].cellRenderer = addLink(this.documentSelectedToView);
+      columnDefs[0].cellRenderer = "CellToolTip";
       if (getComponentSize() < 700) {
         this.setResponseCell();
       } else {
@@ -150,17 +156,20 @@ export default {
       });
     },
     documentSelectedToView(params) {
-      params.eGridCell.classList.add("ag-cell-viewed");
       const emitPromise = new Promise((resolve, reject) => {
         this.$emit("document-viewed", params.data, resolve, reject);
       });
       emitPromise.then(data => {
         if (data === "selected") {
+          params.eGridCell.classList.add("ag-cell-viewed");
           params.node.setSelected(true);
         }
         if (data === "viewed") {
+          params.eGridCell.classList.add("ag-cell-viewed");
           params.node.viewed = true;
         }
+      }).catch(error => {
+        params.eGridCell.classList.remove("ag-cell-viewed");  
       });
     },
     customerIdSelectedToView(params) {

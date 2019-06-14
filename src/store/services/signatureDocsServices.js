@@ -58,6 +58,12 @@ export const GetDocumentsToAccept = (locale) => {
     method: "post"
   });
 };
+export const AcceptDocumentsValidate  = (locale) => {
+  return api({
+    url: `${locale}/customer/json/AcceptDocumentsValidate`,
+    method: "post",
+  })
+}
 export const GetDocTrackDetail = (docTrackDetails, locale) => {
   const formData = new FormData()
   formData.set('idDocTrack', docTrackDetails.idDocTrack)
@@ -74,5 +80,35 @@ export const GenerateOauthTokenForDocument = (locale)=>{
   return api({
       url:`${locale}/virginia/json/GenerateOauthTokenForDocument`,
       method:"post"
+  })
+}
+
+export const GetDocumentsToAcceptNonMillennium = (locale) => {
+  return api({
+    url: `${locale}/customer/json/GetDocumentsToAccept`,
+    method: "post"
+  });
+};
+
+export const SeePublishedDocumentNonMillennium = (documentDetails, forSigned, access_token, locale) => {
+  const paramsObj = {
+    idDocumentTrack: documentDetails.idDocTrack,
+    idCompany: documentDetails.idCompany,
+    idCustomer: documentDetails.idCustomer
+  }
+  access_token ? paramsObj.access_token = access_token : paramsObj
+  forSigned ? paramsObj.idDocument = documentDetails.idDocument : paramsObj
+  return api({
+    url: `${locale}/customer/SeePublishedDocument`,
+    method: "get",
+    responseType: 'arraybuffer',
+    params: paramsObj
+  })
+}
+
+export const AcceptDocumentsValidateNonMillennium  = (locale) => {
+  return api({
+    url: `${locale}/customer/json/AcceptDocumentsValidate`,
+    method: "post",
   })
 }
