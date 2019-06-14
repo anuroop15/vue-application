@@ -8,6 +8,7 @@ import {
   signatureDocsNonMillennium,
   securityPreference,
   challengeManager,
+  paperlessCommunications,
   i18n,
   auth
 } from "./modules";
@@ -21,6 +22,7 @@ const store = new Vuex.Store({
     signatureDocsNonMillennium,
     securityPreference,
     challengeManager,
+    paperlessCommunications,
     i18n,
     auth
   }

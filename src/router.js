@@ -5,6 +5,7 @@ import SignatureDocsNonMillennium from './views/signatureDocsNonMillennium/Signa
 import Main from './views/Main/Main.vue'
 import FundsTransfers from './views/FundsTransfers/FundsTransfers.vue'
 import SecurityPreferences from './views/SecurityPreferences/SecurityPreferences.vue'
+import PaperlessCommunications from './views/PaperlessCommunications/PaperlessCommunications.vue'
 import Login from './views/Login/Login.vue'
 
 Vue.use(Router)
@@ -26,6 +27,11 @@ export default new Router({
         path: '/signatures',
         name: 'signatures',
         component: SignatureDocs
+      },
+      {
+        path: '/paperlessCommunications',
+        name: 'Paperless Communications',
+        component: PaperlessCommunications
       },
       {
         path: '/funds-transfers',
