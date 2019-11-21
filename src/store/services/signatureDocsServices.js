@@ -113,22 +113,22 @@ import axios from 'axios'
 //   })
 // }
 export const GetDocTrackDetail = (docTrackDetails) => {
-  return axios.get('http://localhost:8081/api/GetDocTrackDetail.json').then(response => {
+  return axios.get('http://localhost:8080/api/GetDocTrackDetail.json').then(response => {
     return response
   })
 }
 export const SeePublishedDocument = (documentDetails) => {
-  return axios.get('http://localhost:8081/api/signed.pdf').then(response => {
+  return axios.get('http://localhost:8080/api/signed.pdf').then(response => {
     return response
   })
 }
 export const CheckDocumentExistence = (documentDetails, additionalData) => {
-  return axios.get('http://localhost:8081/api/checkDocExistence.json').then(response => {
+  return axios.get('http://localhost:8080/api/checkDocExistence.json').then(response => {
     return response
   })
 }
 export const GetDocumentsToAccept = () => {
-  return axios.get('http://localhost:8081/api/signaturesDocsApi.json').then(response => {
+  return axios.get('http://localhost:8080/api/signaturesDocsApi.json').then(response => {
     return response
   })
 };
