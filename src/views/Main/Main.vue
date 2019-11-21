@@ -1,7 +1,7 @@
 <template>
-  <div class="santander-main_container">
+  <div class="banking-main_container">
     <Header />
-    <div class="santander-main_routes">
+    <div class="banking-main_routes">
     <h4>Available Routes</h4>
     <template v-for="item in items">
       <router-link :key="item.path" :to="item.path">{{item.name}}</router-link>
@@ -34,7 +34,7 @@ export default {
 }
 </script>
 <style scoped>
-.santander-main_container {
+.banking-main_container {
     display: flex;
     flex-direction: column;
     padding: 10px;;
@@ -42,11 +42,11 @@ export default {
     margin: 0;
     background-color: #f5f6f7;
 }
-.santander-main_logo {
+.banking-main_logo {
     width: 195px;
 }
 
-.santander-main_routes {
+.banking-main_routes {
     display: flex;
     flex-direction: column;
     align-items: center;

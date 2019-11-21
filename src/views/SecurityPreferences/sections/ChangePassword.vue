@@ -1,10 +1,10 @@
 <template>
-  <section class="santander-security-pre_section">
-    <div class="santander-security-pre_section-name">
+  <section class="banking-security-pre_section">
+    <div class="banking-security-pre_section-name">
       <h3>{{$t('changePassword')}}</h3>
     </div>
     <form @submit.prevent="initPasswordChange">
-      <div class="santander-security-pre_section-content p-3">
+      <div class="banking-security-pre_section-content p-3">
         <div class="row mb-2">
           <div class="col-12 col-md-6">
             <label for="oldPassword">{{$t('oldPassword')}}</label>
@@ -17,7 +17,7 @@
             />
             <div
               v-if="$v.password.oldPassword.$error"
-              class="santander-security-pre_alert"
+              class="banking-security-pre_alert"
               role="alert"
             >
               <p>{{$t('oldPasswordError')}}</p>
@@ -36,7 +36,7 @@
             />
             <div
               v-if="$v.password.newPassword.$error"
-              class="santander-security-pre_alert"
+              class="banking-security-pre_alert"
               role="alert"
             >
               <p>{{$t('newPasswordError')}}</p>
@@ -48,7 +48,7 @@
             <label for="Verify password">{{$t('repeatNewPassword')}}</label>
             <div
               v-if="!$v.password.verifyPassword.same && $v.password.verifyPassword.$error"
-              class="santander-security-pre_alert"
+              class="banking-security-pre_alert"
               role="alert"
             >
               <p>{{$t('passwordsDontMatch')}}</p>
@@ -62,7 +62,7 @@
             />
             <div
               v-if="$v.password.verifyPassword.$error"
-              class="santander-security-pre_alert"
+              class="banking-security-pre_alert"
               role="alert"
             >
               <p>{{$t('repeatNewPasswordError')}}</p>
@@ -209,7 +209,7 @@ export default {
                   { style: "padding:20px" },
                   this.$t("passwordConfirmation")
                 ),
-                h("div", { class: "santander-security-pre_footer" }, [
+                h("div", { class: "banking-security-pre_footer" }, [
                   h(
                     "BaseButton",
                     {

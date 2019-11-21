@@ -1,9 +1,9 @@
 <template>
-  <section class="santander-security-pre_section">
-    <div class="santander-security-pre_section-name">
+  <section class="banking-security-pre_section">
+    <div class="banking-security-pre_section-name">
       <h3>{{$t('username')}}</h3>
     </div>
-    <div class="santander-security-pre_section-content p-3">
+    <div class="banking-security-pre_section-content p-3">
       <div v-if="userName" class="row mb-2">
         <div class="col-12 col-md-6">
           <label for="Username">{{$t('username')}}</label>

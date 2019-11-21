@@ -28,7 +28,7 @@ const store = new Vuex.Store({
   }
 });
 
-window.santander_f2_apps_i18nChange = function(locale) {
+window.banking_f2_apps_i18nChange = function(locale) {
   store.dispatch("i18n/changeLocale", locale);
 };
 

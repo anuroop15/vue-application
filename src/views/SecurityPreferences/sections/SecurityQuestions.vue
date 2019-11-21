@@ -1,10 +1,10 @@
 <template>
-  <section class="santander-security-pre_section">
-    <div class="santander-security-pre_section-name">
+  <section class="banking-security-pre_section">
+    <div class="banking-security-pre_section-name">
       <h3>{{$t('securityQuestions')}}</h3>
     </div>
     <form @submit.prevent="initSQChange">
-      <div class="santander-security-pre_section-content p-3">
+      <div class="banking-security-pre_section-content p-3">
         <template v-for="(questionsInfo, index) in securityPreference.securityInfo.questionsInfo">
           <div class="row mb-2" :key="questionsInfo[0].id">
             <div class="col">
@@ -32,14 +32,14 @@
             </div>
           </div>
         </template>
-        <div class="santander-security-pre_alert">
+        <div class="banking-security-pre_alert">
           <p v-if="securityInfo.submitError">{{$t('securityQuestionsError')}}</p>
         </div>
         <div
           v-if="securityPreference.challengeType === 'RSA'"
           class="d-flex justify-content-between mt-2"
         >
-          <div class="santander-security-pre_see-answers">
+          <div class="banking-security-pre_see-answers">
           <BaseButton
             variant="primary"
             @click.prevent="seeSecurityQuestionsChallenger"

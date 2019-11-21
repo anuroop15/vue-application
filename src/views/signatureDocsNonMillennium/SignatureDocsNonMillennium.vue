@@ -1,21 +1,21 @@
 
 <template>
-  <div class="santander-signature-pre_container">
-    <div class="santander-signature-pre_header">
+  <div class="banking-signature-pre_container">
+    <div class="banking-signature-pre_header">
       <p>{{$t('docsToSign')}} </p>
     </div>
-    <div data-scope-id class="santander-signature-pre_content">
+    <div data-scope-id class="banking-signature-pre_content">
       <div class="card">
         <div class="card-body">
              <div class="pending-container">
-               <div class="santander-signature-pre_top-area">
-                  <div class="santander-signature-button-wrapper pl-3">
+               <div class="banking-signature-pre_top-area">
+                  <div class="banking-signature-button-wrapper pl-3">
                     <button class="button" v-on:click="selectAll">{{$t('selectAll')}}</button>
                     <button class="button" @click="signSelected">{{$t('signSelectedDocs')}}</button>
                     <button class="button" @click="downloadSelected">{{$t('downloadSelected')}}</button>
                   </div>
                 </div>
-                <div class="santander-signature-grid-wrapper">
+                <div class="banking-signature-grid-wrapper">
                   <AgGridComponent v-on:selected-document="selectedRow"
                     v-on:document-viewed="viewPDFDocument"
                     :selectedAllView="selectedAllViewed"

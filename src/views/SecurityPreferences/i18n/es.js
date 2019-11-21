@@ -85,7 +85,7 @@ export const es = {
     "Usted ha incluido un teléfono móvil/fijo registrado en Estados Unidos",
   sureToContinue: "¿Estás seguro de continuar?",
   phonesDescription:
-    "Los n\u00FAmeros de tel\u00E9fono actualizados ser\u00E1n utilizados por el Banco para los procedimientos de seguridad. Por favor seleccione su teléfono preferido usando el check de la izquierda.",
+    "Los n\u00FAmeros de tel\u00E9fono actualizados ser\u00E1n utilizados por el My para los procedimientos de seguridad. Por favor seleccione su teléfono preferido usando el check de la izquierda.",
   noLandlinePreferred:
     "El teléfono preferido no puede ser un teléfono fijo, elija otro teléfono",
   preferredNoMobile:

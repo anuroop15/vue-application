@@ -1,9 +1,9 @@
 <template>
-  <section class="santander-security-pre_section">
-    <div class="santander-security-pre_section-name">
+  <section class="banking-security-pre_section">
+    <div class="banking-security-pre_section-name">
       <h3>{{$t('registeredComputers')}}</h3>
     </div>
-    <div class="santander-security-pre_section-content p-3">
+    <div class="banking-security-pre_section-content p-3">
       <p>{{$t('unregisterDisclaimer')}}</p>
       <div class="row mb-2">
         <div class="col">
@@ -22,7 +22,7 @@
                   <td>{{device.bindingType}}</td>
                   <td>
                     <BaseButton
-                      class="santander-security-pre_phone-delete"
+                      class="banking-security-pre_phone-delete"
                       @click="unbindDeviceStart(device.label, i)"
                     >
                       <img src="../../../assets/delete.gif">
@@ -70,7 +70,7 @@ export default {
                 { style: "padding:20px" },
                 this.$t("confirmDeleteDevice", { label: label })
               ),
-              h("div", { class: "santander-security-pre_footer" }, [
+              h("div", { class: "banking-security-pre_footer" }, [
                 h(
                   "BaseButton",
                   {

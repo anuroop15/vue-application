@@ -3,7 +3,7 @@
     <button
       v-on="$listeners"
       v-bind="$attrs"
-      class="santander-button"
+      class="banking-button"
       :class="getCssClass"
       :style="buttonStyle"
     >
@@ -30,7 +30,7 @@ export default {
   computed:{
     getCssClass(){
 
-      let demo = `santander-button_${this.variant}`
+      let demo = `banking-button_${this.variant}`
       return {[demo]:true, [this.className]: this.className}
     }
   }
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.santander-button {
+.banking-button {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -57,65 +57,65 @@ export default {
   white-space: nowrap;
   transition: all 0.2s linear;
 }
-.santander-button:hover {
+.banking-button:hover {
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
   box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.santander-button:active {
+.banking-button:active {
   -webkit-transform: scale(1);
   transform: scale(1);
   box-shadow: none;
 }
-.santander-button:focus {
+.banking-button:focus {
   outline: 0;
 }
-.santander-button:disabled {
+.banking-button:disabled {
   -webkit-transform: scale(1);
   transform: scale(1);
   box-shadow: none;
 }
-.santander-button + .santander-button {
+.banking-button + .banking-button {
   margin-left: 1em;
 }
-.santander-button_primary {
+.banking-button_primary {
   background: #576c81;
 }
-.santander-button_outline {
+.banking-button_outline {
     background: none;
     color: #777777;
     border: 1px solid #BFBFBF;
 }
-.santander-button.-fill-gradient {
+.banking-button.-fill-gradient {
   background: linear-gradient(to right, #16c0b0, #84cf6a);
   color: #ffffff;
 }
-.santander-button.-fill-gray {
+.banking-button.-fill-gray {
   background: rgba(0, 0, 0, 0.5);
   color: #ffffff;
 }
-.santander-button.-size-small {
+.banking-button.-size-small {
   height: 32px;
 }
-.santander-button.-icon-right {
+.banking-button.-icon-right {
   text-align: left;
   padding: 0 20px;
 }
-.santander-button.-icon-right > .icon {
+.banking-button.-icon-right > .icon {
   margin-left: 10px;
 }
-.santander-button.-icon-left {
+.banking-button.-icon-left {
   text-align: right;
   padding: 0 20px;
 }
-.santander-button.-icon-left > .icon {
+.banking-button.-icon-left > .icon {
   margin-right: 10px;
 }
-.santander-button.-icon-center {
+.banking-button.-icon-center {
   padding: 0 20px;
 }
 @media (max-width: 650px){
-  .santander-button {
+  .banking-button {
     height: 34px;
   }
 }

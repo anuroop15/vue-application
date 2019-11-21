@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <select v-model="locale" @change="$store.dispatch('i18n/changeLocale',locale)" id="santander_utils-locale">
+    <select v-model="locale" @change="$store.dispatch('i18n/changeLocale',locale)" id="banking_utils-locale">
       <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
     </select>
     <router-view :key="$route.fullPath" />

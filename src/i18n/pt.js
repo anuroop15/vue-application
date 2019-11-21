@@ -9,7 +9,7 @@ export default {
     "Você incluiu um celular / telefone fixo registrado nos Estados Unidos",
   sureToContinue: "Você tem certeza de continuar?",
   phonesDescription:
-    "Os numeros de telefonia atualizados são válidos pelo Banco para os procedimentos de segurança. Por favor selecione a sua preferência usando o cheque da Iquique.",
+    "Os numeros de telefonia atualizados são válidos pelo My para os procedimentos de segurança. Por favor selecione a sua preferência usando o cheque da Iquique.",
   noLandlinePreferred:
     "O telefone preferido não pode ser um telefone fixo. Por favor, escolha outro telefone",
   preferredNoMobile:

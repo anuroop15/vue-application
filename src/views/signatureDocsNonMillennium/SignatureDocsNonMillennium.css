@@ -1,12 +1,12 @@
-.santander-signature-pre_container {
+.banking-signature-pre_container {
   padding: 0 0 0 0;
   height: 100vh;
   overflow: hidden;
 }
-.santander-signature-pre_content {
+.banking-signature-pre_content {
     padding: 0
 }
-.santander-signature-pre_header {
+.banking-signature-pre_header {
   background-image: linear-gradient(to right, #1D252D, #666E77);
   background-color:#576c81;
   color: #ffffff;
@@ -18,13 +18,13 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-.santander-signature-pre_header p {
+.banking-signature-pre_header p {
   padding: 0;
   margin: 0;
   font-size: 1.7rem;
   font-family: OpenSans-Light;
 }
-.santander-signature-pre_header a {
+.banking-signature-pre_header a {
   color: #000;
 }
 x{
@@ -33,23 +33,23 @@ x{
   padding: 15px;
 }
 
-.santander-signature-grid-wrapper {
+.banking-signature-grid-wrapper {
   display: block;
   width: 100%;
 }
-.santander-signature-button-wrapper .button {
+.banking-signature-button-wrapper .button {
   margin: 15px 10px 15px 0px;
   padding: 5px 10px;
   color: #fff;
   border: none;
   background-color: rgb(89, 107, 126)
 }
-.santander-signature-pre_content >>> .nav-tabs-navigation {
+.banking-signature-pre_content >>> .nav-tabs-navigation {
   background-color: rgb(87, 108, 129);
 }
-.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a,
-.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a:hover, 
-.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a:focus {
+.banking-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a,
+.banking-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a:hover, 
+.banking-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a:focus {
   color: #fff;
   background-color: rgb(87, 108, 129);
   border: none;
@@ -57,23 +57,23 @@ x{
   border-bottom-color: transparent;
   cursor: default;
 }
-.santander-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a > span {
+.banking-signature-pre_content >>> .vue-tabs .nav-tabs > li.active > a > span {
   border-top: 2px solid #fff;
 }
-.santander-signature-pre_content >>> .vue-tabs .nav > li > a {
+.banking-signature-pre_content >>> .vue-tabs .nav > li > a {
   color: #fff;
 }
-.santander-signature-pre_content >>> .vue-tabs .nav > li > a:hover, 
-.santander-signature-pre_content >>>  .vue-tabs .nav > li > a:focus {
+.banking-signature-pre_content >>> .vue-tabs .nav > li > a:hover, 
+.banking-signature-pre_content >>>  .vue-tabs .nav > li > a:focus {
   text-decoration: none;
   background-color:  rgb(114, 137, 160);
 }
-.santander-signature-pre_container >>> .card-body {
+.banking-signature-pre_container >>> .card-body {
   padding: 0px;
   padding-top: 1.25em;
 }
 @media only screen and (max-width: 787px ) {
-  .santander-signature-button-wrapper.pl-3 >>> .button {
+  .banking-signature-button-wrapper.pl-3 >>> .button {
     width: 96%;
   }
 }

@@ -17,7 +17,7 @@ export const pt = {
   /*addChallengeMethod:"Adicionar procedimento",
 	additionalChallengeMethod:"Novo procedimento de autentica\u00E7\u00E3o",*/
   OTPPHONE_message_dontSeeMyPhone:
-    "Se o seu telefone celular não estiver listado, entre em contato com seu banco para certificar um novo telefone celular nos procedimentos de segurança do banco.",
+    "Se o seu telefone celular não estiver listado, entre em contato com seu My para certificar um novo telefone celular nos procedimentos de segurança do My.",
   newChallengeMethod: "Telefone alternativo",
   newToken: "Novo c\u00F3digo",
   code: "C\u00F3digo",

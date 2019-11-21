@@ -1,10 +1,10 @@
 <template>
-  <section class="santander-security-pre_section">
+  <section class="banking-security-pre_section">
     <form @submit.prevent="startPhoneChanges">
-      <div class="santander-security-pre_section-name">
+      <div class="banking-security-pre_section-name">
         <h3>{{$t('registeredPhones')}}</h3>
       </div>
-      <div class="santander-security-pre_section-content p-3">
+      <div class="banking-security-pre_section-content p-3">
         <p v-if="securityPreference.challengeType === 'OTP'">{{$t('phonesDescription')}}</p>
         <template v-if="securityPreference.challengeType === 'RSA'">
           <div>
@@ -34,12 +34,12 @@
                     <td>{{getLocalDateFormat(phone.lastModified)}}</td>
                     <td>
                       <BaseButton
-                        class="santander-security-pre_phone-delete"
+                        class="banking-security-pre_phone-delete"
                         @click="loadPhoneFromEdit(i)"
                       ><img src="../../../assets/edit.gif"></BaseButton>
                       <!-- <BaseButton
                         @click.prevent="deletePhoneRSA(phone.label)"
-                        class="santander-security-pre_phone-delete"
+                        class="banking-security-pre_phone-delete"
                       >
                         <img src="../../../assets/delete.gif">
                       </BaseButton> -->
@@ -51,9 +51,9 @@
           </div>
         </template>
         <template v-else v-for="(phone, i) in $v.phones.$each.$iter">
-          <div class="santander-security-pre_phone" :key="phone.$model.key">
+          <div class="banking-security-pre_phone" :key="phone.$model.key">
             <div class="row mt-4">
-              <div class="col-2 col-md-1 order-1 order-md-1 santander-security-pre_phone-item">
+              <div class="col-2 col-md-1 order-1 order-md-1 banking-security-pre_phone-item">
                 <input
                   type="radio"
                   :value="phone.$model.phoneNumber"
@@ -61,7 +61,7 @@
                   :disabled="enablePhoneEdit"
                 >
               </div>
-              <div class="col-10 col-md-4 order-2 order-md-2 santander-security-pre_phone-item">
+              <div class="col-10 col-md-4 order-2 order-md-2 banking-security-pre_phone-item">
                 <cool-select
                   v-model="phone.phoneCountryCode.$model"
                   :items="securityPreference.countryPrefixList.items || []"
@@ -72,7 +72,7 @@
                   <p slot="item" slot-scope="{ item }">{{item.countryName}}</p>
                 </cool-select>
                 <div
-                  class="santander-security-pre_alert"
+                  class="banking-security-pre_alert"
                   role="alert"
                   v-if="!phone.phoneCountryCode.required"
                 >
@@ -80,7 +80,7 @@
                 </div>
               </div>
               <div
-                class="col-6 col-md-4 offset-2 offset-md-0 order-4 order-md-3 santander-security-pre_phone-item"
+                class="col-6 col-md-4 offset-2 offset-md-0 order-4 order-md-3 banking-security-pre_phone-item"
               >
                 <BaseInput
                   :disabled="enablePhoneEdit"
@@ -88,37 +88,37 @@
                   v-model.trim="phone.$model.phoneNumber"
                 />
                 <div
-                  class="santander-security-pre_alert"
+                  class="banking-security-pre_alert"
                   role="alert"
                   v-if="!phone.phoneNumber.required"
                 >
                   <p>{{$t('phoneNumberError')}}</p>
                 </div>
                 <div
-                  class="santander-security-pre_alert"
+                  class="banking-security-pre_alert"
                   role="alert"
                   v-if="!phone.phoneNumber.numeric"
                 >
                   <p>{{$t('numberOnlyError')}}</p>
                 </div>
                 <div
-                  class="santander-security-pre_alert"
+                  class="banking-security-pre_alert"
                   role="alert"
                   v-if="!phone.phoneNumber.maxLength"
                 >
                   <p>{{$t('invalidPhone')}}</p>
                 </div>
               </div>
-              <div class="col-4 col-md-3 order-5 order-md-4 santander-security-pre_phone-item">
+              <div class="col-4 col-md-3 order-5 order-md-4 banking-security-pre_phone-item">
                 <BaseInput
                   :disabled="enablePhoneEdit"
                   v-model="phones[i].extension"
                   placeholder="Ext."
                 />
               </div>
-              <!-- <div class="col-2 col-md-1 order-3 order-md-4 santander-security-pre_phone-item">
+              <!-- <div class="col-2 col-md-1 order-3 order-md-4 banking-security-pre_phone-item">
                 <BaseButton
-                  class="santander-security-pre_phone-delete"
+                  class="banking-security-pre_phone-delete"
                   :disabled="enablePhoneEdit"
                   @click="phoneDelete(i)"
                 >
@@ -341,7 +341,7 @@ export default {
                 { style: "padding:20px" },
                 this.$t("phoneDeleteConfirmation")
               ),
-              h("div", { class: "santander-security-pre_footer" }, [
+              h("div", { class: "banking-security-pre_footer" }, [
                 h(
                   "BaseButton",
                   {

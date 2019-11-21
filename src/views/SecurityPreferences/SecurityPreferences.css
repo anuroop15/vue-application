@@ -1,21 +1,21 @@
-.santander-security-pre_container {
+.banking-security-pre_container {
   padding: 0 0 0 0!important;
 }
-.santander-security-pre_content {
+.banking-security-pre_content {
   padding: 0 15px;
 }
 
-.santander-security-pre_content label {
+.banking-security-pre_content label {
   color: #777777;
   font-family: OpenSans-SemiBold, sans-serif;
   font-size: 0.875rem;
 }
 
-.santander-security-pre_content input {
+.banking-security-pre_content input {
    border: 1px solid #BFBFBF;
 }
 
-.santander-security-pre_header {
+.banking-security-pre_header {
   background-image: linear-gradient(to right, #1D252D, #666E77);
   background-color:#576c81;
   color: #ffffff;
@@ -27,7 +27,7 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-.santander-security-pre_footer{
+.banking-security-pre_footer{
   background: #41484E;
   padding-right: 0.9rem;
   height: 65px;
@@ -36,37 +36,37 @@
   align-items: center;
   margin-top: 0.5rem;
 }
-.santander-security-pre_spinner-container {
+.banking-security-pre_spinner-container {
   height: 100%;
 }
-.santander-security-pre_footer button {
+.banking-security-pre_footer button {
   color: #fff!important;
 }
-.santander-security-pre_header p {
+.banking-security-pre_header p {
   padding: 0;
   margin: 0;
   font-size: 1.7rem;
   font-family: OpenSans-Light;
 }
 
-.santander-security-pre_section {
+.banking-security-pre_section {
   border-radius: 2px;
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.19), 0 1px 3px rgba(0, 0, 0, 0.23);
   margin-top: 10px;
 }
 
-.santander-security-pre_section-name {
+.banking-security-pre_section-name {
   padding: 0.4rem 1rem;
 }
 
-.santander-security-pre_section-name h3 {
+.banking-security-pre_section-name h3 {
   font-size: 1.5rem;
   font-weight: 400;
   color: #d9292a;
   font-family: OpenSans-Light, sans-serif;
 }
 
-.santander-security-pre_section-content {
+.banking-security-pre_section-content {
   background-color: #f5f6f7c9;
   border-radius: 2px;
 }
@@ -74,45 +74,45 @@
   padding: 0.15rem!important;
   border: 2px solid red!important;
 }
-.santander-security-pre_section-content th {
+.banking-security-pre_section-content th {
   font-family: OpenSans-SemiBold, sans-serif;
   font-size: 12px;
   color: #777777;
 }
-.santander-security-pre_alert p {
+.banking-security-pre_alert p {
   font-size: 0.9rem;
   color: #d9292a;
   font-weight: 600;
   opacity: 0.7;
 }
-.santander-security-pre_phone {
+.banking-security-pre_phone {
   background: none;
 }
-.santander-security-pre_see-answers {
+.banking-security-pre_see-answers {
    display: flex;
 }
-.santander-security-pre_see-answers img {
+.banking-security-pre_see-answers img {
   width: 14px;
   height: 14px;
   margin-left: 14px;
 }
-.santander-security-pre_phone-delete button{
+.banking-security-pre_phone-delete button{
   margin-right: 0.5rem!important;
   background: none!important;
   padding: 0px 10px!important;
   border: 2px solid #d5d5d5!important;
 }
 @media (max-width: 800px){
-  .santander-security-pre_content {
+  .banking-security-pre_content {
     padding: 0;
   }
 }
 
 @media (max-width: 768px){
-  .santander-security-pre_image-phrase .text-sm-center {
+  .banking-security-pre_image-phrase .text-sm-center {
     text-align: center;
   }
-  .santander-security-pre_phone-item{
+  .banking-security-pre_phone-item{
     margin-bottom: 1rem; 
   }
 }

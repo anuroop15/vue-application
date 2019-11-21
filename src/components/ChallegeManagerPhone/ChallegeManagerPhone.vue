@@ -5,7 +5,7 @@
     </div>
     <div v-else class="santanter-challenge-manager_container-cont">
     <div
-      class="santander-challenge-manager_select-method"
+      class="banking-challenge-manager_select-method"
       v-if="step ==='SELECT_METHOD'"
     >
       <p>{{$t('PleaseSelectAnAdditionalAuthenticationProcedure')}}</p>
@@ -28,7 +28,7 @@
       </form>
     </div>
     <div
-      class="santander-challenge-manager_challenge"
+      class="banking-challenge-manager_challenge"
       v-else-if="step==='QUESTION'"
     >
       <template v-for="(question, index) in info.challengeQuestions">
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div
-      class="santander-challenge-manager_challenge"
+      class="banking-challenge-manager_challenge"
       v-else-if="step==='OOBPHONE'"
       v-html="$t('YouWillReceiveACallShortly',{label:info.selectedMethod.label, code:info.oobToken})"
     ></div>

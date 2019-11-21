@@ -26,7 +26,7 @@ Vue.use(Vuelidate);
 //vue autocomplete select
 Vue.use(VueSelect, { theme: "bootstrap" });
 //tooltip
-Vue.use(Tooltip, {class:'santander-tooltip'});
+Vue.use(Tooltip, {class:'banking-tooltip'});
 
 Vue.use(ClientTable, { theme: "bootstrap4" });
 

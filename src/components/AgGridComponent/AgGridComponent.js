@@ -19,8 +19,8 @@ const getComponentSize = () => {
   return document.querySelector(".ag-root-wrapper").offsetWidth;
 };
 const reSize = () => {
-  let container = document.querySelector(".santander-signature-pre_container");
-  let topArea = document.querySelector(".santander-signature-pre_top-area");
+  let container = document.querySelector(".banking-signature-pre_container");
+  let topArea = document.querySelector(".banking-signature-pre_top-area");
   if(container.offsetParent.offsetTop != 0){
     container.style.height = `${document.documentElement.clientHeight - 350}px`
   }

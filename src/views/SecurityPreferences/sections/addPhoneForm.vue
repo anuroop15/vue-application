@@ -1,6 +1,6 @@
 <template>
-  <div class="santander-security-pre_add-phone">
-    <div class="santander-security-pre_add-phone-inner">
+  <div class="banking-security-pre_add-phone">
+    <div class="banking-security-pre_add-phone-inner">
       <BaseInput
         :disabled="labelDisabled"
         class="mb-2"
@@ -8,7 +8,7 @@
         @blur="$v.label.$touch()"
         :placeholder="$t('phoneAlias')"
       />
-      <div class="santander-security-pre_alert" role="alert" v-if="$v.label.$error">
+      <div class="banking-security-pre_alert" role="alert" v-if="$v.label.$error">
         <p>label code</p>
       </div>
       <BaseInput
@@ -20,13 +20,13 @@
         :placeholder="$t('phoneCountryCode')"
       />
       <div
-        class="santander-security-pre_alert"
+        class="banking-security-pre_alert"
         role="alert"
         v-if="$v.countryCode.$error && !$v.countryCode.required"
       >
         <p>{{$t('countryCodeError')}}</p>
       </div>
-      <div class="santander-security-pre_alert" role="alert" v-if="!$v.countryCode.numeric">
+      <div class="banking-security-pre_alert" role="alert" v-if="!$v.countryCode.numeric">
         <p>{{$t('numberOnlyError')}}</p>
       </div>
       <BaseInput
@@ -38,13 +38,13 @@
         :placeholder="$t('phoneAreaCode')"
       />
       <div
-        class="santander-security-pre_alert"
+        class="banking-security-pre_alert"
         role="alert"
         v-if="$v.areaCode.$error && !$v.areaCode.required"
       >
         <p>{{$t('areaCodeError')}}</p>
       </div>
-      <div class="santander-security-pre_alert" role="alert" v-if="!$v.areaCode.numeric">
+      <div class="banking-security-pre_alert" role="alert" v-if="!$v.areaCode.numeric">
         <p>{{$t('numberOnlyError')}}</p>
       </div>
       <BaseInput
@@ -56,17 +56,17 @@
         :placeholder="$t('phoneNumber')"
       />
       <div
-        class="santander-security-pre_alert"
+        class="banking-security-pre_alert"
         role="alert"
         v-if="$v.phoneNumber.$error && !$v.phoneNumber.required"
       >
         <p>{{$t('phoneNumberError')}}</p>
       </div>
-      <div class="santander-security-pre_alert" role="alert" v-if="!$v.phoneNumber.numeric">
+      <div class="banking-security-pre_alert" role="alert" v-if="!$v.phoneNumber.numeric">
         <p>{{$t('numberOnlyError')}}</p>
       </div>
     </div>
-    <div class="santander-security-pre_footer">
+    <div class="banking-security-pre_footer">
       <BaseButton @click="cancelAdd" variant="outline">{{$t('cancel')}}</BaseButton>
       <BaseButton @click="addPhone" variant="outline">{{$t('save')}}</BaseButton>
     </div>
@@ -162,10 +162,10 @@ export default {
 };
 </script>
 <style scoped>
-.santander-security-pre_add-phone {
+.banking-security-pre_add-phone {
   padding: 0 !important;
 }
-.santander-security-pre_add-phone-inner {
+.banking-security-pre_add-phone-inner {
   padding: 0.5rem;
 }
 </style>

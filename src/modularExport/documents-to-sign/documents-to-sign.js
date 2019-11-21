@@ -25,7 +25,7 @@ Vue.use(Vuelidate);
 //vue autocomplete select
 Vue.use(VueSelect, { theme: "bootstrap" });
 //tooltip
-Vue.use(Tooltip, {class:'santander-tooltip'});
+Vue.use(Tooltip, {class:'banking-tooltip'});
 
 Vue.component("tabs", Tabs);
 Vue.component("tab", Tab);
@@ -53,7 +53,7 @@ const f2handler = () =>{
   isF2Ready = true;
 }
 /* eslint-disable */
-F2.Events.on('santander-f2-apps-ready', f2handler)
+F2.Events.on('banking-f2-apps-ready', f2handler)
 
 const checkToMount = () => {
   if (isF2Ready && isAuthF2()) {

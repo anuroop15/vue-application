@@ -1,14 +1,14 @@
 <template>
-  <div class="santander-document-cell_container">
+  <div class="banking-document-cell_container">
     <template v-for="(i, index) in params.headers">
-      <div class="row santander-document-cell" :key="i.field">
+      <div class="row banking-document-cell" :key="i.field">
         <div :class="{'col-6':(index===2), 'col-4':(index!=2)}">
           <p class="text-uppercase align-middle">{{i.headerName}}</p>
         </div>
         <div :class="{'col-6':(index===2), 'col-8':(index!=2), 'text-nowrap':true}">
           <p
             v-if="index===0"
-            class="santander-document-cell_container-desc align-middle white-space"
+            class="banking-document-cell_container-desc align-middle white-space"
             @click.prevent="documentSelectedToView"
           >{{params.data[i.field]}}</p>
 

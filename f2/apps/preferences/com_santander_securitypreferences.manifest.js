@@ -1,16 +1,16 @@
 /* eslint-disable */
-F2_jsonpCallback_com_santander_securitypreferences({
+F2_jsonpCallback_com_banking_securitypreferences({
 	"apps":[{
 		"html": [
 		
-			'<div id="santanderSecurityPre">',
+			'<div id="bankingSecurityPre">',
 			'</div>'
 		].join("")
 	}],
 	"inlineScripts":[],
 	"scripts":[
 		"<%=BASE_URL%>/js/securityPreferences.js",
-		"<%=BASE_URL%>/apps/preferences/com_santander_securitypreferences.js"
+		"<%=BASE_URL%>/apps/preferences/com_banking_securitypreferences.js"
 	],
 	"styles":[
 		"<%=BASE_URL%>/css/securityPreferences.css",

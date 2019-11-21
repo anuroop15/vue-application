@@ -15,14 +15,14 @@
   src: url("./assets/fonts/OpenSans-Bold.ttf") format("truetype");
 }
 #app,
-#santanderSecurityPre,
+#bankingSecurityPre,
 #documentsToSign {
   height: 100%;
   margin: 0;
   position: relative;
   font-family: OpenSans-Regular, sans-serif;
 }
-#santander_utils-locale {
+#banking_utils-locale {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -33,13 +33,13 @@
 /* body.vuedal-open {
     overflow: auto!important;
 } */
-.santander-tooltip {
+.banking-tooltip {
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.12), 0 3px 11px rgba(0, 0, 0, 0.24)!important;
   -webkit-box-shadow:0 7px 10px rgba(0, 0, 0, 0.12), 0 3px 11px rgba(0, 0, 0, 0.24)!important;
   background-color: #f5f6f7!important;
   color:#000!important;
 }
-.santander-tooltip .tooltip-arrow {
+.banking-tooltip .tooltip-arrow {
   border-color: #f5f6f7!important;
 }
 .vuedal {

@@ -1,9 +1,9 @@
 <template>
   <div v-if="isVisible" :class="renderClassName">
     <div
-      class="santander-spinner_wrapper-loader flex-column align-items-center h-100 d-flex justify-content-center"
+      class="banking-spinner_wrapper-loader flex-column align-items-center h-100 d-flex justify-content-center"
     >
-      <div class="santander-spinner_loader"></div>
+      <div class="banking-spinner_loader"></div>
     </div>
   </div>
 </template>
@@ -21,14 +21,14 @@ export default {
   },
   computed: {
     renderClassName() {
-      return `santander-spinner_s`;
+      return `banking-spinner_s`;
     }
   }
 };
 </script>
 
 <style scope>
-@keyframes santander-spin {
+@keyframes banking-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -36,21 +36,21 @@ export default {
     transform: rotate(360deg);
   }
 }
-.santander-spinner_s {
+.banking-spinner_s {
   width: 100%;
   padding: 37px 0 0;
   flex-shrink: 0;
 }
-.santander-spinner_wrapper-loader {
+.banking-spinner_wrapper-loader {
   width: 100%;
   text-align: center;
 }
-.santander-spinner_wrapper-loader .santander-spinner_loader {
+.banking-spinner_wrapper-loader .banking-spinner_loader {
   margin: 0 auto;
 }
-.santander-spinner_loader {
-  -webkit-animation: santander-spin 2s linear infinite;
-  animation: santander-spin 2s linear infinite;
+.banking-spinner_loader {
+  -webkit-animation: banking-spin 2s linear infinite;
+  animation: banking-spin 2s linear infinite;
   border: 16px solid #e7e7e7;
   border-top-color: #7f7f7f;
   border-radius: 50%;

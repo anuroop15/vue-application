@@ -1,10 +1,10 @@
 <template>
-  <section class="santander-security-pre_section">
-    <div class="santander-security-pre_section-name">
+  <section class="banking-security-pre_section">
+    <div class="banking-security-pre_section-name">
       <h3>{{$t('site2userAuthentication')}}</h3>
     </div>
-    <div v-if="siteToUserInfo" class="santander-security-pre_section-content p-3">
-      <div class="row mb-2 santander-security-pre_image-phrase">
+    <div v-if="siteToUserInfo" class="banking-security-pre_section-content p-3">
+      <div class="row mb-2 banking-security-pre_image-phrase">
         <div class="col-sm-4 pr-5">
           <p>{{$t('imageLabel')}}</p>
           <div class="row">

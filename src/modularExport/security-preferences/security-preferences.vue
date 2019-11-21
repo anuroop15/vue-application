@@ -1,5 +1,5 @@
 <template>
-  <div id="santanderSecurityPre">
+  <div id="bankingSecurityPre">
     <SecurityPreferences/>
     <vuedal></vuedal>
   </div>
@@ -10,7 +10,7 @@ import {mapState} from 'vuex';
 import { Component as Vuedal } from "vuedals";
 import SecurityPreferences from '../../views/SecurityPreferences/SecurityPreferences.vue'
 export default {
-  name: 'santanderSecurityPre',
+  name: 'bankingSecurityPre',
   components:{
     SecurityPreferences,
     Vuedal

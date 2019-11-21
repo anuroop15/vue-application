@@ -1,5 +1,5 @@
 /* eslint-disable */
-F2.Apps['com_santander_securitypreferences'] = (function() {
+F2.Apps['com_banking_securitypreferences'] = (function() {
 	var App_Class = function(appConfig, appContent, root) {
 		this.appConfig = appConfig;
 		this.appContent = appContent;
@@ -9,7 +9,7 @@ F2.Apps['com_santander_securitypreferences'] = (function() {
 	App_Class.prototype.init = function() {
 		// Store oAuth access token in session storage
 		sessionStorage.setItem(
-			"santander-f2-apps-access-token",
+			"banking-f2-apps-access-token",
 			this.appConfig.context.accessToken
 		);
 		
@@ -25,11 +25,11 @@ F2.Apps['com_santander_securitypreferences'] = (function() {
 	}
 
 	App_Class.prototype._handleLanguageChange = function(locale) {
-        santander_f2_apps_i18nChange(locale)
+        banking_f2_apps_i18nChange(locale)
 	}
 	
 	App_Class.prototype._handleLocaleChange = function(locale) {
-		santander_f2_apps_i18nChange(locale)
+		banking_f2_apps_i18nChange(locale)
 	}
 
 	return App_Class;

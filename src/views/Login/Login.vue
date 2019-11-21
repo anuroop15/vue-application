@@ -1,10 +1,10 @@
 <template>
-  <div class="santander-login_container">
+  <div class="banking-login_container">
     <Header/>
     <BaseButton @click="onUserLogOut">LogOut</BaseButton>
-    <div class="santander-login_section">
+    <div class="banking-login_section">
       <div class="col-md-5 col-xl-4" v-if="action==='default'||action==='input'">
-        <div class="santander-login_section-header p-3">
+        <div class="banking-login_section-header p-3">
           <h3>{{$t('signin')}}</h3>
         </div>
         <div class="row p-3">
@@ -41,7 +41,7 @@
         />
       </div>
       <div class="col-md-6" v-if="action ==='BindDevice'">
-        <div class="santander-login_section-header pb-3">
+        <div class="banking-login_section-header pb-3">
           <h5>{{$t('bindThisDevice')}}</h5>
         </div>
         <div>

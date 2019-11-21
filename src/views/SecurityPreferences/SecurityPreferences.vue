@@ -1,17 +1,17 @@
 <template>
-  <div class="container-fluid santander-security-pre_container">
-    <div class="santander-security-pre_header">
+  <div class="container-fluid banking-security-pre_container">
+    <div class="banking-security-pre_header">
       <p>{{$t('securityPreferences')}}</p>
     </div>
-    <div class="santander-security-pre_content mb-2">
+    <div class="banking-security-pre_content mb-2">
       <Sections
         v-if="securityPreference.challengeType"
         :sections="securityPreference.sections||[]"
       />
-      <div v-if="!securityPreference.challengeType && !securityPreference.isLoading" class="santander-security-pre_load-net-error">
+      <div v-if="!securityPreference.challengeType && !securityPreference.isLoading" class="banking-security-pre_load-net-error">
         <p>{{$t('networkError',{section:"Security Preferences"})}}</p>
       </div>
-      <div class="santander-security-pre_spinner-container">
+      <div class="banking-security-pre_spinner-container">
         <BaseSpinner v-if="securityPreference.isLoading"/>
       </div>
     </div>

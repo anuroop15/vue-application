@@ -1,6 +1,6 @@
 <template>
-  <div class="santander-main_header">
-    <img class="santander-main_logo" src="../../assets/logo.png">
+  <div class="banking-main_header">
+    <img class="banking-main_logo" src="../../assets/logo.png">
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
 }
 </script>
 <style scoped>
-.santander-main_logo {
+.banking-main_logo {
     width: 195px;
 }
 </style>

@@ -31,7 +31,7 @@ export default {
       currentActive: 0,
       ColumnDefs:[
         { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
-          sortable: true, width: 300, cellClass:'santander-doc_wrap-text' },
+          sortable: true, width: 300, cellClass:'banking-doc_wrap-text' },
         { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
         { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 150 },
         { headerName: this.$t('Date'), field: 'createdDate', sortable: true, width: 80,
@@ -369,7 +369,7 @@ export default {
       if(this.currentActive===0){
         this.ColumnDefs = [
           { headerName: this.$t('Description'), field: 'description', checkboxSelection: true,
-            sortable: true, width: 300, cellClass:'santander-doc_wrap-text' },
+            sortable: true, width: 300, cellClass:'banking-doc_wrap-text' },
           { headerName: this.$t('Customer'), field: 'idCustomer', sortable: true, width: 80 },
         
           { headerName: this.$t('CustomerName'), field: 'customerName', sortable: true, width: 150 },
@@ -381,7 +381,7 @@ export default {
         ]
       } else {
         this.ColumnDefs = [
-          { headerName: this.$t('Description'), field: 'description', width: 300,cellClass:'santander-doc_wrap-text'},
+          { headerName: this.$t('Description'), field: 'description', width: 300,cellClass:'banking-doc_wrap-text'},
           { headerName: this.$t('Customer'), field: 'idCustomer', width: 80 },
           { headerName: this.$t('CustomerName'), field: 'customerName',  width: 150  },
           { headerName: this.$t('Date'), field: 'createdDate', width: 80,

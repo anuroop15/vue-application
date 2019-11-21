@@ -1,10 +1,10 @@
 <template>
-  <div class="santander-signature-pre_container">
-    <div class="santander-signature-pre_header">
+  <div class="banking-signature-pre_container">
+    <div class="banking-signature-pre_header">
       <p>Paperless Communications</p>
     </div>
-    <div class="santander-signature-pre_content">
-      <div class="santander-signature-pre-left-content col-8">
+    <div class="banking-signature-pre_content">
+      <div class="banking-signature-pre-left-content col-8">
         <div class="table-responsive">
           <table class="table">
             <thead class="thead-dark">
@@ -35,7 +35,7 @@
 
         </div>
       </div>
-      <div class="santander-signature-pre-right-content col-4">
+      <div class="banking-signature-pre-right-content col-4">
 
       </div>
     </div>

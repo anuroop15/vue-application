@@ -11,7 +11,7 @@ const store = new Vuex.Store({
   }
  });
 
-window.santander_signatureDocs = function(locale){
+window.banking_signatureDocs = function(locale){
   const coolStore = store;
   coolStore.dispatch('i18n/changeLocale',locale)
 };

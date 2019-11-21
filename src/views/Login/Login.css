@@ -1,4 +1,4 @@
-.santander-login_container {
+.banking-login_container {
     display: flex;
     flex-direction: column;
     padding: 10px;;
@@ -7,7 +7,7 @@
     background-color: #f5f6f7;
 }
 
-.santander-login_section{
+.banking-login_section{
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
@@ -21,7 +21,7 @@
     padding-bottom: 40px;
     height: 70%;
 }
-.santander-main_logo {
+.banking-main_logo {
     width: 195px;
 }
 .santanter-login_polices {
