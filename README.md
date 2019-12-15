@@ -1,4 +1,4 @@
-# lbank
+# AG-Grid-Vue
 
 ## Project setup
 ```
