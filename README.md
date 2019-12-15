@@ -1,4 +1,4 @@
-# AG-Grid-Vue
+# Vue Application with AG-Grid-Vue
 
 ## Project setup
 ```
