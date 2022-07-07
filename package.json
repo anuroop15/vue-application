@@ -22,7 +22,7 @@
     "document-register-element": "^1.13.1",
     "jstz": "^2.1.1",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "qs": "^6.7.0",
     "vue": "^2.6.6",
     "vue-cool-select": "^2.10.2",
