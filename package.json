@@ -23,7 +23,7 @@
     "jstz": "^2.1.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "qs": "^6.7.0",
+    "qs": "^6.7.3",
     "vue": "^2.6.6",
     "vue-cool-select": "^2.10.2",
     "vue-custom-element": "^3.2.6",
